@@ -1,0 +1,18 @@
+{{!empty HomeviewTmpl template}}
+
+<h4>Bienvenido al portal de exámenes MPWAR!</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre del examen</th>
+      <th>¿Está activo?</th>
+    </tr>
+  </thead>
+  {{#each tests}}
+    <tr>
+      <td><a href="#verPrueba/{{id_test}}">{{name}}</a></td>
+      <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
+    </tr>
+  {{/each}}
+</table>

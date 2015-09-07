@@ -1,0 +1,55 @@
+{{!empty DotestTmpl template}}
+
+<div class="alert alert-danger js-error hidden" role="alert">Hubo un error, intente de nuevo</div>
+<form>
+  <h3>{{test.name}}</h3>
+  <p>{{test.instructions}}</p><br>
+  <div class="questions">
+    {{#each questions as |question number|}}
+      <div class="form-group" data-question="{{question.id}}">
+        <ol>
+          <label for="result" class="control-label">{{question.description}}</label>
+          <p class="control-label">Valor: {{question.score}} ptos</p>
+          {{#compare question.type.id '==' 1}}
+            {{#each question.proposed_answer}}
+              <div class="radio">
+                <label>
+                  <input type="radio" name="result-{{question.type.id}}" value="{{id}}">{{answer}}
+                </label>
+              </div>
+            {{/each}}
+          {{/compare}}
+          {{#compare question.type.id '==' 2}}
+            {{#each question.proposed_answer}}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="result-{{question.type.id}}" value="{{id}}">{{answer}}
+                </label>
+              </div>
+            {{/each}}
+          {{/compare}}
+          {{#compare question.type.id '==' 3}}
+            <textarea class="form-control" name="result-{{question.type.id}}" rows="3" required></textarea>
+          {{/compare}}
+          {{#compare question.type.id '==' 4}}
+            <input type="text" class="form-control" name="result-{{question.type.id}}" required>
+          {{/compare}}
+          {{#compare question.type.id '==' 5}}
+            <div class="radio">
+              <label>
+                <input type="radio" name="result-{{question.type.id}}" value="true">Verdadero<br>
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="result-{{question.type.id}}" value="false">Falso<br>
+              </label>
+            </div>
+          {{/compare}}
+          <br>
+        </ol>
+      </div>
+    {{/each}}
+  </div>
+  <button class="btn btn-default btn-primary pull-right" id="sendTest">Enviar Prueba</button>
+</form>

@@ -1,0 +1,33 @@
+{{!empty GettestviewTmpl template}}
+
+<div>
+  <h3>{{test.name}}</h3>
+  <p>Tiempo: {{test.duration}} min</p>
+  <p>Tiempo extra: {{test.extra_time}} min</p>
+  <p>Instrucciones: {{test.instructions}}</p><br>
+  <div class="questions">
+    {{#each questions as |question number|}}
+      <div class="form-group">
+        <ul>
+          <li>
+            <label for="result" class="control-label">Enunciado de la pregunta: {{question.description}}</label>
+            <p for="result" class="control-label">Valor: {{question.score}} ptos</p>
+            <p>Tipo de pregunta: {{question.type.description}}</p>
+            {{#compare question.type.id '==' 1}}
+              <p>Opciones:</p>
+              <ol>
+                {{#each question.proposed_answer}}<li>{{answer}}</li>{{/each}}
+              </ol>
+            {{/compare}}
+            {{#compare question.type.id '==' 2}}
+              <p>Opciones:</p>
+              <ol>
+                {{#each question.proposed_answer}}<li>{{answer}}</li>{{/each}}
+              </ol>
+            {{/compare}}
+          </li>
+        </ul>
+      </div>
+    {{/each}}
+  </div>
+</div>
