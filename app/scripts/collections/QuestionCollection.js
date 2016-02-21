@@ -1,8 +1,9 @@
 define([
 	'backbone',
-  'models/QuestionModel'
+  'models/QuestionModel',
+  'config/paths'
 ],
-function( Backbone, QuestionModel ) {
+function( Backbone, QuestionModel, Paths ) {
     'use strict';
 
 	/* Return a collection class definition */
@@ -11,6 +12,12 @@ function( Backbone, QuestionModel ) {
 			console.log("initialize a Questioncollection collection");
 		},
 
-    model: QuestionModel
+    model: QuestionModel,
+
+    url: function() {return Paths.url + '/questions';},
+
+    save: function (options) {
+      Backbone.sync('save', this, options);
+    }
 	});
 });

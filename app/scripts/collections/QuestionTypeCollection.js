@@ -1,8 +1,9 @@
 define([
 	'backbone',
-  'models/QuestionTypeModel'
+  'models/QuestionTypeModel',
+  'config/paths'
 ],
-function( Backbone, QuestionTypeModel ) {
+function( Backbone, QuestionTypeModel, Paths ) {
     'use strict';
 
 	/* Return a collection class definition */
@@ -11,6 +12,6 @@ function( Backbone, QuestionTypeModel ) {
 			console.log("initialize a Questiontypecollection collection");
 		},
     model: QuestionTypeModel,
-    url: 'http://178.62.240.195/question_type'
+    url: function() {return Paths.url + '/question_type';}
 	});
 });

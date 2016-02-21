@@ -1,44 +1,61 @@
 define([
-	'backbone',
+  'backbone',
   'underscore',
-  'views/item/QuestionView',
-  'hbs!tmpl/item/TestFormView_tmpl',
-  'hbs!tmpl/questions/seleccion_tmpl',
-  'hbs!tmpl/questions/seleccion_simple_tmpl',
-	'hbs!tmpl/questions/verdadero_falso_tmpl',
-  'models/TestFormModel',
-  'models/QuestionModel',
-  'collections/QuestionCollection',
-  'models/QuestionsFormModel'
+  'hbs!tmpl/item/AddTestView_tmpl',
+  'models/TestModel'
 ],
-function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, selectionTmpl, selectionSimpleTmpl, trueFalseTmpl, TestFormModel, QuestionModel, QuestionCollection, QuestionsFormModel) {
+function( Backbone, _, AddTestViewTmpl, TestModel) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-		initialize: function() {
-			console.log("initialize a Testformview ItemView");
-      this.collection = new QuestionCollection();
-		},
-		
-    	template: TestformviewTmpl,
+    initialize: function() {
+      console.log("initialize a AddTestView ItemView");
+      _.bindAll(this, "onSaveSuccess", "onSaveFail");
+    },
+    
+      template: AddTestViewTmpl,
 
-    	/* ui selector cache */
-    	ui: {
-        form: 'form',
-        errorMsg: '.js-error',
-        successMsg: '.alert.alert-success'
+      /* ui selector cache */
+      ui: {
+        form: 'form'
       },
 
-		/* Ui events hash */
-		events: {
+    /* Ui events hash */
+    events: {
       'click #saveQuiz': 'saveQuiz',
-      'click #addQuestion': 'addQuestion',
       'change select': 'onChangeSelect',
       'change [name="is_autocorrect"]': 'onChangeAutocorrect'
+    },
+
+    onChangeAutocorrect: function (e) {
+      var autocorrect = Backbone.$('[name="is_autocorrect"]');
+      if (autocorrect.is(':checked')) {
+        Backbone.$('[name*="autocorrect-"]').attr('disabled', false);
+      } else {
+        Backbone.$('[name*="autocorrect-"]').attr('disabled', true);
+      };
+    },
+
+    onChangeSelect: function (e) {
+      var select = Backbone.$(e.target);
+      var id = select.val();
+      var parent = select.closest('fieldset');
+      var number = parent.data('number');
+      parent.find('.selection').remove();
+      if (parseInt(id) == 1) {
+        parent.append(selectionSimpleTmpl({number: number}));
+      } else if (parseInt(id) == 2){
+        parent.append(selectionTmpl({number: number}));
+      } else if (parseInt(id) == 5){
+        parent.append(trueFalseTmpl({number: number}));
+      } else {
+        parent.find('.selection').remove();
+      };
+      this.onChangeAutocorrect();
     },
 
     hasEmptyInputs: function () {
@@ -58,6 +75,10 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
       return false;
     },
 
+    toogleTrueFalseFields: function (enabled) {
+      Backbone.$('[name*="type"] option:selected[value="5"]').closest('fieldset').find('[name*="options-"]').attr('disabled', enabled);
+    },
+
     saveQuiz: function (e) {
       e.preventDefault();
       if(this.hasEmptyInputs()){
@@ -67,8 +88,7 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
       var form = this.ui.form.serializeObject();
       this.toogleTrueFalseFields(true);
       var testData = this.getTestData(form);
-      console.log(JSON.stringify(testData));
-      var test = new TestFormModel(testData);
+      var test = new TestModel(testData);
       test.save({},
       {
         type: 'post',
@@ -96,18 +116,18 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
         return false;
       };
     },
-
     onSaveSuccess: function (model, response, options) {
-      this.ui.errorMsg.addClass('hidden');
-      this.ui.successMsg.removeClass('hidden');
-      this.ui.form[0].reset();
+      console.log('onSaveSuccess, model');
+      console.log(model);
+      this.trigger('testAdded', model);
     },
     onSaveFail: function (model, xhr, options) {
-      this.ui.errorMsg.removeClass('hidden');
+      this.ui.errorMsg.removeClass('hidden'); 
     },
 
-		/* on render callback */
-		onRender: function() {}
-	});
+    /* on render callback */
+    onRender: function() {
+    }
+  });
 
 });

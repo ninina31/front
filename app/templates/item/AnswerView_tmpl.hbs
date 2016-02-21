@@ -1,0 +1,28 @@
+{{!empty AnswerviewTmpl template}}
+
+<div class="form-group">
+  <ul>
+    <li>
+      <label for="result" class="control-label">Enunciado de la pregunta: {{description}}</label>
+      <p for="result" class="control-label">Valor: {{score}} ptos</p>
+      <p>Tipo de pregunta: {{type.description}}</p>
+      {{#compare type.id '==' 1}}
+        <p>Opciones:</p>
+        <ol>
+          {{#each proposed_answer}}<li>{{answer}}</li>{{/each}}
+        </ol>
+      {{/compare}}
+      {{#compare type.id '==' 2}}
+        <p>Opciones:</p>
+        <ol>
+          {{#each proposed_answer}}<li>{{answer}}</li>{{/each}}
+        </ol>
+      {{/compare}}
+      <p>Respuesta del candidato: {{answer}}</p>
+      <p>Evaluación final de la pregunta:</p>
+      <div class="col-sm-1 text-center">
+        <input type="number" class="form-control" name="review-{{id}}" required min="0" max="{{score}}"/>
+      </div>
+    </li>
+  </ul>
+</div>

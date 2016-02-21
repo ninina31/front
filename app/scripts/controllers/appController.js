@@ -9,9 +9,11 @@ define([
   'views/item/DoTestView',
   'views/item/GetTestView',
   'views/item/ReviewTestView',
+  'views/item/AddTestView',
+  'views/collection/QuestionCreationView',
   'models/TestModel'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, TestFormView, LoginView, AccountView, DoTestView, GetTestView, ReviewTestView, TestModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, TestFormView, LoginView, AccountView, DoTestView, GetTestView, ReviewTestView, AddTestView, QuestionCreationView, TestModel ) {
     'use strict';
 
 	return Backbone.Marionette.Controller.extend({
@@ -32,8 +34,15 @@ function( Backbone , BannerView, NavBarView, HomeView, TestFormView, LoginView, 
 
     addTest: function () {
       this.addNavBars();
-      var content = new TestFormView();
-      App.content.show(content);
+      var test = new AddTestView();
+      App.content.show(test);
+      _.bindAll(this, "addQuestions");
+      test.listenTo(test, 'testAdded', this.addQuestions);
+    },
+
+    addQuestions: function (model){
+      var questions = new QuestionCreationView(model);
+      App.content.show(questions);
     },
 
     login: function () {
@@ -58,15 +67,23 @@ function( Backbone , BannerView, NavBarView, HomeView, TestFormView, LoginView, 
     getTest: function (id) {
       this.addNavBars();
       var model = new TestModel({id: id});
-      var content = new GetTestView({model: model});
-      App.content.show(content);
+      model.fetch({
+        success: function(){
+          var content = new GetTestView({model: model});
+          App.content.show(content);
+        }
+      });
     },
 
     reviewTest: function (id) {
       this.addNavBars();
       var model = new TestModel({id: id});
-      var content = new ReviewTestView({model: model});
-      App.content.show(content);
+      model.fetch({
+        success: function(){
+          var content = new ReviewTestView({model: model});
+          App.content.show(content);
+        }
+      });
     }
 
 	});

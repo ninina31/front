@@ -14,7 +14,7 @@
             {{#each question.proposed_answer}}
               <div class="radio">
                 <label>
-                  <input type="radio" name="result-{{question.type.id}}" value="{{id}}">{{answer}}
+                  <input type="radio" name="result-{{question.id}}" value="{{id}}">{{answer}}
                 </label>
               </div>
             {{/each}}
@@ -23,13 +23,13 @@
             {{#each question.proposed_answer}}
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="result-{{question.type.id}}" value="{{id}}">{{answer}}
+                  <input type="checkbox" name="result-{{question.id}}" value="{{id}}">{{answer}}
                 </label>
               </div>
             {{/each}}
           {{/compare}}
           {{#compare question.type.id '==' 3}}
-            <textarea class="form-control" name="result-{{question.type.id}}" rows="3" required></textarea>
+            <textarea class="form-control" name="result-{{question.id}}" rows="3" required></textarea>
           {{/compare}}
           {{#compare question.type.id '==' 4}}
             <input type="text" class="form-control" name="result-{{question.type.id}}" required>
@@ -37,12 +37,12 @@
           {{#compare question.type.id '==' 5}}
             <div class="radio">
               <label>
-                <input type="radio" name="result-{{question.type.id}}" value="true">Verdadero<br>
+                <input type="radio" name="result-{{question.id}}" value="true">Verdadero<br>
               </label>
             </div>
             <div class="radio">
               <label>
-                <input type="radio" name="result-{{question.type.id}}" value="false">Falso<br>
+                <input type="radio" name="result-{{question.id}}" value="false">Falso<br>
               </label>
             </div>
           {{/compare}}

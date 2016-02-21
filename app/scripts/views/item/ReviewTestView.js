@@ -25,15 +25,6 @@ function( Backbone, ReviewtestviewTmpl  ) {
       'click input, textarea': 'calculateScore'
     },
 
-    render: function () {
-      var that = this;
-      this.model.fetch({
-        success: function (model) {
-          that.$el.html(that.template({test: model.get(0)}));
-        }
-      });
-    },
-
     calculateScore: function () {
       var sum = _.reduce(Backbone.$('input, textarea'), function (memo, obj) {
         obj = $(obj);
@@ -43,7 +34,16 @@ function( Backbone, ReviewtestviewTmpl  ) {
     },
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {
+       var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
+        return obj.question.id;
+      });
+      var questions = _.map(this.model.get('questions'), function (obj) {
+        obj.proposed_answer = byQuestion[obj.id];
+        return obj;
+      });
+      // TODO: agregar la parte de la respuesta del candidato
+    }
 	});
 
 });

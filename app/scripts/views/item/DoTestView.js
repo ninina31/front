@@ -15,14 +15,20 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
 
     initialize: function() {
       console.log("initialize a Dotestview ItemView");
-      _.bindAll(this, "finishTime", "disableTest", 'successFetchTest', 'handleTest', 'sendTest');
+      this.clock = {
+        minutes: 0,
+        seconds: 0
+      };
+      _.bindAll(this, "finishTime", "disableTest", 'successFetchTest', 'handleTest', 'sendTest', 'countdown');
     },
     
       template: DotestviewTmpl,
         
 
       /* ui selector cache */
-      ui: {},
+      ui: {
+        clock: '#clock'
+      },
 
     /* Ui events hash */
     events: {
@@ -37,40 +43,39 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
       });
     },
 
-    successFetchTest: function (model) {
-      var questions = model.get(1);
-      console.log(model.get(1));
-      console.log(model.get(2));
-      var byQuestion = _.groupBy(_.flatten(model.get(2)), function (obj) {
+    successFetchTest: function () {
+      var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
         return obj.question.id;
       });
-      var questions = _.map(model.get(1), function (obj) {
+      var questions = _.map(this.model.get('questions'), function (obj) {
         obj.proposed_answer = byQuestion[obj.id];
         return obj;
       });
-      this.$el.html(this.template({test: model.get(0), questions: questions}));
-      Backbone.$('#exam').html(DoTestTmpl({test: model.get(0), questions: questions}));
+      Backbone.$('#exam').html(DoTestTmpl(this.model.toJSON()));
       Backbone.$('.layout').fadeOut();
-      var time = model.get(0).duration;
-      console.log(time);
+      this.ui.clock = Backbone.$('#clock');
+      var time = this.model.get('test').duration;
+      this.clock.minutes = time;
       this.countdown(time, this.finishTime);
     },
 
     finishTime: function () {
-      Backbone.$('#clock').addClass('extraTime');
-      var extraTime = this.model.get(0).extra_time;
+      this.ui.clock.addClass('extraTime');
+      var extraTime = this.model.get('test').extra_time;
+      this.clock.minutes = extraTime;
+      this.clock.seconds = 0;
       this.countdown(extraTime, this.disableTest);
     },
 
     disableTest: function () {
-      Backbone.$('#clock').html('Tiempo terminado!');
+      this.ui.clock.html('Tiempo terminado!');
       Backbone.$('#examSent > div').html('El tiempo se ha terminado y la prueba fue enviada automáticamente, gracias!');
       this.sendTest();
     },
 
     handleTest: function (e) {
       e.preventDefault();
-      Backbone.$('#clock').addClass('hidden');
+      this.ui.clock.addClass('hidden');
       this.sendTest();
     },
 
@@ -121,22 +126,24 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
     },
 
     countdown: function (time, callback) {
-      $('#clock').html(time.toString() + ':00');
+      if (time < 10) time = '0' + time.toString();
+      this.ui.clock.html(time + ':00');
+      var self = this;
       interval = setInterval(function() {
-        var timer = $('#clock').html();
-        timer = timer.split(':');
-        var minutes = parseInt(timer[0], 10);
-        var seconds = parseInt(timer[1], 10);
+        var minutes = self.clock.minutes;
+        var seconds = self.clock.seconds;
+        var zerominutes = '';
+        var zeroseconds = '';
         seconds -= 1;
         if (minutes < 0) return clearInterval(interval);
-        if (minutes < 10 && minutes.length != 2) minutes = '0' + minutes;
+        if (minutes < 10) zerominutes = '0';
         if (seconds < 0 && minutes != 0) {
             minutes -= 1;
             seconds = 59;
-        }
-        else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
-        $('#clock').html(minutes + ':' + seconds);
-        
+        } else if (seconds < 10) zeroseconds = '0';
+        self.clock.minutes = minutes;
+        self.clock.seconds = seconds;
+        self.ui.clock.html(zerominutes + minutes + ':' + zeroseconds + seconds);
         if (minutes == 0 && seconds == 0){
           clearInterval(interval);
           callback.call();

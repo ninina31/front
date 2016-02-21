@@ -13,7 +13,6 @@ function( Backbone, _, GettestviewTmpl ) {
 
 		initialize: function() {
 			console.log("initialize a Gettestview ItemView");
-      _.bindAll(this, 'successGetTest');
 		},
 		
     	template: GettestviewTmpl,
@@ -25,23 +24,16 @@ function( Backbone, _, GettestviewTmpl ) {
 		/* Ui events hash */
 		events: {},
 
-    successGetTest: function (model) {
-      var byQuestion = _.groupBy(_.flatten(model.get(2)), function (obj) {
+    onBeforeRender: function () {
+      var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
         return obj.question.id;
       });
-      var questions = _.map(model.get(1), function (obj) {
+      var questions = _.map(this.model.get('questions'), function (obj) {
         obj.proposed_answer = byQuestion[obj.id];
         return obj;
-      })
-      this.$el.html(this.template({test: model.get(0), questions: questions}));
-    },
-
-    render: function () {
-      var that = this;
-      this.model.fetch({
-        success: this.successGetTest
       });
     }
+    
 	});
 
 });

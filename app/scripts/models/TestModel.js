@@ -1,7 +1,8 @@
 define([
-	'backbone'
+	'backbone',
+  'config/paths'
 ],
-function( Backbone ) {
+function( Backbone, Paths ) {
     'use strict';
 
 	/* Return a model class definition */
@@ -12,7 +13,7 @@ function( Backbone ) {
 
 		defaults: {},
 
-    urlRoot: 'http://178.62.240.195/exam'
+    urlRoot: function() {return Paths.url + '/exams';}
 
     });
 });

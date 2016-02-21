@@ -1,8 +1,9 @@
 define([
 	'backbone',
-  'models/TestModel'
+  'models/TestModel',
+  'config/paths'
 ],
-function( Backbone, TestModel ) {
+function( Backbone, TestModel , Paths) {
     'use strict';
 
 	/* Return a collection class definition */
@@ -13,6 +14,6 @@ function( Backbone, TestModel ) {
 
     model: TestModel,
 
-    url: 'http://178.62.240.195/exam'
+    url: function() {return Paths.url + '/exams';}
 	});
 });

@@ -1,5 +1,6 @@
-{{!empty TestformviewTmpl template}}
+{{!empty TestCompositeViewTmpl template}}
 
+<div class="alert alert-success hidden" role="alert">El examen se ha creado exitosamente!</div>
 <div class="alert alert-danger js-error hidden" role="alert">Hubo un error, intente de nuevo</div>
 <form class="form-horizontal">
   <h4>Información general del Examen</h4>
@@ -48,3 +49,6 @@
   <div class="alert alert-danger js-empty hidden" role="alert">Por favor, rellene los campos vacíos</div>
   <button class="btn btn-default btn-success" id="saveQuiz">Continuar</button>
 </form>
+
+<div class="questions"></div>
+<button class="btn btn-default btn-primary" id="addQuestion">Agregar pregunta</button>
