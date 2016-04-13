@@ -1,0 +1,18 @@
+{{!empty ListreviewersviewTmpl template}}
+
+<h4>Usuarios Correctores</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre y Apellido</th>
+      <th>¿Está activo?</th>
+    </tr>
+  </thead>
+  {{#each items}}
+    <tr>
+      <td><a href="#verCorrector/{{id}}">{{name}} {{last_name}}</a></td>
+      <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
+    </tr>
+  {{/each}}
+</table>

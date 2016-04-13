@@ -1,20 +1,20 @@
 define([
   'backbone',
-  'models/AnswerModel',
+  'models/CorrectAnswerModel',
   'config/paths'
 ],
-function( Backbone, AnswerModel, Paths ) {
+function( Backbone, CorrectAnswerModel, Paths ) {
     'use strict';
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
     initialize: function() {
-      console.log("initialize a Questioncollection collection");
+      console.log("initialize a CorrectAnswercollection collection");
     },
 
-    model: AnswerModel,
+    model: CorrectAnswerModel,
 
-    url: function() {return Paths.url + '/candidate_question_answer';},
+    url: function() {return Paths.url + '/correctanswers';},
 
     save: function (options) {
       Backbone.sync('create', this, options);

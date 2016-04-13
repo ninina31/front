@@ -1,17 +1,20 @@
 define([
-	'backbone',
-  'collections/QuestionTypeCollection'
+	'backbone'
 ],
-function( Backbone, QuestionTypeCollection ) {
+function( Backbone ) {
     'use strict';
 
 	/* Return a model class definition */
 	return Backbone.Model.extend({
-		initialize: function() {
+		initialize: function(question_type) {
 			console.log("initialize a Questionmodel model");
-      this.set('question_type', new QuestionTypeCollection());
+      this.set('question_type', question_type);
 		},
 
-		defaults: {},
+		defaults: function () {
+      return {
+        'type': { 'id' : 1 }
+      };
+    },
     });
 });

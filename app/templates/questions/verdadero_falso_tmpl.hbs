@@ -1,23 +1,32 @@
+{{!empty VerdaderoFalsoTmpl template}}
+
 <div class="selection">
   <div class="form-group text-center">
-    <div class="col-sm-2 col-md-offset-10 control-label text-center">Marcar la opción que se desee correcta</div>
+    <div class="col-sm-1 col-md-offset-10 control-label text-center">Marcar la opción que se desee correcta</div>
+    <div class="col-sm-1 control-label text-center">Marcar la opción que se desee correcta</div>
   </div>
   <div class="form-group">
-    <label for="options-1-{{number}}" class="col-sm-2 control-label">Opción 1</label>
-    <div class="col-sm-9">
-      <input class="form-control" name="options-1-{{number}}" value="Verdadero" disabled/>
+    <label for="options" class="col-sm-2 control-label">Opción 1</label>
+    <div class="col-sm-8">
+      <input class="form-control" name="options" value="Verdadero" disabled/>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="radio" value="1" name="autocorrect-is_correct">
+      <input type="radio" value="1" name="is_correct-{{question_number}}" {{#if proposed_answer.0.is_correct}}checked="checked"{{/if}}>
+    </div>
+    <div class="col-sm-1 text-center">
+      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.0.score}}"/>
     </div>
   </div>
   <div class="form-group">
-    <label for="options-2-{{number}}" class="col-sm-2 control-label">Opción 2</label>
-    <div class="col-sm-9">
-      <input class="form-control" name="options-2-{{number}}" value="Falso" disabled/>
+    <label for="options" class="col-sm-2 control-label">Opción 2</label>
+    <div class="col-sm-8">
+      <input class="form-control" name="options" value="Falso" disabled/>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="radio" value="2" name="autocorrect-is_correct">
+      <input type="radio" value="2" name="is_correct-{{question_number}}" {{#if proposed_answer.1.is_correct}}checked="checked"{{/if}}>
+    </div>
+    <div class="col-sm-1 text-center">
+      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.1.score}}"/>
     </div>
   </div>
 </div>

@@ -13,7 +13,7 @@ function( Backbone, Paths ) {
 
 		defaults: {},
 
-    url: function() {return Paths.url + '/account_register';}
+    urlRoot: function() {return Paths.url + '/accounts';}
 
     });
 });

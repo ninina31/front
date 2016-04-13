@@ -10,6 +10,9 @@ function( Backbone, QuestionModel, Paths ) {
 	return Backbone.Collection.extend({
 		initialize: function() {
 			console.log("initialize a Questioncollection collection");
+      this.listenTo(this, 'add', function (question) {
+        question.set('question_number', this.length);
+      })
 		},
 
     model: QuestionModel,
@@ -17,7 +20,7 @@ function( Backbone, QuestionModel, Paths ) {
     url: function() {return Paths.url + '/questions';},
 
     save: function (options) {
-      Backbone.sync('save', this, options);
+      Backbone.sync('create', this, options);
     }
 	});
 });

@@ -1,0 +1,18 @@
+{{!empty ListaccountsviewTmpl template}}
+
+<h4>Cuentas</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>¿Está activo?</th>
+    </tr>
+  </thead>
+  {{#each items}}
+    <tr>
+      <td><a href="#verCuenta/{{id}}">{{name}}</a></td>
+      <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
+    </tr>
+  {{/each}}
+</table>

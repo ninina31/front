@@ -3,9 +3,10 @@ define([
 	'hbs!tmpl/item/QuestionView_tmpl',
   'hbs!tmpl/questions/seleccion_tmpl',
   'hbs!tmpl/questions/seleccion_simple_tmpl',
+  'hbs!tmpl/questions/abierta_tmpl',
   'hbs!tmpl/questions/verdadero_falso_tmpl'
 ],
-function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, trueFalseTmpl ) {
+function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiertaTmpl, trueFalseTmpl ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -16,10 +17,6 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, trueFa
 		},
 		
     	template: QuestionviewTmpl,
-        
-
-    	/* ui selector cache */
-    	ui: { },
 
 		/* Ui events hash */
 		events: {
@@ -36,6 +33,8 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, trueFa
         parent.append(selectionSimpleTmpl({number: number}));
       } else if (parseInt(id) == 2){
         parent.append(selectionTmpl({number: number}));
+      } else if (parseInt(id) == 3){
+        parent.append(abiertaTmpl({number: number}));
       } else if (parseInt(id) == 5){
         parent.append(trueFalseTmpl({number: number}));
       } else {
@@ -44,25 +43,18 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, trueFa
       this.setAutocorrectAnswers();
     },
 
-    setAutocorrectAnswers: function (e) {
-      var isAutocorrect = this.model.get('is_autocorrect');
-      if (isAutocorrect) {
-        Backbone.$('[name*="autocorrect-"]').attr('disabled', false);
-      } else {
-        Backbone.$('[name*="autocorrect-"]').attr('disabled', true);
-      };
+    setAutocorrectAnswers: function () {
+      var isNotDisabled = !this.model.get('is_autocorrect');
+      Backbone.$('[name*="is_correct-"]').attr('disabled', isNotDisabled);
     },
 
-		/* on render callback */
-		onBeforeRender: function() {
-      var qtCollection = this.model.get('question_type');
-      var that = this;
-      qtCollection.fetch({
-        success: function (collection) {
-          that.$el.html(that.template({question_type: qtCollection.toJSON(), number: that.model.get('number')}));
-          that.setAutocorrectAnswers();
-        }
-      });
+    onAfterRender: function () {
+      that.setAutocorrectAnswers();
+    },
+
+    checkScore: function () {
+      var score = parseInt(this.el.find('input[name="score"]').val());
+      var answersScore = this.el.find('[name*=score-]');
     }
 	});
 

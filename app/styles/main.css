@@ -50,3 +50,7 @@ fieldset {
   color: red;
   font-size: 2em;
 }
+
+.text-success{
+  font-weight: 900;
+}

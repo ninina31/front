@@ -1,44 +1,39 @@
 define([
-	'backbone',
+  'backbone',
   'underscore',
-  'views/item/QuestionView',
-  'hbs!tmpl/item/TestFormView_tmpl',
-  'hbs!tmpl/questions/seleccion_tmpl',
-  'hbs!tmpl/questions/seleccion_simple_tmpl',
-	'hbs!tmpl/questions/verdadero_falso_tmpl',
-  'models/TestFormModel',
-  'models/QuestionModel',
-  'collections/QuestionCollection',
-  'models/QuestionsFormModel'
+  'hbs!tmpl/item/TestFormView_tmpl'
 ],
-function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, selectionTmpl, selectionSimpleTmpl, trueFalseTmpl, TestFormModel, QuestionModel, QuestionCollection, QuestionsFormModel) {
+function( Backbone, _, TestFormViewTmpl) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-		initialize: function() {
-			console.log("initialize a Testformview ItemView");
-      this.collection = new QuestionCollection();
-		},
-		
-    	template: TestformviewTmpl,
+    initialize: function() {
+      console.log("initialize a TestFormView ItemView");
+      _.bindAll(this, "onSaveSuccess", "onSaveFail", 'renderView');
+      this.model.fetch({
+        success: this.renderView
+      });
+    },
+    
+    template: TestFormViewTmpl,
 
-    	/* ui selector cache */
-    	ui: {
-        form: 'form',
-        errorMsg: '.js-error',
-        successMsg: '.alert.alert-success'
-      },
+    /* ui selector cache */
+    ui: {
+      form: 'form',
+      'errorMsg': '.js-error'
+    },
 
-		/* Ui events hash */
-		events: {
-      'click #saveQuiz': 'saveQuiz',
-      'click #addQuestion': 'addQuestion',
-      'change select': 'onChangeSelect',
-      'change [name="is_autocorrect"]': 'onChangeAutocorrect'
+    /* Ui events hash */
+    events: {
+      'click #saveQuiz': 'updateTest'
+    },
+
+    renderView: function(){
+      this.trigger('fetched', this);
     },
 
     hasEmptyInputs: function () {
@@ -58,7 +53,11 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
       return false;
     },
 
-    saveQuiz: function (e) {
+    toogleTrueFalseFields: function (enabled) {
+      Backbone.$('[name*="type"] option:selected[value="5"]').closest('fieldset').find('[name*="options-"]').attr('disabled', enabled);
+    },
+
+    updateTest: function (e) {
       e.preventDefault();
       if(this.hasEmptyInputs()){
         return false;
@@ -67,11 +66,10 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
       var form = this.ui.form.serializeObject();
       this.toogleTrueFalseFields(true);
       var testData = this.getTestData(form);
-      console.log(JSON.stringify(testData));
-      var test = new TestFormModel(testData);
-      test.save({},
+      this.model.set(testData);
+      this.model.save({},
       {
-        type: 'post',
+        type: 'put',
         contentType: "application/json",
         success: this.onSaveSuccess, 
         error: this.onSaveFail
@@ -96,18 +94,16 @@ function( Backbone, _, QuestionView, TestformviewTmpl , AddQuestionView_tmpl, se
         return false;
       };
     },
-
     onSaveSuccess: function (model, response, options) {
-      this.ui.errorMsg.addClass('hidden');
-      this.ui.successMsg.removeClass('hidden');
-      this.ui.form[0].reset();
+      this.trigger('testEdited', this.model);
     },
     onSaveFail: function (model, xhr, options) {
-      this.ui.errorMsg.removeClass('hidden');
+      this.ui.errorMsg.removeClass('hidden'); 
     },
 
-		/* on render callback */
-		onRender: function() {}
-	});
+    /* on render callback */
+    onRender: function() {
+    }
+  });
 
 });

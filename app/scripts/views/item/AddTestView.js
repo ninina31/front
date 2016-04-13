@@ -1,10 +1,10 @@
 define([
   'backbone',
   'underscore',
-  'hbs!tmpl/item/AddTestView_tmpl',
+  'hbs!tmpl/item/TestFormView_tmpl',
   'models/TestModel'
 ],
-function( Backbone, _, AddTestViewTmpl, TestModel) {
+function( Backbone, _, TestFormViewTmpl, TestModel) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -13,57 +13,29 @@ function( Backbone, _, AddTestViewTmpl, TestModel) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a AddTestView ItemView");
-      _.bindAll(this, "onSaveSuccess", "onSaveFail");
+      console.log('initialize a TestFormView ItemView');
+      _.bindAll(this, 'onSaveSuccess', 'onSaveFail');
     },
     
-      template: AddTestViewTmpl,
+    template: TestFormViewTmpl,
 
-      /* ui selector cache */
-      ui: {
-        form: 'form'
-      },
+    /* ui selector cache */
+    ui: {
+      form: 'form',
+      'errorMsg': '.js-error'
+    },
 
     /* Ui events hash */
     events: {
-      'click #saveQuiz': 'saveQuiz',
-      'change select': 'onChangeSelect',
-      'change [name="is_autocorrect"]': 'onChangeAutocorrect'
-    },
-
-    onChangeAutocorrect: function (e) {
-      var autocorrect = Backbone.$('[name="is_autocorrect"]');
-      if (autocorrect.is(':checked')) {
-        Backbone.$('[name*="autocorrect-"]').attr('disabled', false);
-      } else {
-        Backbone.$('[name*="autocorrect-"]').attr('disabled', true);
-      };
-    },
-
-    onChangeSelect: function (e) {
-      var select = Backbone.$(e.target);
-      var id = select.val();
-      var parent = select.closest('fieldset');
-      var number = parent.data('number');
-      parent.find('.selection').remove();
-      if (parseInt(id) == 1) {
-        parent.append(selectionSimpleTmpl({number: number}));
-      } else if (parseInt(id) == 2){
-        parent.append(selectionTmpl({number: number}));
-      } else if (parseInt(id) == 5){
-        parent.append(trueFalseTmpl({number: number}));
-      } else {
-        parent.find('.selection').remove();
-      };
-      this.onChangeAutocorrect();
+      'click #saveQuiz': 'saveQuiz'
     },
 
     hasEmptyInputs: function () {
-      var empty = this.ui.form.find("textarea, input:not([type=checkbox])").filter(function() {
-        return this.value === "";
+      var empty = this.ui.form.find('textarea, input:not([type=checkbox])').filter(function() {
+        return this.value === '';
       });
-      var not_empty = this.ui.form.find("textarea, input:not([type=checkbox])").filter(function() {
-        return this.value != "";
+      var not_empty = this.ui.form.find('textarea, input:not([type=checkbox])').filter(function() {
+        return this.value != '';
       });
       $('.js-empty').addClass('hidden');
       not_empty.closest('.form-group').removeClass('has-error');
@@ -117,9 +89,7 @@ function( Backbone, _, AddTestViewTmpl, TestModel) {
       };
     },
     onSaveSuccess: function (model, response, options) {
-      console.log('onSaveSuccess, model');
-      console.log(model);
-      this.trigger('testAdded', model);
+      this.trigger('testAdded', response.message);
     },
     onSaveFail: function (model, xhr, options) {
       this.ui.errorMsg.removeClass('hidden'); 

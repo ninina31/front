@@ -3,9 +3,9 @@ define([
   'hbs!tmpl/item/DoTestView_tmpl',
   'hbs!tmpl/item/doTest_tmpl',
   'models/TestModel',
-  'models/AnswersTestModel'
+  'collections/AnswerCollection'
 ],
-function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
+function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
     'use strict';
 
   var interval;
@@ -14,12 +14,12 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
   return Backbone.Marionette.ItemView.extend({
 
     initialize: function() {
-      console.log("initialize a Dotestview ItemView");
+      console.log('initialize a Dotestview ItemView');
       this.clock = {
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, "finishTime", "disableTest", 'successFetchTest', 'handleTest', 'sendTest', 'countdown');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchTest', 'handleTest', 'sendTest', 'countdown', 'getFormData');
     },
     
       template: DotestviewTmpl,
@@ -39,18 +39,12 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
     beginTest: function (e) {
       e.preventDefault;
       this.model.fetch({
-        success: this.successFetchTest
+        success: this.successFetchTest,
+        fail: this.failFetchTest,
       });
     },
 
     successFetchTest: function () {
-      var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
-        return obj.question.id;
-      });
-      var questions = _.map(this.model.get('questions'), function (obj) {
-        obj.proposed_answer = byQuestion[obj.id];
-        return obj;
-      });
       Backbone.$('#exam').html(DoTestTmpl(this.model.toJSON()));
       Backbone.$('.layout').fadeOut();
       this.ui.clock = Backbone.$('#clock');
@@ -62,30 +56,36 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
     finishTime: function () {
       this.ui.clock.addClass('extraTime');
       var extraTime = this.model.get('test').extra_time;
-      this.clock.minutes = extraTime;
-      this.clock.seconds = 0;
-      this.countdown(extraTime, this.disableTest);
+      if (extraTime > 0) {
+        this.clock.minutes = extraTime;
+        this.clock.seconds = 0;
+        this.countdown(extraTime, this.disableTest);
+      } else {
+        this.disableTest();
+      }
     },
 
     disableTest: function () {
       this.ui.clock.html('Tiempo terminado!');
+      clearInterval(interval);
       Backbone.$('#examSent > div').html('El tiempo se ha terminado y la prueba fue enviada automáticamente, gracias!');
       this.sendTest();
     },
 
     handleTest: function (e) {
       e.preventDefault();
+      clearInterval(interval);
       this.ui.clock.addClass('hidden');
       this.sendTest();
     },
 
     sendTest: function () {
       var data = this.getFormData();
-      var model = new AnswersTestModel(data);
+      var model = new AnswerCollection(data);
       model.save({},
       {
         type: 'post',
-        contentType: "application/json",
+        contentType: 'application/json',
         success: this.onSaveSuccess, 
         error: this.onSaveFail
       }
@@ -94,7 +94,6 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
 
     onSaveSuccess: function (model) {
       $('#exam').remove();
-      clearInterval(interval);
       $('#examSent').removeClass('hidden');
     },
 
@@ -103,26 +102,25 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswersTestModel) {
     },
 
     getFormData: function () {
-      var data = Backbone.$('input[type="text"], [name*="result-"]:checked, textarea');
-      var answers = _.map(data, function (obj, key) {
-        obj = $(obj);
-        var info = obj.attr('name').split('-');
-        var question_id = parseInt(obj.closest('.form-group').data('question'));
-        var response = {id_question: question_id, file: ''};
-        if (info[1] == 5) {
-          response.answer = JSON.parse(obj.val());
-        } else {
-          response.answer = obj.val();
+      var data = Backbone.$('.form-group');
+      var model = this.model;
+      var answers = _.map(data, function (form_group, key) {
+        form_group = $(form_group);
+        var answer = form_group.find('[name*=result]');
+        var info = answer.attr('name').split('-');
+        var id_question = parseInt(form_group.data('question'));
+        var response = {
+          id_question: id_question,
+          file: '',
+          proposedAnswer_id: answer.val(),
+          candidate_id : 1,
+          id_test: model.get('test').id_test,
+          answer: JSON.parse(answer.val())
         };
         return response;
       });
-      var response = {};
-      response.questions = answers;
-      response.id_test = this.model.get(0).id_test;
-      response.id_candidate = 1;
-      console.log(response);
       Backbone.$('input, textarea').attr('disabled', true);
-      return response;
+      return answers;
     },
 
     countdown: function (time, callback) {

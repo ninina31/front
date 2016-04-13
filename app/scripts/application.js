@@ -1,10 +1,11 @@
 define([
 	'backbone',
 	'communicator',
-	'routers/AppRouter'
+	'routers/AppRouter',
+	'models/UserModel'
 ],
 
-function( Backbone, Communicator, AppRouter ) {
+function( Backbone, Communicator, AppRouter, UserModel ) {
     'use strict';
 
   $.fn.serializeObject = function()

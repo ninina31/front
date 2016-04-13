@@ -14,7 +14,7 @@ function( Backbone, _, ReviewerModel, AccountCollection, ReviewerviewTmpl  ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a AddReviewerview ItemView");
+      console.log("initialize a EditReviewerview ItemView");
       _.bindAll(this, "renderCollection", "onSaveSuccess", "onSaveFail");
       this.collection = new AccountCollection();
       this.collection.fetch({
@@ -26,29 +26,37 @@ function( Backbone, _, ReviewerModel, AccountCollection, ReviewerviewTmpl  ) {
 
     /* ui selector cache */
     ui: {
-      form: '#addReviewer',
+      form: '#editReviewer',
       saveButton: '#saveReviewer'
     },
 
     /* Ui events hash */
     events: {
-      'click #saveReviewer': 'addReviewer'
+      'click #saveReviewer': 'editReviewer'
     },
 
     renderCollection: function (collection) {
-      this.trigger('fetched', this);
+      var that = this;
+      this.model.set('items', collection.toJSON());
+      this.model.fetch({
+        success: function () {
+          that.trigger('fetched', that);
+        }
+      });
     },
 
-    addReviewer: function (e) {
+    editReviewer: function (e) {
       e.preventDefault();
       if(this.hasEmptyInputs()){
         return false;
       };
       var info = $('form').serializeObject();
-      this.model = new ReviewerModel(info);
-      this.model.save({}, 
+      delete info.repeat_password;
+      this.model.set(info);
+      this.model.unset('items');
+      this.model.save({},
       {
-        type: 'post',
+        type: 'put',
         contentType: "application/json",
         success: this.onSaveSuccess, 
         error: this.onSaveFail

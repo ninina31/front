@@ -1,0 +1,48 @@
+{{!empty ReviewerviewformTmpl template}}
+
+<h3>Usuario Corrector</h3>
+<div class="alert alert-success hidden" role="alert">El usuario se ha creado exitosamente!</div>
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+<form id="addReviewer" data-id={{id}}>
+  <div class="form-group">
+    <label for="name" class="col-sm-2 control-label">Nombre</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name" name="name" required value="{{name}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="last_name" class="col-sm-2 control-label">Apellido</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="last_name" name="last_name" required value="{{last_name}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="id_account" class="col-sm-2 control-label">Cuenta a la que pertenece</label>
+    <div class="col-sm-10">
+      <select name="id_account" id="id_account" form="addReviewer" class="form-control" required>
+        {{#each items}}
+          <option value="{{id}}" {{#compare id '==' ../id_account.id}}selected="selected"{{/compare}}>{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="email" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="email" name="email" required value="{{email}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password" class="col-sm-2 control-label">Contraseña</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="password" name="password" required value="{{password}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="repeat_password" class="col-sm-2 control-label">Repetir Contraseña</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="repeat_password" name="repeat_password" required>
+    </div>
+  </div>
+  <button class="btn btn-default btn-success" id="saveReviewer">Guardar Usuario Corrector</button>
+</form>

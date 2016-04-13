@@ -2,6 +2,7 @@
 
 <h4>Bienvenido al portal de exámenes MPWAR!</h4>
 
+<div class="alert alert-success hidden" role="alert">El examen se ha creado exitosamente!</div>
 <table class="table">
   <thead>
     <tr>
@@ -11,7 +12,7 @@
   </thead>
   {{#each tests}}
     <tr>
-      <td><a href="#verPrueba/{{id_test}}">{{name}}</a></td>
+      <td><a href="#verExamen/{{id_test}}">{{name}}</a></td>
       <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
     </tr>
   {{/each}}

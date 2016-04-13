@@ -12,6 +12,6 @@ function( Backbone, QuestionTypeModel, Paths ) {
 			console.log("initialize a Questiontypecollection collection");
 		},
     model: QuestionTypeModel,
-    url: function() {return Paths.url + '/question_type';}
+    url: function() {return Paths.url + '/questiontypes';}
 	});
 });

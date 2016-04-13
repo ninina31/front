@@ -12,12 +12,19 @@ function(Backbone, appController){
     /* Backbone routes hash */
 		appRoutes: {
       '': 'home',
-      'agregarPrueba': 'addTest',
+      'agregarExamen': 'addTest',
       'login': 'login',
       'agregarCuenta': 'addAccount',
-      'presentarPrueba/:id': 'doTest',
-      'verPrueba/:id': 'getTest',
-      'corregirPrueba/:id': 'reviewTest'
+      'presentarExamen/:id': 'doTest',
+      'verExamen/:id': 'getTest',
+      'corregirExamen/:id': 'reviewTest',
+      'agregarCorrector': 'addReviewer',
+      'verCuenta/:id': 'getAccount',
+      'verCorrector/:id': 'getReviewer',
+      'listarCuentas': 'listAccounts',
+      'listarCorrectores': 'listReviewers',
+      'editarCorrector/:id': 'editReviewer',
+      'editarExamen/:id': 'editTest'
     }
 	});
 });

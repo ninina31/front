@@ -13,6 +13,10 @@ function( Backbone, _, GettestviewTmpl ) {
 
 		initialize: function() {
 			console.log("initialize a Gettestview ItemView");
+      _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail");
+      this.model.fetch({
+        success: this.renderView
+      });
 		},
 		
     	template: GettestviewTmpl,
@@ -22,16 +26,39 @@ function( Backbone, _, GettestviewTmpl ) {
     	ui: {},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+      'click #deleteExam': 'deleteExam'
+    },
 
-    onBeforeRender: function () {
-      var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
-        return obj.question.id;
+    // onBeforeRender: function () {
+    //   var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
+    //     return obj.question.id;
+    //   });
+    //   var questions = _.map(this.model.get('questions'), function (obj) {
+    //     obj.proposed_answer = byQuestion[obj.id];
+    //     return obj;
+    //   });
+    // },
+
+    renderView: function(){
+      this.trigger('fetched', this);
+      $('[data-toggle="popover"]').popover({ html: true });
+    },
+
+    deleteExam: function () {
+      this.model.destroy({
+        method: 'DELETE',
+        success: this.onDeleteSuccess,
+        fail: this.onDeleteFail
       });
-      var questions = _.map(this.model.get('questions'), function (obj) {
-        obj.proposed_answer = byQuestion[obj.id];
-        return obj;
-      });
+    },
+
+    onDeleteSuccess: function () {
+      Backbone.history.navigate('', {trigger: true});
+    },
+
+    onDeleteFail: function () {
+      $('.alert.alert-danger').removeClass('hidden');
     }
     
 	});

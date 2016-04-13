@@ -14,7 +14,7 @@
             {{#each question.proposed_answer}}
               <div class="radio">
                 <label>
-                  <input type="radio" name="result-{{question.id}}" value="{{id}}">{{answer}}
+                  <input type="radio" data-questionId="{{question.id}}" name="result" value="{{id}}">{{answer}}
                 </label>
               </div>
             {{/each}}

@@ -7,8 +7,27 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a href="#agregarPrueba">Agregar Examen</a></li>
-        <li><a href="#agregarCuenta">Agregar Cuenta</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exámenes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#agregarExamen">Agregar</a></li>
+            <li><a href="#">Listar todos</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuentas <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#agregarCuenta">Agregar</a></li>
+            <li><a href="#listarCuentas">Listar todas</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Correctores <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#agregarCorrector">Agregar</a></li>
+            <li><a href="#listarCorrectores">Listar todos</a></li>
+          </ul>
+        </li>
       </ul>
       <p class="navbar-text navbar-right"><a href="#closeSession" class="navbar-link">Cerrar Sesión</a></p>
     </div><!--/.nav-collapse -->

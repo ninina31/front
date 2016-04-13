@@ -1,33 +1,45 @@
 {{!empty GettestviewTmpl template}}
 
-<div>
-  <h3>{{test.name}}</h3>
-  <p>Tiempo: {{test.duration}} min</p>
-  <p>Tiempo extra: {{test.extra_time}} min</p>
-  <p>Instrucciones: {{test.instructions}}</p><br>
-  <div class="questions">
-    {{#each questions as |question number|}}
-      <div class="form-group">
-        <ul>
-          <li>
-            <label for="result" class="control-label">Enunciado de la pregunta: {{question.description}}</label>
-            <p for="result" class="control-label">Valor: {{question.score}} ptos</p>
-            <p>Tipo de pregunta: {{question.type.description}}</p>
-            {{#compare question.type.id '==' 1}}
-              <p>Opciones:</p>
-              <ol>
-                {{#each question.proposed_answer}}<li>{{answer}}</li>{{/each}}
-              </ol>
-            {{/compare}}
-            {{#compare question.type.id '==' 2}}
-              <p>Opciones:</p>
-              <ol>
-                {{#each question.proposed_answer}}<li>{{answer}}</li>{{/each}}
-              </ol>
-            {{/compare}}
-          </li>
-        </ul>
-      </div>
-    {{/each}}
-  </div>
+<h3>{{test.name}}</h3>
+<p>Tiempo: {{test.duration}} min</p>
+<p>Tiempo extra: {{test.extra_time}} min</p>
+<p>Instrucciones: {{test.instructions}}</p><br>
+<div class="questions">
+  {{#each questions as |question number|}}
+    <div class="form-group">
+      <ul>
+        <li>
+          <label for="result" class="control-label">Enunciado de la pregunta: {{question.description}}</label>
+          <p for="result" class="control-label">Valor: {{question.score}} ptos</p>
+          <p>Tipo de pregunta: {{question.type.description}}</p>
+          {{#compare question.type.id '==' 1}}
+            <p>Opciones:</p>
+            <ol>
+              {{#each question.proposed_answer}}<li {{#if is_correct}}class="text-success"{{/if}}>{{answer}}</li>{{/each}}
+            </ol>
+          {{/compare}}
+          {{#compare question.type.id '==' 2}}
+            <p>Opciones:</p>
+            <ol>
+              {{#each question.proposed_answer}}<li {{#if is_correct}}class="text-success"{{/if}}>{{answer}}</li>{{/each}}
+            </ol>
+          {{/compare}}
+          {{#compare question.type.id '==' 3}}
+            <p>Respuesta correcta:
+            <span class="text-success">{{#each question.proposed_answer}}{{answer}}{{/each}}</span></p>
+          {{/compare}}
+          {{#compare question.type.id '==' 5}}
+            <p>Opciones:</p>
+            <ol>
+              {{#each question.proposed_answer}}<li {{#if is_correct}}class="text-success"{{/if}}>{{answer}}</li>{{/each}}
+            </ol>
+          {{/compare}}
+        </li>
+      </ul>
+    </div>
+  {{/each}}
 </div>
+
+<a href="#editarExamen/{{test.id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
+
+<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>

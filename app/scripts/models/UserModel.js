@@ -6,16 +6,11 @@ function( Backbone, Paths ) {
     'use strict';
 
   /* Return a model class definition */
-  return Backbone.Model.extend({
-    initialize: function() {
-      console.log("initialize a Usermodel model");
-    },
+  var user = Backbone.Model.extend({
 
-    defaults: {
-      type: 'visitor'
-    },
-
-    url: function(){ return Paths.url + '/user';}
+    urlRoot: function(){ return Paths.url + '/user';}
 
     });
+
+  return user;
 });

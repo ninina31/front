@@ -1,16 +1,18 @@
 define([
   'backbone',
   'underscore',
-  'models/AnwserModel',
+  'models/AnswerModel',
   'hbs!tmpl/item/AnswerView_tmpl'
 ],
-function( Backbone, _, AnwserModel, AnswerviewTmpl  ) {
+function( Backbone, _, AnswerModel, AnswerviewTmpl  ) {
     'use strict';
 
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
+
+    model: AnswerModel,
 
     initialize: function() {
       console.log("initialize a Answerview ItemView");
@@ -22,7 +24,7 @@ function( Backbone, _, AnwserModel, AnswerviewTmpl  ) {
       ui: {},
 
     /* Ui events hash */
-    events: {}
+    events: {},
     /* on render callback */
     onRender: function() {}
   });
