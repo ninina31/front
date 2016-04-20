@@ -22,14 +22,13 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
     initialize: function() {
       console.log("initialize a QuestionCreationView CollectionView");
       this.collection = new QuestionCollection();
+      this.listenTo(this.collection, 'proposedAdded', this.saveProposedAnswers);
       var context = this;
-      console.log(this.model.get('test').is_autocorrect);
       _.each(this.model.get('questions'), function (question) {
         question.is_autocorrect = context.model.get('test').is_autocorrect;
         question.q_types = context.model.get('question_types').toJSON();
         context.collection.add(question);
       })
-      this.questions = new QuestionCollection();
       this.proposed_answers = new ProposedAnswerCollection();
       _.bindAll(this, 'onSaveQuestionsSuccess', 'onSaveQuestionsFail', 'onSaveProposedAnswerSuccess', 'onSaveProposedAnwserFail');
     },
@@ -57,7 +56,12 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
 
     addQuestion: function (e) {
       e.preventDefault();
-      var model = new QuestionModel({is_autocorrect: this.model.get('test').is_autocorrect, q_types: this.model.get('question_types').toJSON()});
+      var is_autocorrect = this.model.get('test').is_autocorrect;
+      var model = new QuestionModel({
+        id_test: this.model.get('test').id_test,
+        is_autocorrect: this.model.get('test').is_autocorrect,
+        q_types: this.model.get('question_types').toJSON()
+      });
       this.collection.add(model);
     },
 
@@ -87,10 +91,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
       if(this.hasEmptyInputs()){
         return false;
       }
-      this.toogleTrueFalseFields(false);
-      this.toogleTrueFalseFields(true);
-      this.getQuestionsData();
-      this.questions.save(
+      this.collection.save(
       {
         type: 'put',
         success: this.onSaveQuestionsSuccess,
@@ -99,56 +100,26 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
       );
     },
 
-    getQuestionsData: function () {
-      var questions = Backbone.$('fieldset');
-      var model = this.model;
-      var context = this;
-      questions.each(function () {
-        var question = {};
-        question.id = $(this).data('id');
-        question.id_type = 1;//$(this).find('[name="type"]').val();
-        question.score = $(this).find('[name="score"]').val();
-        question.id_test = model.id;
-        question.description = $(this).find('[name="description"]').val();
-        context.questions.add(question);
-        var question = {};
-      });
-      console.log(this.questions.toJSON());
-    },
-
-    getProposedAnswers: function () {
-      var context = this;
-      _.each(this.tree, function (question) {
-        _.each(question.proposed_answers, function (proposed) {
-          proposed.id_question = question.id_question;
-          proposed.file = '';
-          context.proposed_answers.push(proposed);
-        });
-      })
-    },
-
     onSaveQuestionsSuccess: function (hash, response, options) {
-      this.getProposedAnswers();
+      this.collection.saveProposedAnswers();
+    },
+    
+    onSaveQuestionsFail: function (jqXHR, textStatus, errorThrown) {},
+
+    saveProposedAnswers: function () {
+      var proposed = this.collection.proposed_answers;
+      debugger
+      this.proposed_answers.add(proposed);
       this.proposed_answers.save(
       {
+        type: 'put',
         success: this.onSaveProposedAnswerSuccess, 
         error: this.onSaveProposedAnwserFail
       }
       );
     },
-    onSaveQuestionsFail: function (jqXHR, textStatus, errorThrown) {},
-
-    updateIdsOnTree: function (collection) {
-      _.each(this.tree, function (question) {
-        var proposed = _.filter(collection, function(answer){return answer.question.id == question.id_question});
-        _.each(question.proposed_answers, function (answer, index) {
-          answer.answer = proposed[index].id;
-        });
-      });
-    },
 
     onSaveProposedAnswerSuccess: function (collection, response, options) {
-      this.updateIdsOnTree(collection.message);
       Backbone.history.navigate("", {trigger: true});
     },
 

@@ -15,6 +15,7 @@ function( Backbone ) {
       return {
         'type': { 'id' : 1 }
       };
-    },
+    }
+
     });
 });

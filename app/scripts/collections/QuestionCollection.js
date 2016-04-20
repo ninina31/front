@@ -20,7 +20,27 @@ function( Backbone, QuestionModel, Paths ) {
     url: function() {return Paths.url + '/questions';},
 
     save: function (options) {
+      this.saveData();
       Backbone.sync('create', this, options);
+    },
+
+    saveData: function () {
+      this.each(function (question) {
+        question.trigger('getData');
+        question.unset('q_types');
+        question.unset('question_type');
+        question.unset('type');
+      })
+    },
+
+    saveProposedAnswers: function () {
+      var proposed_answers = [];
+      this.each(function (question) {
+        question.trigger('getProposedAnswers');
+        proposed_answers = proposed_answers.concat(question.get('proposed'));
+      })
+      this.proposed_answers = proposed_answers;
+      this.trigger('proposedAdded');
     }
 	});
 });

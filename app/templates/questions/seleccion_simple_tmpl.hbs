@@ -20,7 +20,7 @@
   <div class="form-group">
     <label for="options" class="col-sm-2 control-label">Opción 2</label>
     <div class="col-sm-8">
-      <input class="form-control" name="options" rows="3" required value="{{proposed_answer.1.answer}}"/>
+      <input data-id="{{proposed_answer.1.id}}" class="form-control" name="options" rows="3" required value="{{proposed_answer.1.answer}}"/>
     </div>
     <div class="col-sm-1 text-center">
       <input type="radio" value="2" name="is_correct-{{question_number}}" {{#if proposed_answer.1.is_correct}}checked="checked"{{/if}}>
@@ -32,7 +32,7 @@
   <div class="form-group">
     <label for="options" class="col-sm-2 control-label">Opción 3</label>
     <div class="col-sm-8">
-      <input class="form-control" name="options" rows="3" required value="{{proposed_answer.2.answer}}"/>
+      <input data-id="{{proposed_answer.2.id}}" class="form-control" name="options" rows="3" required value="{{proposed_answer.2.answer}}"/>
     </div>
     <div class="col-sm-1 text-center">
       <input type="radio" value="3" name="is_correct-{{question_number}}" {{#if proposed_answer.2.is_correct}}checked="checked"{{/if}}>
@@ -44,7 +44,7 @@
   <div class="form-group">
     <label for="options" class="col-sm-2 control-label">Opción 4</label>
     <div class="col-sm-8">
-      <input class="form-control" name="options" rows="3" required value="{{proposed_answer.3.answer}}"/>
+      <input data-id="{{proposed_answer.3.id}}" class="form-control" name="options" rows="3" required value="{{proposed_answer.3.answer}}"/>
     </div>
     <div class="col-sm-1 text-center">
       <input type="radio" value="4" name="is_correct-{{question_number}}" {{#if proposed_answer.3.is_correct}}checked="checked"{{/if}}>

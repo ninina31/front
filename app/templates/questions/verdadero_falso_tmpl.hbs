@@ -8,7 +8,7 @@
   <div class="form-group">
     <label for="options" class="col-sm-2 control-label">Opción 1</label>
     <div class="col-sm-8">
-      <input class="form-control" name="options" value="Verdadero" disabled/>
+      <input data-id="{{proposed_answer.0.id}}" class="form-control" name="options" value="Verdadero" disabled/>
     </div>
     <div class="col-sm-1 text-center">
       <input type="radio" value="1" name="is_correct-{{question_number}}" {{#if proposed_answer.0.is_correct}}checked="checked"{{/if}}>
@@ -20,7 +20,7 @@
   <div class="form-group">
     <label for="options" class="col-sm-2 control-label">Opción 2</label>
     <div class="col-sm-8">
-      <input class="form-control" name="options" value="Falso" disabled/>
+      <input data-id="{{proposed_answer.1.id}}" class="form-control" name="options" value="Falso" disabled/>
     </div>
     <div class="col-sm-1 text-center">
       <input type="radio" value="2" name="is_correct-{{question_number}}" {{#if proposed_answer.1.is_correct}}checked="checked"{{/if}}>
