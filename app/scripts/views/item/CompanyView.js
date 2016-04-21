@@ -1,10 +1,10 @@
 define([
 	'backbone',
   'underscore',
-  'models/AccountModel',
-	'hbs!tmpl/item/AccountView_tmpl'
+  'models/CompanyModel',
+	'hbs!tmpl/item/CompanyView_tmpl'
 ],
-function( Backbone, _, AccountModel, AccountviewTmpl  ) {
+function( Backbone, _, CompanyModel, CompanyviewTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -13,10 +13,10 @@ function( Backbone, _, AccountModel, AccountviewTmpl  ) {
     className: 'container',
 
 		initialize: function() {
-			console.log("initialize a Accountview ItemView");
+			console.log("initialize a Companyview ItemView");
 		},
 		
-    	template: AccountviewTmpl,
+    	template: CompanyviewTmpl,
         
 
     	/* ui selector cache */
@@ -24,13 +24,13 @@ function( Backbone, _, AccountModel, AccountviewTmpl  ) {
 
 		/* Ui events hash */
 		events: {
-      'click #saveAccount': 'addAccount'  
+      'click #saveCompany': 'addCompany'  
     },
 
-    addAccount: function (e) {
+    addCompany: function (e) {
       e.preventDefault();
-      var info = $('#addAccount').serializeObject();
-      this.model = new AccountModel(info);
+      var info = $('#addCompany').serializeObject();
+      this.model = new CompanyModel(info);
       this.model.save({}, 
       {
         type: 'post',

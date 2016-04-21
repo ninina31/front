@@ -4,25 +4,25 @@ define([
   'views/item/NavBarView',
   'views/item/HomeView',
   'views/item/LoginView',
-  'views/item/ListAccountsView',
+  'views/item/ListCompaniesView',
   'views/item/ListReviewersView',
-  'views/item/AccountView',
+  'views/item/CompanyView',
   'views/item/DoTestView',
   'views/item/GetTestView',
   'views/item/GetReviewerView',
-  'views/item/GetAccountView',
+  'views/item/GetCompanyView',
   'views/item/ReviewTestView',
   'views/item/AddTestView',
   'views/item/EditReviewerView',
   'views/collection/QuestionCreationView',
   'models/TestModel',
-  'views/item/AddReviewerView',
+  'views/item/AddUserView',
   'views/item/EditTestView',
   'views/collection/QuestionUpdateView',
-  'models/AccountModel',
+  'models/CompanyModel',
   'models/ReviewerModel'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListAccountsView, ListReviewersView, AccountView, DoTestView, GetTestView, GetReviewerView, GetAccountView, ReviewTestView, AddTestView, EditReviewerView, QuestionCreationView, TestModel, AddReviewerView, EditTestView, QuestionUpdateView, AccountModel, ReviewerModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListReviewersView, CompanyView, DoTestView, GetTestView, GetReviewerView, GetCompanyView, ReviewTestView, AddTestView, EditReviewerView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, ReviewerModel ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
@@ -48,9 +48,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListAccountsVi
       content.listenTo(content, 'fetched', this.renderView);
     },
 
-    listAccounts: function () {
+    listCompanies: function () {
       this.addNavBars();
-      var content = new ListAccountsView();
+      var content = new ListCompaniesView();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -74,9 +74,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListAccountsVi
       App.content.show(content);
     },
 
-    addAccount: function () {
+    addCompany: function () {
       this.addNavBars();
-      var content = new AccountView();
+      var content = new CompanyView();
       App.content.show(content);
     },
 
@@ -94,10 +94,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListAccountsVi
       content.listenTo(content, 'fetched', this.renderView);
     },
 
-    getAccount: function (id) {
+    getCompany: function (id) {
       this.addNavBars();
-      var model = new AccountModel({id: id});
-      var content = new GetAccountView({model: model});
+      var model = new CompanyModel({id: id});
+      var content = new GetCompanyView({model: model});
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -119,9 +119,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListAccountsVi
       });
     },
 
-    addReviewer: function () {
+    addUser: function () {
       this.addNavBars();
-      var content = new AddReviewerView();
+      var content = new AddUserView();
       content.listenTo(content, 'fetched', this.renderView);
     },
 

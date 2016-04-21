@@ -77,7 +77,7 @@ function( Backbone, _, TestFormViewTmpl, TestModel) {
       data.is_active = this.getBooleanValues(data.is_active);
       data.duration = parseInt(data.duration);
       data.extra_time = parseInt(data.extra_time);
-      data.id_manager = 1;
+      data.id_manager = 2;
       return data;
     },
 

@@ -1,9 +1,9 @@
 define([
   'backbone',
-  'hbs!tmpl/item/ListAccountsView_tmpl',
-  'collections/AccountCollection'
+  'hbs!tmpl/item/ListCompaniesView_tmpl',
+  'collections/CompanyCollection'
 ],
-function( Backbone, ListaccountsviewTmpl, AccountCollection ) {
+function( Backbone, ListCompaniesviewTmpl, CompanyCollection ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,15 +12,15 @@ function( Backbone, ListaccountsviewTmpl, AccountCollection ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a ListAccountView ItemView");
-      _.bindAll(this, 'getAccountsSuccess');
-      this.collection = new AccountCollection();
+      console.log("initialize a ListCompanyView ItemView");
+      _.bindAll(this, 'getCompaniesSuccess');
+      this.collection = new CompanyCollection();
       this.collection.fetch({
-        success: this.getAccountsSuccess
+        success: this.getCompaniesSuccess
       });
     },
     
-      template: ListaccountsviewTmpl,
+      template: ListCompaniesviewTmpl,
         
       /* ui selector cache */
       ui: {},
@@ -28,7 +28,7 @@ function( Backbone, ListaccountsviewTmpl, AccountCollection ) {
     /* Ui events hash */
     events: {},
 
-    getAccountsSuccess: function (models) {
+    getCompaniesSuccess: function (models) {
       this.trigger('fetched', this);
     },
 

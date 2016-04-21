@@ -2,10 +2,10 @@ define([
   'backbone',
   'underscore',
   'models/ReviewerModel',
-  'collections/AccountCollection',
+  'collections/CompanyCollection',
   'hbs!tmpl/item/ReviewerViewForm_tmpl'
 ],
-function( Backbone, _, ReviewerModel, AccountCollection, ReviewerviewTmpl  ) {
+function( Backbone, _, ReviewerModel, CompanyCollection, ReviewerviewTmpl  ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -16,7 +16,7 @@ function( Backbone, _, ReviewerModel, AccountCollection, ReviewerviewTmpl  ) {
     initialize: function() {
       console.log("initialize a AddReviewerview ItemView");
       _.bindAll(this, "renderCollection", "onSaveSuccess", "onSaveFail");
-      this.collection = new AccountCollection();
+      this.collection = new CompanyCollection();
       this.collection.fetch({
         success: this.renderCollection
       });

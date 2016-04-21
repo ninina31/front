@@ -1,17 +1,17 @@
-{{!empty ListaccountsviewTmpl template}}
+{{!empty ListcompaniesviewTmpl template}}
 
-<h4>Cuentas</h4>
+<h4>Compañías</h4>
 
 <table class="table">
   <thead>
     <tr>
       <th>Nombre</th>
-      <th>¿Está activo?</th>
+      <th>¿Está activa?</th>
     </tr>
   </thead>
   {{#each items}}
     <tr>
-      <td><a href="#verCuenta/{{id}}">{{name}}</a></td>
+      <td><a href="#verCompania/{{id}}">{{name}}</a></td>
       <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
     </tr>
   {{/each}}

@@ -1,9 +1,9 @@
 define([
   'backbone',
   'underscore',
-  'hbs!tmpl/item/GetAccountView_tmpl'
+  'hbs!tmpl/item/GetCompanyView_tmpl'
 ],
-function( Backbone, _, GetaccountviewTmpl ) {
+function( Backbone, _, GetCompanyviewTmpl ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,15 +12,15 @@ function( Backbone, _, GetaccountviewTmpl ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a Getaccountview ItemView");
+      console.log("initialize a GetCompanyview ItemView");
       $('[data-toggle="popover"]').popover();
-      _.bindAll(this, 'showAccount');
+      _.bindAll(this, 'showCompany');
       this.model.fetch({
-        success: this.showAccount
+        success: this.showCompany
       });
     },
     
-      template: GetaccountviewTmpl,
+      template: GetCompanyviewTmpl,
         
 
       /* ui selector cache */
@@ -28,19 +28,19 @@ function( Backbone, _, GetaccountviewTmpl ) {
 
     /* Ui events hash */
     events: {
-      'click #deleteAccount': 'deleteAccount'
+      'click #deleteCompany': 'deleteCompany'
     },
 
-    showAccount: function (model) {
+    showCompany: function (model) {
       this.trigger('fetched', this);
       $('[data-toggle="popover"]').popover({ html: true });
     },
 
-    deleteAccount: function () {
+    deleteCompany: function () {
       this.model.destroy({
         method: 'DELETE',
         success: function () {
-          Backbone.history.navigate("listarCuentas", {trigger: true});
+          Backbone.history.navigate("listarCompanias", {trigger: true});
         },
         error: function () {
           $('.alert.alert-danger').removeClass('hidden');
