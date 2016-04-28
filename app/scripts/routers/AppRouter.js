@@ -20,10 +20,10 @@ function(Backbone, appController){
       'corregirExamen/:id': 'reviewTest',
       'agregarUsuario': 'addUser',
       'verCompania/:id': 'getCompany',
-      'verCorrector/:id': 'getReviewer',
+      'verCorrector/:id': 'getUser',
       'listarCompanias': 'listCompanies',
-      'listarCorrectores': 'listReviewers',
-      'editarCorrector/:id': 'editReviewer',
+      'listarCorrectores': 'listUsers',
+      'editarCorrector/:id': 'editUser',
       'editarExamen/:id': 'editTest'
     }
 	});

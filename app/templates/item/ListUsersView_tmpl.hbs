@@ -1,6 +1,6 @@
-{{!empty ListreviewersviewTmpl template}}
+{{!empty ListusersviewTmpl template}}
 
-<h4>Usuarios Correctores</h4>
+<h4>Usuarios</h4>
 
 <table class="table">
   <thead>
@@ -11,7 +11,7 @@
   </thead>
   {{#each items}}
     <tr>
-      <td><a href="#verCorrector/{{id}}">{{name}} {{last_name}}</a></td>
+      <td><a href="#verUsuario/{{id}}">{{name}} {{last_name}}</a></td>
       <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
     </tr>
   {{/each}}

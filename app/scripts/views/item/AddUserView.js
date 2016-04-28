@@ -26,8 +26,8 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
 
     /* ui selector cache */
     ui: {
-      form: '#addReviewer',
-      saveButton: '#saveReviewer'
+      form: '#addUser',
+      saveButton: '#saveUser'
     },
 
     /* Ui events hash */
@@ -61,6 +61,7 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
       var info = $('form').serializeObject();
       this.model.unset('companies');
       this.model.unset('rols');
+      info.is_active = true;
       this.model.save(info,
       {
         type: 'post',

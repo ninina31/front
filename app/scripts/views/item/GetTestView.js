@@ -30,16 +30,6 @@ function( Backbone, _, GettestviewTmpl ) {
       'click #deleteExam': 'deleteExam'
     },
 
-    // onBeforeRender: function () {
-    //   var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
-    //     return obj.question.id;
-    //   });
-    //   var questions = _.map(this.model.get('questions'), function (obj) {
-    //     obj.proposed_answer = byQuestion[obj.id];
-    //     return obj;
-    //   });
-    // },
-
     renderView: function(){
       this.trigger('fetched', this);
       $('[data-toggle="popover"]').popover({ html: true });

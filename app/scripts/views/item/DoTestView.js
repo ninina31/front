@@ -3,9 +3,10 @@ define([
   'hbs!tmpl/item/DoTestView_tmpl',
   'hbs!tmpl/item/doTest_tmpl',
   'models/TestModel',
+  'models/CandidateTestModel',
   'collections/AnswerCollection'
 ],
-function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
+function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, AnswerCollection) {
     'use strict';
 
   var interval;
@@ -19,7 +20,12 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchTest', 'handleTest', 'sendTest', 'countdown', 'getFormData');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest');
+      this.candidateTest = new CandidateTestModel({
+        id_test: this.model.get('id_test'),
+        id_candidate: 1
+      });
+      $('.bs-example-modal-sm').modal({});
     },
     
       template: DotestviewTmpl,
@@ -37,11 +43,22 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
     },
 
     beginTest: function (e) {
-      e.preventDefault;
+      e.preventDefault();
+      this.candidateTest.save(null, {
+        success: this.successSaveCandidateTest,
+        error: this.failSaveCandidateTest,
+      });
+    },
+
+    successSaveCandidateTest: function () {
       this.model.fetch({
         success: this.successFetchTest,
-        fail: this.failFetchTest,
+        error: this.failFetchTest
       });
+    },
+
+    failSaveCandidateTest: function () {
+      $('.bs-example-modal-sm').modal('show');
     },
 
     successFetchTest: function () {
@@ -52,6 +69,8 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
       this.clock.minutes = time;
       this.countdown(time, this.finishTime);
     },
+
+    failFetchTest: function () {},
 
     finishTime: function () {
       this.ui.clock.addClass('extraTime');
@@ -102,20 +121,18 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, AnswerCollection) {
     },
 
     getFormData: function () {
-      var data = Backbone.$('.form-group');
-      var model = this.model;
+      var data = this.$el.find('.form-group');
       var answers = _.map(data, function (form_group, key) {
         form_group = $(form_group);
-        var answer = form_group.find('[name*=result]');
-        var info = answer.attr('name').split('-');
+        var answer = form_group.find('[name*=result-]');
         var id_question = parseInt(form_group.data('question'));
         var response = {
-          id_question: id_question,
-          file: '',
-          proposedAnswer_id: answer.val(),
           candidate_id : 1,
-          id_test: model.get('test').id_test,
-          answer: JSON.parse(answer.val())
+          proposedAnswer_id: answer.data('proposed'),
+          answer: answer.val(),
+          file: '',
+          id_question: id_question,
+          score: 0
         };
         return response;
       });

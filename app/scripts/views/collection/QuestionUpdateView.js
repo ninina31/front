@@ -8,10 +8,9 @@ define([
   'hbs!tmpl/item/AddQuestionView_tmpl',
   'models/QuestionModel',
   'collections/QuestionCollection',
-  'collections/ProposedAnswerCollection',
-  'collections/CorrectAnswerCollection'
+  'collections/ProposedAnswerCollection'
 ],
-function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFalseTmpl, QuestionsViewTmpl, QuestionModel, QuestionCollection, ProposedAnswerCollection, CorrectAnswerCollection) {
+function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFalseTmpl, QuestionsViewTmpl, QuestionModel, QuestionCollection, ProposedAnswerCollection) {
     'use strict';
 
   /* Return a CompositeView class definition */
@@ -58,7 +57,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
       e.preventDefault();
       var is_autocorrect = this.model.get('test').is_autocorrect;
       var model = new QuestionModel({
-        id_test: this.model.get('test').id_test,
+        id_test: this.model.get('id_test'),
         is_autocorrect: this.model.get('test').is_autocorrect,
         q_types: this.model.get('question_types').toJSON()
       });

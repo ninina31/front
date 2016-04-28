@@ -91,6 +91,7 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
       this.model.set('id_type', id_type);
       this.model.set('description', description);
       this.model.set('score', score);
+      debugger
       // this.model.set('id_test', this.model.get('test'));
     },
 

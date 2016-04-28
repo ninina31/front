@@ -1,9 +1,9 @@
 define([
   'backbone',
   'underscore',
-  'hbs!tmpl/item/GetReviewerView_tmpl'
+  'hbs!tmpl/item/GetUserView_tmpl'
 ],
-function( Backbone, _, GetreviewerviewTmpl ) {
+function( Backbone, _, GetUserviewTmpl ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,14 +12,14 @@ function( Backbone, _, GetreviewerviewTmpl ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a GetReviewerview ItemView");
-      _.bindAll(this, 'showReviewer', 'onDeleteSuccess', 'onDeleteFail');
+      console.log("initialize a GetUserview ItemView");
+      _.bindAll(this, 'showUser', 'onDeleteSuccess', 'onDeleteFail');
       this.model.fetch({
-        success: this.showReviewer
+        success: this.showUser
       });
     },
     
-      template: GetreviewerviewTmpl,
+      template: GetUserviewTmpl,
         
 
       /* ui selector cache */
@@ -27,15 +27,15 @@ function( Backbone, _, GetreviewerviewTmpl ) {
 
     /* Ui events hash */
     events: {
-      'click #deleteReviewer': 'deleteReviewer'
+      'click #deleteUser': 'deleteUser'
     },
 
-    showReviewer: function (model) {
+    showUser: function (model) {
       this.trigger('fetched', this);
       $('[data-toggle="popover"]').popover({ html: true });
     },
 
-    deleteReviewer: function () {
+    deleteUser: function () {
       this.model.destroy({
         method: 'DELETE',
         success: this.onDeleteSuccess,

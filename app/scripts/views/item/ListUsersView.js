@@ -1,9 +1,9 @@
 define([
   'backbone',
-  'hbs!tmpl/item/ListReviewersView_tmpl',
-  'collections/ReviewerCollection'
+  'hbs!tmpl/item/ListUsersView_tmpl',
+  'collections/UserCollection'
 ],
-function( Backbone, ListreviewersviewTmpl, ReviewerCollection ) {
+function( Backbone, ListUsersviewTmpl, UserCollection ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,15 +12,15 @@ function( Backbone, ListreviewersviewTmpl, ReviewerCollection ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a ListReviewersview ItemView");
-      _.bindAll(this, 'getReviewersSuccess');
-      this.collection = new ReviewerCollection();
+      console.log("initialize a ListUsersview ItemView");
+      _.bindAll(this, 'getUsersSuccess');
+      this.collection = new UserCollection();
       this.collection.fetch({
-        success: this.getReviewersSuccess
+        success: this.getUsersSuccess
       });
     },
     
-      template: ListreviewersviewTmpl,
+      template: ListUsersviewTmpl,
         
       /* ui selector cache */
       ui: {},
@@ -28,7 +28,7 @@ function( Backbone, ListreviewersviewTmpl, ReviewerCollection ) {
     /* Ui events hash */
     events: {},
 
-    getReviewersSuccess: function (models) {
+    getUsersSuccess: function (models) {
       this.trigger('fetched', this);
     },
 

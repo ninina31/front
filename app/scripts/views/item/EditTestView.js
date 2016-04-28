@@ -12,7 +12,6 @@ function( Backbone, _, TestFormViewTmpl) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a TestFormView ItemView");
       _.bindAll(this, "onSaveSuccess", "onSaveFail", 'renderView');
       this.model.fetch({
         success: this.renderView
@@ -66,8 +65,7 @@ function( Backbone, _, TestFormViewTmpl) {
       var form = this.ui.form.serializeObject();
       this.toogleTrueFalseFields(true);
       var testData = this.getTestData(form);
-      this.model.set(testData);
-      this.model.save({},
+      this.model.save(testData,
       {
         type: 'put',
         contentType: "application/json",
@@ -83,7 +81,7 @@ function( Backbone, _, TestFormViewTmpl) {
       data.is_active = this.getBooleanValues(data.is_active);
       data.duration = parseInt(data.duration);
       data.extra_time = parseInt(data.extra_time);
-      data.id_manager = 1;
+      data.id_user = 2;
       return data;
     },
 

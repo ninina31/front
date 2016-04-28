@@ -8,12 +8,12 @@ function( Backbone, Paths ) {
   /* Return a model class definition */
   return Backbone.Model.extend({
     initialize: function() {
-      console.log("initialize a Reviewermodel model");
+      console.log("initialize a Candidatetestmodel model");
     },
 
     defaults: {},
 
-    urlRoot: function() {return Paths.url + '/reviewers';}
+    urlRoot: function() {return Paths.url + '/candidatetests';}
 
     });
 });

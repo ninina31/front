@@ -1,11 +1,11 @@
 define([
   'backbone',
   'underscore',
-  'models/ReviewerModel',
+  'models/UserModel',
   'collections/CompanyCollection',
-  'hbs!tmpl/item/ReviewerViewForm_tmpl'
+  'hbs!tmpl/item/UserViewForm_tmpl'
 ],
-function( Backbone, _, ReviewerModel, CompanyCollection, ReviewerviewTmpl  ) {
+function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -14,7 +14,7 @@ function( Backbone, _, ReviewerModel, CompanyCollection, ReviewerviewTmpl  ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a AddReviewerview ItemView");
+      console.log("initialize a EditUserview ItemView");
       _.bindAll(this, "renderCollection", "onSaveSuccess", "onSaveFail");
       this.collection = new CompanyCollection();
       this.collection.fetch({
@@ -22,33 +22,41 @@ function( Backbone, _, ReviewerModel, CompanyCollection, ReviewerviewTmpl  ) {
       });
     },
     
-    template: ReviewerviewTmpl,
+    template: UserviewTmpl,
 
     /* ui selector cache */
     ui: {
-      form: '#addReviewer',
-      saveButton: '#saveReviewer'
+      form: '#editUser',
+      saveButton: '#saveUser'
     },
 
     /* Ui events hash */
     events: {
-      'click #saveReviewer': 'addReviewer'
+      'click #saveUser': 'editUser'
     },
 
     renderCollection: function (collection) {
-      this.trigger('fetched', this);
+      var that = this;
+      this.model.set('items', collection.toJSON());
+      this.model.fetch({
+        success: function () {
+          that.trigger('fetched', that);
+        }
+      });
     },
 
-    addReviewer: function (e) {
+    editUser: function (e) {
       e.preventDefault();
       if(this.hasEmptyInputs()){
         return false;
       };
       var info = $('form').serializeObject();
-      this.model = new ReviewerModel(info);
-      this.model.save({}, 
+      delete info.repeat_password;
+      this.model.set(info);
+      this.model.unset('items');
+      this.model.save({},
       {
-        type: 'post',
+        type: 'put',
         contentType: "application/json",
         success: this.onSaveSuccess, 
         error: this.onSaveFail
@@ -80,10 +88,6 @@ function( Backbone, _, ReviewerModel, CompanyCollection, ReviewerviewTmpl  ) {
         return true;
       }
       return false;
-    },
-
-    /* on render callback */
-    onRender: function() {
     }
   });
 

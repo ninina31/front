@@ -5,24 +5,24 @@ define([
   'views/item/HomeView',
   'views/item/LoginView',
   'views/item/ListCompaniesView',
-  'views/item/ListReviewersView',
+  'views/item/ListUsersView',
   'views/item/CompanyView',
   'views/item/DoTestView',
   'views/item/GetTestView',
-  'views/item/GetReviewerView',
+  'views/item/GetUserView',
   'views/item/GetCompanyView',
   'views/item/ReviewTestView',
   'views/item/AddTestView',
-  'views/item/EditReviewerView',
+  'views/item/EditUserView',
   'views/collection/QuestionCreationView',
   'models/TestModel',
   'views/item/AddUserView',
   'views/item/EditTestView',
   'views/collection/QuestionUpdateView',
   'models/CompanyModel',
-  'models/ReviewerModel'
+  'models/UserModel'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListReviewersView, CompanyView, DoTestView, GetTestView, GetReviewerView, GetCompanyView, ReviewTestView, AddTestView, EditReviewerView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, ReviewerModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
@@ -42,9 +42,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       App.content.show(content);
     },
 
-    listReviewers: function () {
+    listUsers: function () {
       this.addNavBars();
-      var content = new ListReviewersView();
+      var content = new ListUsersView();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -101,10 +101,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       content.listenTo(content, 'fetched', this.renderView);
     },
 
-    getReviewer: function (id) {
+    getUser: function (id) {
       this.addNavBars();
-      var model = new ReviewerModel({ id: id });
-      var content = new GetReviewerView({ model: model });
+      var model = new UserModel({ id: id });
+      var content = new GetUserView({ model: model });
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -125,10 +125,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       content.listenTo(content, 'fetched', this.renderView);
     },
 
-    editReviewer: function (id) {
+    editUser: function (id) {
       this.addNavBars();
-      var model = new ReviewerModel({ id: id });
-      var content = new EditReviewerView({ model: model });
+      var model = new UserModel({ id: id });
+      var content = new EditUserView({ model: model });
       content.listenTo(content, 'fetched', this.renderView);
     },
 
