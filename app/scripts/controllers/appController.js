@@ -14,22 +14,24 @@ define([
   'views/item/ReviewTestView',
   'views/item/AddTestView',
   'views/item/EditUserView',
+  'views/item/ProfileView',
   'views/collection/QuestionCreationView',
   'models/TestModel',
   'views/item/AddUserView',
   'views/item/EditTestView',
   'views/collection/QuestionUpdateView',
   'models/CompanyModel',
-  'models/UserModel'
+  'models/UserModel',
+  'models/SessionModel'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
 
     initialize: function( options ) {
       console.log("initialize a Appcontroller Controller");
-      _.bindAll(this, "renderView");
+      _.bindAll(this, 'renderView');
     },
 
     addNavBars: function () {
@@ -62,8 +64,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       test.listenTo(test, 'testAdded', this.addQuestions);
     },
 
-    addQuestions: function (id){
-      var model = new TestModel({id_test: id});
+    addQuestions: function (model){
       var questions = new QuestionCreationView({model: model});
       App.content.show(questions);
     },
@@ -146,8 +147,20 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       App.content.show(questions);
     },
 
+    userProfile: function () {
+      this.addNavBars();
+      var content = new ProfileView();
+      App.content.show(content);
+    },
+
     renderView: function (view) {
       App.content.show(view);
+    },
+
+    hasPermission: function (page) {
+      var user = SessionModel;
+      var permits = user.get('rol').permits;
+      return permits.indexOf(page) > -1;
     }
 
   });

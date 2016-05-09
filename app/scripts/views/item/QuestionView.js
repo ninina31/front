@@ -88,11 +88,12 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
       var id_type = this.$el.find('option:selected').val();
       var description = this.$el.find('[name="description"]').val();
       var score = this.$el.find('[name="score"]').val();
-      this.model.set('id_type', id_type);
-      this.model.set('description', description);
-      this.model.set('score', score);
-      debugger
-      // this.model.set('id_test', this.model.get('test'));
+      var data = {
+        id_type: id_type,
+        description: description,
+        score: score
+      };
+      this.model.set(data);
     },
 
     retrieveProposedAnswers: function () {
@@ -110,7 +111,7 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
         };
         var id = $(answerDom).data('id');
         if(!!id){
-          answer.id = id; 
+          answer.id = id;
         }
         proposed.push(answer);
       })

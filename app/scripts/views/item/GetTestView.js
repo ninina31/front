@@ -39,7 +39,7 @@ function( Backbone, _, GettestviewTmpl ) {
       this.model.destroy({
         method: 'DELETE',
         success: this.onDeleteSuccess,
-        fail: this.onDeleteFail
+        error: this.onDeleteFail
       });
     },
 

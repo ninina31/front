@@ -89,7 +89,7 @@ function( Backbone, _, TestFormViewTmpl, TestModel) {
       };
     },
     onSaveSuccess: function (model, response, options) {
-      this.trigger('testAdded', response.message);
+      this.trigger('testAdded', model);
     },
     onSaveFail: function (model, xhr, options) {
       this.ui.errorMsg.removeClass('hidden'); 

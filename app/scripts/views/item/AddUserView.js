@@ -32,7 +32,7 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
 
     /* Ui events hash */
     events: {
-      'click #saveUser': 'addUser'
+      'click this.ui.saveButton': 'addUser'
     },
     
     renderCollection: function (collection) {

@@ -16,12 +16,8 @@ function( Backbone, Paths, QuestionTypeCollection ) {
 
     urlRoot: function() {return Paths.url + '/exams';},
 
-    fetch: function (options) {
-      this.get('question_types').fetch();
-      return Backbone.Model.prototype.fetch.call(this, options);
-    },
-
     parse: function (model) {
+      if (this.has('question_types')) this.get('question_types').fetch();
       var result = model;
       if (model.message != undefined) {
         return model.message;
@@ -46,10 +42,8 @@ function( Backbone, Paths, QuestionTypeCollection ) {
         obj.proposed_answer = byQuestion[obj.id];
         return obj;
       });
-      var response = {
-        test: model.test,
-        questions: questions
-      };
+      var response = model.test;
+      response.questions = questions;
       return response;
     }
 

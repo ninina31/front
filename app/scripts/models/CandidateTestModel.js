@@ -13,7 +13,11 @@ function( Backbone, Paths ) {
 
     defaults: {},
 
-    urlRoot: function() {return Paths.url + '/candidatetests';}
+    urlRoot: function() {return Paths.url + '/candidatetests';},
+
+    parse: function (response) {
+      return { id: response.message };
+    }
 
     });
 });

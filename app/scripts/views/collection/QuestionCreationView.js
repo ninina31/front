@@ -19,7 +19,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
     className: 'container',
 
     initialize: function() {
-      this.model.fetch();
+      // this.model.fetch();
       console.log("initialize a QuestionCreationView CollectionView");
       this.collection = new QuestionCollection();
       this.proposed_answers = new ProposedAnswerCollection();
@@ -50,12 +50,11 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
 
     addQuestion: function (e) {
       e.preventDefault();
-      var is_autocorrect = this.model.get('test').is_autocorrect;
+      var is_autocorrect = this.model.get('is_autocorrect');
       var model = new QuestionModel({
         id_test: this.model.get('id_test'),
         is_autocorrect: is_autocorrect,
-        q_types: this.model.get('question_types').toJSON(),
-        is_autocorrect: is_autocorrect
+        q_types: this.model.get('question_types').toJSON()
       });
       this.collection.add(model);
     },

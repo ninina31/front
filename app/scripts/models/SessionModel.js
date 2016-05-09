@@ -8,9 +8,22 @@ function( Backbone, Paths ) {
   /* Return a model class definition */
   var session = Backbone.Model.extend({
 
-  urlRoot: function(){ return Paths.url + '/login';}
+    urlRoot: function(){ return Paths.url + '/login';},
+
+    defaults: {
+      id: 'id_id',
+      name: 'Alvaro',
+      last_name: 'Chalar',
+      company: {
+        name: 'Wuaki.tv'
+      },
+      rol: {
+        name: 'Manager'
+      },
+      email: 'alvaro.chalar@wuaki.tv'
+    }
 
   });
 
-  return session;
+  return new session();
 });

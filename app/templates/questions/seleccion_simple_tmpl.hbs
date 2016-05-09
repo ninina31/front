@@ -14,7 +14,7 @@
       <input type="radio" value="1" name="is_correct-{{question_number}}" {{#if proposed_answer.0.is_correct}}checked="checked"{{/if}}>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.0.score}}"/>
+      <input type="number" class="form-control" name="score-{{question_number}}" value="{{proposed_answer.0.score}}"/>
     </div>
   </div>
   <div class="form-group">
@@ -26,7 +26,7 @@
       <input type="radio" value="2" name="is_correct-{{question_number}}" {{#if proposed_answer.1.is_correct}}checked="checked"{{/if}}>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.1.score}}"/>
+      <input type="number" class="form-control" name="score-{{question_number}}" value="{{proposed_answer.1.score}}"/>
     </div>
   </div>
   <div class="form-group">
@@ -38,7 +38,7 @@
       <input type="radio" value="3" name="is_correct-{{question_number}}" {{#if proposed_answer.2.is_correct}}checked="checked"{{/if}}>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.2.score}}"/>
+      <input type="number" class="form-control" name="score-{{question_number}}" value="{{proposed_answer.2.score}}"/>
     </div>
   </div>
   <div class="form-group">
@@ -50,7 +50,7 @@
       <input type="radio" value="4" name="is_correct-{{question_number}}" {{#if proposed_answer.3.is_correct}}checked="checked"{{/if}}>
     </div>
     <div class="col-sm-1 text-center">
-      <input type="number" class="form-control" name="score-{{question_number}}" required value="{{proposed_answer.3.score}}"/>
+      <input type="number" class="form-control" name="score-{{question_number}}" value="{{proposed_answer.3.score}}"/>
     </div>
   </div>
 </div>

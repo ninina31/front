@@ -22,9 +22,10 @@ function(Backbone, appController){
       'verCompania/:id': 'getCompany',
       'verCorrector/:id': 'getUser',
       'listarCompanias': 'listCompanies',
-      'listarCorrectores': 'listUsers',
-      'editarCorrector/:id': 'editUser',
-      'editarExamen/:id': 'editTest'
+      'listarUsuarios': 'listUsers',
+      'editarUsuario/:id': 'editUser',
+      'editarExamen/:id': 'editTest',
+      'verPerfil': 'userProfile'
     }
 	});
 });

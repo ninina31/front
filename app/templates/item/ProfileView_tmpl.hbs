@@ -1,0 +1,15 @@
+{{!empty ProfileviewTmpl template}}
+
+<div class="alert alert-success hidden" role="alert">El apikey se ha generado exitosamente!</div>
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+
+<h3>{{name}} {{last_name}}</h3>
+<p>Correo electrónico: {{email}}</p>
+<p>Compañía: {{company.name}}</p>
+<p>Rol: {{rol.name}}</p><br>
+
+<a href="#editarUsuario/{{id}}" type="button" class="btn btn-default btn-primary">Editar Usuario</a>
+
+<a href="#" id="apikeyGenerate" type="button" class="btn btn-default btn-primary">Generar nueva Apikey</a>
+
+<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteUser'>Sí, estoy seguro</button>">Eliminar Cuenta</button>

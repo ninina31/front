@@ -24,10 +24,11 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
       this.listenTo(this.collection, 'proposedAdded', this.saveProposedAnswers);
       var context = this;
       _.each(this.model.get('questions'), function (question) {
-        question.is_autocorrect = context.model.get('test').is_autocorrect;
+        question.is_autocorrect = context.model.get('is_autocorrect');
         question.q_types = context.model.get('question_types').toJSON();
+        question.id_test = question.test;
         context.collection.add(question);
-      })
+      });
       this.proposed_answers = new ProposedAnswerCollection();
       _.bindAll(this, 'onSaveQuestionsSuccess', 'onSaveQuestionsFail', 'onSaveProposedAnswerSuccess', 'onSaveProposedAnwserFail');
     },
@@ -55,17 +56,13 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
 
     addQuestion: function (e) {
       e.preventDefault();
-      var is_autocorrect = this.model.get('test').is_autocorrect;
+      var is_autocorrect = this.model.get('is_autocorrect');
       var model = new QuestionModel({
         id_test: this.model.get('id_test'),
-        is_autocorrect: this.model.get('test').is_autocorrect,
+        is_autocorrect: this.model.get('is_autocorrect'),
         q_types: this.model.get('question_types').toJSON()
       });
       this.collection.add(model);
-    },
-
-    toogleTrueFalseFields: function (enabled) {
-      Backbone.$('[name*="type"] option:selected[value="5"]').closest('fieldset').find('[name="autocorrect-options-score"]').attr('disabled', enabled);
     },
 
     hasEmptyInputs: function () {

@@ -15,7 +15,7 @@ function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
 
     initialize: function() {
       console.log("initialize a EditUserview ItemView");
-      _.bindAll(this, "renderCollection", "onSaveSuccess", "onSaveFail");
+      _.bindAll(this, 'renderCollection', 'onSaveSuccess', 'onSaveFail');
       this.collection = new CompanyCollection();
       this.collection.fetch({
         success: this.renderCollection

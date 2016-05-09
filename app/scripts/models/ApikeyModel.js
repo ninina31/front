@@ -8,14 +8,10 @@ function( Backbone, Paths ) {
   /* Return a model class definition */
   return Backbone.Model.extend({
     initialize: function() {
-      console.log("initialize a User model");
+      console.log("initialize a ApiKey model");
     },
     
-    urlRoot: function() {return Paths.url + '/user';},
-
-    defaults: {
-      isActive: false
-    }
+    urlRoot: function() {return Paths.url + '/key';}
 
     });
 });

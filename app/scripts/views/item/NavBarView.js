@@ -1,8 +1,9 @@
 define([
 	'backbone',
+  'models/SessionModel',
 	'hbs!tmpl/item/NavBarView_tmpl'
 ],
-function( Backbone, NavbarviewTmpl  ) {
+function( Backbone, SessionModel, NavbarviewTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -10,6 +11,7 @@ function( Backbone, NavbarviewTmpl  ) {
 
 		initialize: function() {
 			console.log("initialize a Navbarview ItemView");
+      this.model = SessionModel;
 		},
 		
     	template: NavbarviewTmpl,

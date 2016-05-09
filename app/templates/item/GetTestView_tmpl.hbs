@@ -1,9 +1,9 @@
 {{!empty GettestviewTmpl template}}
 
-<h3>{{test.name}}</h3>
-<p>Tiempo: {{test.duration}} min</p>
-<p>Tiempo extra: {{test.extra_time}} min</p>
-<p>Instrucciones: {{test.instructions}}</p><br>
+<h3>{{name}}</h3>
+<p>Tiempo: {{duration}} min</p>
+<p>Tiempo extra: {{extra_time}} min</p>
+<p>Instrucciones: {{instructions}}</p><br>
 <div class="questions">
   {{#each questions as |question number|}}
     <div class="form-group">
@@ -40,6 +40,6 @@
   {{/each}}
 </div>
 
-<a href="#editarExamen/{{test.id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
+<a href="#editarExamen/{{id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
 
 <button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>

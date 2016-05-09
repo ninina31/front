@@ -1,9 +1,10 @@
 define([
 	'backbone',
+  'models/SessionModel',
 	'hbs!tmpl/item/HomeView_tmpl',
   'collections/TestCollection'
 ],
-function( Backbone, HomeviewTmpl, TestCollection ) {
+function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
     'use strict';
 
 	/* Return a ItemView class definition */

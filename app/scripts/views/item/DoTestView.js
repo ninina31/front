@@ -20,7 +20,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', 'onCandidateSuccess', 'onCandidateFail');
       this.candidateTest = new CandidateTestModel({
         id_test: this.model.get('id_test'),
         id_candidate: 1
@@ -65,7 +65,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
       Backbone.$('#exam').html(DoTestTmpl(this.model.toJSON()));
       Backbone.$('.layout').fadeOut();
       this.ui.clock = Backbone.$('#clock');
-      var time = this.model.get('test').duration;
+      var time = this.model.get('duration');
       this.clock.minutes = time;
       this.countdown(time, this.finishTime);
     },
@@ -74,7 +74,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
 
     finishTime: function () {
       this.ui.clock.addClass('extraTime');
-      var extraTime = this.model.get('test').extra_time;
+      var extraTime = this.model.get('extra_time');
       if (extraTime > 0) {
         this.clock.minutes = extraTime;
         this.clock.seconds = 0;
@@ -100,24 +100,33 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
 
     sendTest: function () {
       var data = this.getFormData();
-      var model = new AnswerCollection(data);
-      model.save({},
+      var collection = new AnswerCollection(data);
+      collection.save(
       {
-        type: 'post',
-        contentType: 'application/json',
-        success: this.onSaveSuccess, 
+        success: this.onSaveSuccess,
         error: this.onSaveFail
       }
       );
     },
 
     onSaveSuccess: function (model) {
-      $('#exam').remove();
-      $('#examSent').removeClass('hidden');
+      this.candidateTest.save(null, {
+        success: this.onCandidateSuccess,
+        error: this.onCandidateFail
+      });
     },
 
     onSaveFail: function (model) {
       $('.js-error').removeClass('hidden');
+    },
+
+    onCandidateSuccess: function () {
+      $('#exam').remove();
+      $('#examSent').removeClass('hidden');
+    },
+
+    onCandidateFail: function () {
+      console.log('fail');
     },
 
     getFormData: function () {
