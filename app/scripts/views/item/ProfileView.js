@@ -28,7 +28,8 @@ function( Backbone, ApikeyModel, SessionModel, ProfileviewTmpl ) {
 
     /* Ui events hash */
     events: {
-      'click #apikeyGenerate': 'generateApikey'
+      'click #apikeyGenerate': 'generateApikey',
+      'click #deleteAccount': 'deleteAccount'
     },
 
     generateApikey: function (e) {
@@ -45,7 +46,19 @@ function( Backbone, ApikeyModel, SessionModel, ProfileviewTmpl ) {
     },
 
     onApikeyFail: function () {
-      
+      $('.alert.alert-danger').removeClass('hidden');
+    },
+
+    deleteAccount: function () {
+      this.model.destroy({
+        method: 'DELETE',
+        success: function () {
+          Backbone.history.navigate('login', {trigger: true});
+        },
+        error: function () {
+          $('.alert.alert-danger').removeClass('hidden');
+        }
+      });
     }
 
   });

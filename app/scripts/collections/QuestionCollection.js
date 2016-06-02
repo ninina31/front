@@ -1,19 +1,19 @@
 define([
-	'backbone',
+  'backbone',
   'models/QuestionModel',
   'config/paths'
 ],
 function( Backbone, QuestionModel, Paths ) {
     'use strict';
 
-	/* Return a collection class definition */
-	return Backbone.Collection.extend({
-		initialize: function() {
-			console.log("initialize a Questioncollection collection");
+  /* Return a collection class definition */
+  return Backbone.Collection.extend({
+    initialize: function() {
+      console.log("initialize a Questioncollection collection");
       this.listenTo(this, 'add', function (question) {
-        question.set('question_number', this.length);
+        question.set({ question_number: this.length });
       })
-		},
+    },
 
     model: QuestionModel,
 
@@ -42,5 +42,5 @@ function( Backbone, QuestionModel, Paths ) {
       this.proposed_answers = proposed_answers;
       this.trigger('proposedAdded');
     }
-	});
+  });
 });

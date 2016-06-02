@@ -1,29 +1,29 @@
 define([
-	'backbone',
+  'backbone',
   'underscore',
   'models/CompanyModel',
-	'hbs!tmpl/item/CompanyView_tmpl'
+  'hbs!tmpl/item/CompanyView_tmpl'
 ],
 function( Backbone, _, CompanyModel, CompanyviewTmpl  ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-		initialize: function() {
-			console.log("initialize a Companyview ItemView");
-		},
-		
-    	template: CompanyviewTmpl,
+    initialize: function() {
+      console.log("initialize a Companyview ItemView");
+    },
+    
+      template: CompanyviewTmpl,
         
 
-    	/* ui selector cache */
-    	ui: {},
+      /* ui selector cache */
+      ui: {},
 
-		/* Ui events hash */
-		events: {
+    /* Ui events hash */
+    events: {
       'click #saveCompany': 'addCompany'  
     },
 
@@ -49,8 +49,8 @@ function( Backbone, _, CompanyModel, CompanyviewTmpl  ) {
       $('.alert.alert-danger').removeClass('hidden');
     },
 
-		/* on render callback */
-		onRender: function() {}
-	});
+    /* on render callback */
+    onRender: function() {}
+  });
 
 });

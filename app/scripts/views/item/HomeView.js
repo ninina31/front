@@ -1,19 +1,19 @@
 define([
-	'backbone',
+  'backbone',
   'models/SessionModel',
-	'hbs!tmpl/item/HomeView_tmpl',
+  'hbs!tmpl/item/HomeView_tmpl',
   'collections/TestCollection'
 ],
 function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-		initialize: function() {
-			console.log("initialize a Homeview ItemView");
+    initialize: function() {
+      console.log("initialize a Homeview ItemView");
       this.collection = new TestCollection();
     },
     
@@ -34,8 +34,8 @@ function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
       });
     },
 
-		/* on render callback */
-		onRender: function() {}
-	});
+    /* on render callback */
+    onRender: function() {}
+  });
 
 });

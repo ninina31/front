@@ -1,16 +1,15 @@
 define([
-	'backbone'
+  'backbone',
+  'models/BaseModel'
 ],
-function( Backbone ) {
+function( Backbone, BaseModel ) {
     'use strict';
 
-	/* Return a model class definition */
-	return Backbone.Model.extend({
-		initialize: function() {
-			console.log("initialize a QuestionType model");
-		},
-
-		defaults: {},
+  /* Return a model class definition */
+  return BaseModel.extend({
+    initialize: function() {
+      console.log("initialize a QuestionType model");
+    }
 
     });
 });

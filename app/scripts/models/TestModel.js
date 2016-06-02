@@ -1,16 +1,17 @@
 define([
-	'backbone',
+  'backbone',
+  'models/BaseModel',
   'config/paths',
   'collections/QuestionTypeCollection'
 ],
-function( Backbone, Paths, QuestionTypeCollection ) {
+function( Backbone, BaseModel, Paths, QuestionTypeCollection ) {
     'use strict';
 
-	/* Return a model class definition */
-	return Backbone.Model.extend({
-		initialize: function() {
-			console.log("initialize a Testmodel model");
-		},
+  /* Return a model class definition */
+  return BaseModel.extend({
+    initialize: function() {
+      console.log("initialize a Testmodel model");
+    },
 
     idAttribute: "id_test",
 

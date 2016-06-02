@@ -1,5 +1,5 @@
 define([
-	'backbone',
+  'backbone',
   'views/item/BannerView',
   'views/item/NavBarView',
   'views/item/HomeView',
@@ -15,11 +15,11 @@ define([
   'views/item/AddTestView',
   'views/item/EditUserView',
   'views/item/ProfileView',
-  'views/collection/QuestionCreationView',
+  'views/composite/QuestionCreationView',
   'models/TestModel',
   'views/item/AddUserView',
   'views/item/EditTestView',
-  'views/collection/QuestionUpdateView',
+  'views/composite/QuestionUpdateView',
   'models/CompanyModel',
   'models/UserModel',
   'models/SessionModel'

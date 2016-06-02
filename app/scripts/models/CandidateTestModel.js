@@ -1,12 +1,13 @@
 define([
   'backbone',
+  'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, Paths ) {
+function( Backbone, BaseModel, Paths ) {
     'use strict';
 
   /* Return a model class definition */
-  return Backbone.Model.extend({
+  return BaseModel.extend({
     initialize: function() {
       console.log("initialize a Candidatetestmodel model");
     },

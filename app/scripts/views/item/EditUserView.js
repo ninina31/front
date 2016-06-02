@@ -37,7 +37,7 @@ function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
 
     renderCollection: function (collection) {
       var that = this;
-      this.model.set('items', collection.toJSON());
+      this.model.set({ items: collection.toJSON() });
       this.model.fetch({
         success: function () {
           that.trigger('fetched', that);

@@ -32,12 +32,12 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
 
     /* Ui events hash */
     events: {
-      'click this.ui.saveButton': 'addUser'
+      'click #saveUser': 'addUser'
     },
     
     renderCollection: function (collection) {
-      this.model.set('companies', this.companies.toJSON());
-      this.model.set('rols', this.rol.toJSON());
+      this.model.set({companies: this.companies.toJSON()});
+      this.model.set({rols: this.rol.toJSON()});
       this.trigger('fetched', this);
     },
 
@@ -61,7 +61,7 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
       var info = $('form').serializeObject();
       this.model.unset('companies');
       this.model.unset('rols');
-      info.is_active = true;
+      info.isActive = true;
       this.model.save(info,
       {
         type: 'post',

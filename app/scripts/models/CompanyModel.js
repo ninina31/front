@@ -1,17 +1,18 @@
 define([
-	'backbone',
+  'backbone',
+  'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, Paths ) {
+function( Backbone, BaseModel, Paths ) {
     'use strict';
 
-	/* Return a model class definition */
-	return Backbone.Model.extend({
-		initialize: function() {
-			console.log("initialize a Companymodel model");
-		},
+  /* Return a model class definition */
+  return BaseModel.extend({
+    initialize: function() {
+      console.log("initialize a Companymodel model");
+    },
 
-		defaults: {},
+    defaults: {},
 
     urlRoot: function() {return Paths.url + '/company';}
 

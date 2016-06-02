@@ -14,6 +14,6 @@ function( Backbone, UserModel , Paths) {
 
     model: UserModel,
 
-    url: function() {return Paths.url + '/users';}
+    url: function() {return Paths.url + '/user';}
   });
 });

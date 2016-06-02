@@ -92,7 +92,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
     onSaveQuestionsSuccess: function (hash, response, options) {
       this.collection.each(function (question) {
         var response_id = _.findWhere(hash.message, { client_id: question.get('question_number') });
-        question.set('id', response_id.saved_item_id);
+        question.set({ id: response_id.saved_item_id });
       });
       this.collection.saveProposedAnswers();
     },

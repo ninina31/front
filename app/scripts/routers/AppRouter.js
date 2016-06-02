@@ -1,5 +1,5 @@
 define([
-	'backbone',
+  'backbone',
   'controllers/appController'
 ],
 function(Backbone, appController){
@@ -7,10 +7,10 @@ function(Backbone, appController){
 
   var appController = new appController();
 
-	return Backbone.Marionette.AppRouter.extend({
-		controller: appController,
+  return Backbone.Marionette.AppRouter.extend({
+    controller: appController,
     /* Backbone routes hash */
-		appRoutes: {
+    appRoutes: {
       '': 'home',
       'agregarExamen': 'addTest',
       'login': 'login',
@@ -27,5 +27,5 @@ function(Backbone, appController){
       'editarExamen/:id': 'editTest',
       'verPerfil': 'userProfile'
     }
-	});
+  });
 });

@@ -1,32 +1,32 @@
 define([
-	'backbone',
+  'backbone',
   'underscore',
-	'hbs!tmpl/item/GetTestView_tmpl'
+  'hbs!tmpl/item/GetTestView_tmpl'
 ],
 function( Backbone, _, GettestviewTmpl ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-		initialize: function() {
-			console.log("initialize a Gettestview ItemView");
+    initialize: function() {
+      console.log("initialize a Gettestview ItemView");
       _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail");
       this.model.fetch({
         success: this.renderView
       });
-		},
-		
-    	template: GettestviewTmpl,
+    },
+    
+      template: GettestviewTmpl,
         
 
-    	/* ui selector cache */
-    	ui: {},
+      /* ui selector cache */
+      ui: {},
 
-		/* Ui events hash */
-		events: {
+    /* Ui events hash */
+    events: {
       'click #deleteExam': 'deleteExam'
     },
 
@@ -51,6 +51,6 @@ function( Backbone, _, GettestviewTmpl ) {
       $('.alert.alert-danger').removeClass('hidden');
     }
     
-	});
+  });
 
 });

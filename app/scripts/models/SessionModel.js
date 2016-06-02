@@ -1,27 +1,15 @@
 define([
   'backbone',
+  'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, Paths ) {
+function( Backbone, BaseModel, Paths ) {
     'use strict';
 
   /* Return a model class definition */
-  var session = Backbone.Model.extend({
+  var session = BaseModel.extend({
 
-    urlRoot: function(){ return Paths.url + '/login';},
-
-    defaults: {
-      id: 'id_id',
-      name: 'Alvaro',
-      last_name: 'Chalar',
-      company: {
-        name: 'Wuaki.tv'
-      },
-      rol: {
-        name: 'Manager'
-      },
-      email: 'alvaro.chalar@wuaki.tv'
-    }
+    urlRoot: function(){ return Paths.url + '/user/login';}
 
   });
 

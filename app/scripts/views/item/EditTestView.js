@@ -1,9 +1,10 @@
 define([
   'backbone',
   'underscore',
+  'models/CandidateTestModel',
   'hbs!tmpl/item/TestFormView_tmpl'
 ],
-function( Backbone, _, TestFormViewTmpl) {
+function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,9 +13,12 @@ function( Backbone, _, TestFormViewTmpl) {
     className: 'container',
 
     initialize: function() {
-      _.bindAll(this, "onSaveSuccess", "onSaveFail", 'renderView');
-      this.model.fetch({
-        success: this.renderView
+      _.bindAll(this, 'checkForCandidates', 'errorCandidates', "onSaveSuccess", "onSaveFail", 'renderView');
+      var candidate = new CandidateTestModel({id: this.model.id});
+      debugger
+      candidate.fetch({
+        success: this.checkForCandidates,
+        error: this.errorCandidates,
       });
     },
     
@@ -29,6 +33,20 @@ function( Backbone, _, TestFormViewTmpl) {
     /* Ui events hash */
     events: {
       'click #saveQuiz': 'updateTest'
+    },
+
+    checkForCandidates: function (model, response, options) {
+      // debugger
+      if (response.message.length == 0) {
+        
+      }
+      this.model.fetch({
+        success: this.renderView
+      });
+    },
+
+    errorCandidates: function () {
+      // body...
     },
 
     renderView: function(){

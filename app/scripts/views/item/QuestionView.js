@@ -1,6 +1,6 @@
 define([
-	'backbone',
-	'hbs!tmpl/item/QuestionView_tmpl',
+  'backbone',
+  'hbs!tmpl/item/QuestionView_tmpl',
   'hbs!tmpl/questions/seleccion_tmpl',
   'hbs!tmpl/questions/seleccion_simple_tmpl',
   'hbs!tmpl/questions/abierta_tmpl',
@@ -10,19 +10,19 @@ define([
 function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiertaTmpl, abiertanolimiteTmpl, trueFalseTmpl ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+  /* Return a ItemView class definition */
+  return Backbone.Marionette.ItemView.extend({
 
     tagName: 'fieldset',
 
-		initialize: function(options) {
+    initialize: function(options) {
       console.log("initialize a Questionview ItemView");
       this.is_autocorrect = this.model.get('is_autocorrect');
       this.model.unset('is_autocorrect');
       this.listenTo(this.model, 'getData', this.retrieveInfo);
       this.listenTo(this.model, 'getProposedAnswers', this.retrieveProposedAnswers);
       _.bindAll(this, 'onChangeSelect', 'setAutocorrectAnswers');
-		},
+    },
 
     attributes: function () {
       return {
@@ -30,11 +30,11 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
         'data-id': this.model.get('id')
       }
     },
-		
+    
     template: QuestionviewTmpl,
 
-		/* Ui events hash */
-		events: {
+    /* Ui events hash */
+    events: {
       'change select': 'onChangeSelect'
     },
 
@@ -115,8 +115,8 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
         }
         proposed.push(answer);
       })
-      this.model.set('proposed', proposed);
+      this.model.set({ proposed: proposed });
     },
-	});
+  });
 
 });
