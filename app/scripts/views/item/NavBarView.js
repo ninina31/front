@@ -10,21 +10,11 @@ function( Backbone, SessionModel, NavbarviewTmpl  ) {
   return Backbone.Marionette.ItemView.extend({
 
     initialize: function() {
-      console.log("initialize a Navbarview ItemView");
       this.model = SessionModel;
     },
     
-      template: NavbarviewTmpl,
-        
+      template: NavbarviewTmpl
 
-      /* ui selector cache */
-      ui: {},
-
-    /* Ui events hash */
-    events: {},
-
-    /* on render callback */
-    onRender: function() {}
   });
 
 });

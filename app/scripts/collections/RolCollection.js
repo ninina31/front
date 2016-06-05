@@ -8,12 +8,10 @@ function( Backbone, RolModel , Paths) {
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
-    initialize: function() {
-      console.log("initialize a RolCollection collection");
-    },
 
     model: RolModel,
 
     url: function() {return Paths.url + '/rol';}
+    
   });
 });

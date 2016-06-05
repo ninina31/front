@@ -15,7 +15,6 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
   return Backbone.Marionette.ItemView.extend({
 
     initialize: function() {
-      console.log('initialize a Dotestview ItemView');
       this.clock = {
         minutes: 0,
         seconds: 0
@@ -28,8 +27,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
       $('.bs-example-modal-sm').modal({});
     },
     
-      template: DotestviewTmpl,
-        
+    template: DotestviewTmpl,
 
       /* ui selector cache */
       ui: {

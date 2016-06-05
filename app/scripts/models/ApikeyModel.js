@@ -8,9 +8,6 @@ function( Backbone, BaseModel, Paths ) {
 
   /* Return a model class definition */
   return BaseModel.extend({
-    initialize: function() {
-      console.log("initialize a ApiKey model");
-    },
     
     urlRoot: function() {return Paths.url + '/key';}
 

@@ -12,18 +12,13 @@ function( Backbone, _, GetUserviewTmpl ) {
     className: 'container',
 
     initialize: function() {
-      console.log("initialize a GetUserview ItemView");
       _.bindAll(this, 'showUser', 'onDeleteSuccess', 'onDeleteFail');
       this.model.fetch({
         success: this.showUser
       });
     },
     
-      template: GetUserviewTmpl,
-        
-
-      /* ui selector cache */
-      ui: {},
+    template: GetUserviewTmpl,
 
     /* Ui events hash */
     events: {

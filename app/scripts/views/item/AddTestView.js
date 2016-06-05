@@ -7,13 +7,18 @@ define([
 function( Backbone, _, TestFormViewTmpl, TestModel) {
     'use strict';
 
+  var permit = 1;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log('initialize a TestFormView ItemView');
       _.bindAll(this, 'onSaveSuccess', 'onSaveFail');
     },
     

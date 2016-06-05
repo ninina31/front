@@ -6,13 +6,18 @@ define([
 function( Backbone, _, GetCompanyviewTmpl ) {
     'use strict';
 
+  var permit = 18;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a GetCompanyview ItemView");
       $('[data-toggle="popover"]').popover();
       _.bindAll(this, 'showCompany');
       this.model.fetch({
@@ -20,11 +25,7 @@ function( Backbone, _, GetCompanyviewTmpl ) {
       });
     },
     
-      template: GetCompanyviewTmpl,
-        
-
-      /* ui selector cache */
-      ui: {},
+    template: GetCompanyviewTmpl,
 
     /* Ui events hash */
     events: {

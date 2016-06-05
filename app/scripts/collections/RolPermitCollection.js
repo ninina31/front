@@ -9,5 +9,6 @@ function( Backbone, Paths ) {
   return Backbone.Collection.extend({
 
     url: function() {return Paths.url + '/rol_permit';}
+    
   });
 });

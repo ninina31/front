@@ -8,13 +8,18 @@ define([
 function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
     'use strict';
 
+  var permit = 14;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a EditUserview ItemView");
       _.bindAll(this, 'renderCollection', 'onSaveSuccess', 'onSaveFail');
       this.collection = new CompanyCollection();
       this.collection.fetch({
@@ -89,6 +94,7 @@ function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
       }
       return false;
     }
+    
   });
 
 });

@@ -6,24 +6,25 @@ define([
 function( Backbone, _, GettestviewTmpl ) {
     'use strict';
 
+  var permit = 5;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a Gettestview ItemView");
       _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail");
       this.model.fetch({
         success: this.renderView
       });
     },
     
-      template: GettestviewTmpl,
-        
-
-      /* ui selector cache */
-      ui: {},
+    template: GettestviewTmpl,
 
     /* Ui events hash */
     events: {

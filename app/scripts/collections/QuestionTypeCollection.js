@@ -8,10 +8,10 @@ function( Backbone, QuestionTypeModel, Paths ) {
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
-    initialize: function() {
-      console.log("initialize a Questiontypecollection collection");
-    },
+    
     model: QuestionTypeModel,
+
     url: function() {return Paths.url + '/questiontypes';}
+    
   });
 });

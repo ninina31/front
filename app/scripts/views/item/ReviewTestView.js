@@ -7,20 +7,22 @@ define([
 function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
     'use strict';
 
+  var permit = 8;
+
   /* Return a CompositeView class definition */
   return Backbone.Marionette.CompositeView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a Reviewtestview CompositeView");
       this.collection = new AnswerCollection(this.model.get('anwsers'));
     },
     
       template: ReviewtestviewTmpl,
-
-      /* ui selector cache */
-      ui: {},
 
     /* Ui events hash */
     events: {

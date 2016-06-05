@@ -9,9 +9,6 @@ function( Backbone, BaseModel, Paths, QuestionTypeCollection ) {
 
   /* Return a model class definition */
   return BaseModel.extend({
-    initialize: function() {
-      console.log("initialize a Testmodel model");
-    },
 
     idAttribute: "id_test",
 

@@ -6,13 +6,18 @@ define([
 function( Backbone, ListCompaniesviewTmpl, CompanyCollection ) {
     'use strict';
 
+  var permit = 4;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a ListCompanyView ItemView");
       _.bindAll(this, 'getCompaniesSuccess');
       this.collection = new CompanyCollection();
       this.collection.fetch({
@@ -20,20 +25,12 @@ function( Backbone, ListCompaniesviewTmpl, CompanyCollection ) {
       });
     },
     
-      template: ListCompaniesviewTmpl,
-        
-      /* ui selector cache */
-      ui: {},
-
-    /* Ui events hash */
-    events: {},
+    template: ListCompaniesviewTmpl,
 
     getCompaniesSuccess: function (models) {
       this.trigger('fetched', this);
-    },
+    }
 
-    /* on render callback */
-    onRender: function() {}
   });
 
 });

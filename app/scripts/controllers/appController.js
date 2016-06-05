@@ -15,6 +15,7 @@ define([
   'views/item/AddTestView',
   'views/item/EditUserView',
   'views/item/ProfileView',
+  'views/item/NotFoundView',
   'views/composite/QuestionCreationView',
   'models/TestModel',
   'views/item/AddUserView',
@@ -24,14 +25,13 @@ define([
   'models/UserModel',
   'models/SessionModel'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, NotFoundView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
 
     initialize: function( options ) {
-      console.log("initialize a Appcontroller Controller");
-      _.bindAll(this, 'renderView');
+      _.bindAll(this, 'renderView', 'hasPermission');
     },
 
     addNavBars: function () {
@@ -59,6 +59,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
     addTest: function () {
       this.addNavBars();
       var test = new AddTestView();
+      if (!this.hasPermission(test)){
+        this.showNotFound();
+        return false;
+      }
       App.content.show(test);
       _.bindAll(this, "addQuestions");
       test.listenTo(test, 'testAdded', this.addQuestions);
@@ -157,10 +161,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       App.content.show(view);
     },
 
-    hasPermission: function (page) {
-      var user = SessionModel;
-      var permits = user.get('rol').permits;
-      return permits.indexOf(page) > -1;
+    showNotFound: function () {
+      var notFound = new NotFoundView();
+      App.content.show(view);
     }
 
   });

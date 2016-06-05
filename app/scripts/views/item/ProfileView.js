@@ -7,14 +7,19 @@ define([
 function( Backbone, ApikeyModel, SessionModel, ProfileviewTmpl ) {
     'use strict';
 
+  var permit = 22;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
       _.bindAll(this, 'onApikeySuccess', 'onApikeyFail');
-      console.log("initialize a Profileview ItemView");
       this.model = SessionModel;
     },
     

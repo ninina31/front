@@ -8,14 +8,19 @@ define([
 function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmpl ) {
     'use strict';
 
+  var permit = 11;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
       this.model = new UserModel();
-      console.log("initialize a AddUserview ItemView");
       _.bindAll(this, 'renderCollection', 'onSaveSuccess', 'onSaveFail');
       this.companies = new CompanyCollection();
       this.rol = new RolCollection();

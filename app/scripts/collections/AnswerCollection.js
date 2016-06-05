@@ -8,9 +8,6 @@ function( Backbone, AnswerModel, Paths ) {
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
-    initialize: function() {
-      console.log("initialize a Questioncollection collection");
-    },
 
     model: AnswerModel,
 
@@ -19,5 +16,6 @@ function( Backbone, AnswerModel, Paths ) {
     save: function (options) {
       Backbone.sync('create', this, options);
     }
+
   });
 });

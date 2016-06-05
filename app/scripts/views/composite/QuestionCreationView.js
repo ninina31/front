@@ -19,8 +19,6 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
     className: 'container',
 
     initialize: function() {
-      // this.model.fetch();
-      console.log("initialize a QuestionCreationView CollectionView");
       this.collection = new QuestionCollection();
       this.proposed_answers = new ProposedAnswerCollection();
       this.listenTo(this.collection, 'proposedAdded', this.saveProposedAnswers);

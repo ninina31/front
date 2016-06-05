@@ -8,12 +8,10 @@ function( Backbone, CompanyModel , Paths) {
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
-    initialize: function() {
-      console.log("initialize a CompanyCollection collection");
-    },
 
     model: CompanyModel,
 
     url: function() {return Paths.url + '/company ';}
+    
   });
 });

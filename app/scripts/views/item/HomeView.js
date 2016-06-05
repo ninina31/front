@@ -1,5 +1,5 @@
 define([
-  'backbone',
+	'backbone',
   'models/SessionModel',
   'hbs!tmpl/item/HomeView_tmpl',
   'collections/TestCollection'
@@ -7,23 +7,23 @@ define([
 function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
     'use strict';
 
+  var permit = 4;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a Homeview ItemView");
       this.collection = new TestCollection();
+      this.model = SessionModel;
     },
     
-      template: HomeviewTmpl,
-        
-      /* ui selector cache */
-      ui: {},
-
-    /* Ui events hash */
-    events: {},
+    template: HomeviewTmpl,
 
     render: function () {
       var that = this;
@@ -32,10 +32,6 @@ function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
           that.$el.html(that.template({tests: collection.toJSON()}));
         }
       });
-    },
-
-    /* on render callback */
-    onRender: function() {}
+    }
   });
-
 });

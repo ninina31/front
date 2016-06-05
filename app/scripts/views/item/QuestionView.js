@@ -16,7 +16,6 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
     tagName: 'fieldset',
 
     initialize: function(options) {
-      console.log("initialize a Questionview ItemView");
       this.is_autocorrect = this.model.get('is_autocorrect');
       this.model.unset('is_autocorrect');
       this.listenTo(this.model, 'getData', this.retrieveInfo);

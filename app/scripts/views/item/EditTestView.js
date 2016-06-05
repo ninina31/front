@@ -7,15 +7,20 @@ define([
 function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
     'use strict';
 
+  var permit = 2;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
       _.bindAll(this, 'checkForCandidates', 'errorCandidates', "onSaveSuccess", "onSaveFail", 'renderView');
       var candidate = new CandidateTestModel({id: this.model.id});
-      debugger
       candidate.fetch({
         success: this.checkForCandidates,
         error: this.errorCandidates,
@@ -36,7 +41,6 @@ function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
     },
 
     checkForCandidates: function (model, response, options) {
-      // debugger
       if (response.message.length == 0) {
         
       }
@@ -115,11 +119,8 @@ function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
     },
     onSaveFail: function (model, xhr, options) {
       this.ui.errorMsg.removeClass('hidden'); 
-    },
-
-    /* on render callback */
-    onRender: function() {
     }
+
   });
 
 });

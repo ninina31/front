@@ -14,19 +14,8 @@ function( Backbone, _, AnswerModel, AnswerviewTmpl  ) {
 
     model: AnswerModel,
 
-    initialize: function() {
-      console.log("initialize a Answerview ItemView");
-    },
-    
-      template: AnswerviewTmpl,
+    template: AnswerviewTmpl
 
-      /* ui selector cache */
-      ui: {},
-
-    /* Ui events hash */
-    events: {},
-    /* on render callback */
-    onRender: function() {}
   });
 
 });

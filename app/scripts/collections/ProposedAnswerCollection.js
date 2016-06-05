@@ -8,9 +8,6 @@ function( Backbone, ProposedAnswerModel, Paths ) {
 
   /* Return a collection class definition */
   return Backbone.Collection.extend({
-    initialize: function() {
-      console.log("initialize a ProposedAnswercollection collection");
-    },
 
     model: ProposedAnswerModel,
 
@@ -23,5 +20,6 @@ function( Backbone, ProposedAnswerModel, Paths ) {
     parse: function (collection) {
       return collection.message;
     }
+    
   });
 });

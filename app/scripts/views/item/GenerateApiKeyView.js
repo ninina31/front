@@ -16,7 +16,6 @@ function( Backbone, _, sessionModel, ApikeyModel, GenerateApikeyviewTmpl ) {
     model: ApikeyModel,
 
     initialize: function() {
-      console.log("initialize a Generateapykeyview ItemView");
       var id_user = sessionModel.get('id');
       this.model = new ApikeyModel({id_user: id_user});
     },

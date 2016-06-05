@@ -7,20 +7,18 @@ define([
 function( Backbone, _, CompanyModel, CompanyviewTmpl  ) {
     'use strict';
 
+  var permit = 16;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
-    initialize: function() {
-      console.log("initialize a Companyview ItemView");
+    getPermit: function () {
+      return permit;
     },
-    
-      template: CompanyviewTmpl,
-        
 
-      /* ui selector cache */
-      ui: {},
+    template: CompanyviewTmpl,
 
     /* Ui events hash */
     events: {
@@ -47,10 +45,8 @@ function( Backbone, _, CompanyModel, CompanyviewTmpl  ) {
 
     onSaveFail: function (model, xhr, options) {
       $('.alert.alert-danger').removeClass('hidden');
-    },
+    }
 
-    /* on render callback */
-    onRender: function() {}
   });
 
 });

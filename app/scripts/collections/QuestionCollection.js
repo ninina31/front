@@ -9,7 +9,6 @@ function( Backbone, QuestionModel, Paths ) {
   /* Return a collection class definition */
   return Backbone.Collection.extend({
     initialize: function() {
-      console.log("initialize a Questioncollection collection");
       this.listenTo(this, 'add', function (question) {
         question.set({ question_number: this.length });
       })

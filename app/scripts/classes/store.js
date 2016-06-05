@@ -12,7 +12,7 @@ function( ) {
       return localStorage.setItem(key, JSON.stringify(data));
     },
 
-    "delete": function(key) {
+    delete: function(key) {
       return localStorage.removeItem(key);
     }
   };

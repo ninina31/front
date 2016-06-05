@@ -6,13 +6,18 @@ define([
 function( Backbone, ListUsersviewTmpl, UserCollection ) {
     'use strict';
 
+  var permit = 13;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
+    getPermit: function () {
+      return permit;
+    },
+
     initialize: function() {
-      console.log("initialize a ListUsersview ItemView");
       _.bindAll(this, 'getUsersSuccess');
       this.collection = new UserCollection();
       this.collection.fetch({
@@ -20,20 +25,12 @@ function( Backbone, ListUsersviewTmpl, UserCollection ) {
       });
     },
     
-      template: ListUsersviewTmpl,
-        
-      /* ui selector cache */
-      ui: {},
-
-    /* Ui events hash */
-    events: {},
+    template: ListUsersviewTmpl,
 
     getUsersSuccess: function (models) {
       this.trigger('fetched', this);
-    },
+    }
 
-    /* on render callback */
-    onRender: function() {}
   });
 
 });

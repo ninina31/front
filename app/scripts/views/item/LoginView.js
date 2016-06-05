@@ -67,8 +67,8 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
       var permits = data.filter(function (element) {
         return element.get('id_rol') == rol_id;
       });
-      this.model.set('permits', permits);
-      debugger
+      permits = new Backbone.Collection(permits);
+      this.model.set({permits: permits});
     }
   });
 

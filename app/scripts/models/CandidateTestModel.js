@@ -8,11 +8,6 @@ function( Backbone, BaseModel, Paths ) {
 
   /* Return a model class definition */
   return BaseModel.extend({
-    initialize: function() {
-      console.log("initialize a Candidatetestmodel model");
-    },
-
-    defaults: {},
 
     urlRoot: function() {return Paths.url + '/candidatetests';},
 
