@@ -2,7 +2,7 @@ define([
   'backbone',
   'hbs!tmpl/item/404'
 ],
-function( Backbone, ApikeyModel, SessionModel, NotFoundViewTmpl ) {
+function( Backbone, NotFoundViewTmpl ) {
     'use strict';
 
   /* Return a ItemView class definition */

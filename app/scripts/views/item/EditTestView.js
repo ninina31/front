@@ -20,11 +20,6 @@ function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
 
     initialize: function() {
       _.bindAll(this, 'checkForCandidates', 'errorCandidates', "onSaveSuccess", "onSaveFail", 'renderView');
-      var candidate = new CandidateTestModel({id: this.model.id});
-      candidate.fetch({
-        success: this.checkForCandidates,
-        error: this.errorCandidates,
-      });
     },
     
     template: TestFormViewTmpl,
@@ -38,6 +33,14 @@ function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
     /* Ui events hash */
     events: {
       'click #saveQuiz': 'updateTest'
+    },
+
+    fetchContent: function () {
+      var candidate = new CandidateTestModel({id: this.model.id});
+      candidate.fetch({
+        success: this.checkForCandidates,
+        error: this.errorCandidates,
+      });
     },
 
     checkForCandidates: function (model, response, options) {

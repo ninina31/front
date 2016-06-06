@@ -17,15 +17,18 @@ function( Backbone, ListUsersviewTmpl, UserCollection ) {
       return permit;
     },
 
+    template: ListUsersviewTmpl,
+
     initialize: function() {
       _.bindAll(this, 'getUsersSuccess');
       this.collection = new UserCollection();
+    },
+    
+    fetchContent: function () {
       this.collection.fetch({
         success: this.getUsersSuccess
       });
     },
-    
-    template: ListUsersviewTmpl,
 
     getUsersSuccess: function (models) {
       this.trigger('fetched', this);

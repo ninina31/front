@@ -13,7 +13,7 @@ function( Backbone, _, BaseModel, Paths ) {
     set: function (attributes, options) {
       if (_.isObject(attributes)) {
         _.each(attributes, function (value, key) {
-          if (!_.isObject(value)) {
+          if (_.isString(value)) {
             attributes[key] = _.escape(value);
           }
         });

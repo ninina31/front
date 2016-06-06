@@ -19,9 +19,6 @@ function( Backbone, _, GettestviewTmpl ) {
 
     initialize: function() {
       _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail");
-      this.model.fetch({
-        success: this.renderView
-      });
     },
     
     template: GettestviewTmpl,
@@ -29,6 +26,12 @@ function( Backbone, _, GettestviewTmpl ) {
     /* Ui events hash */
     events: {
       'click #deleteExam': 'deleteExam'
+    },
+
+    fetchContent: function () {
+      this.model.fetch({
+        success: this.renderView
+      });
     },
 
     renderView: function(){

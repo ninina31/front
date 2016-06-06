@@ -20,9 +20,6 @@ function( Backbone, _, GetCompanyviewTmpl ) {
     initialize: function() {
       $('[data-toggle="popover"]').popover();
       _.bindAll(this, 'showCompany');
-      this.model.fetch({
-        success: this.showCompany
-      });
     },
     
     template: GetCompanyviewTmpl,
@@ -30,6 +27,12 @@ function( Backbone, _, GetCompanyviewTmpl ) {
     /* Ui events hash */
     events: {
       'click #deleteCompany': 'deleteCompany'
+    },
+
+    fetchContent: function () {
+      this.model.fetch({
+        success: this.showCompany
+      });
     },
 
     showCompany: function (model) {

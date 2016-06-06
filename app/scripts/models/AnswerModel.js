@@ -7,7 +7,6 @@ function( Backbone, BaseModel ) {
 
   /* Return a model class definition */
   return BaseModel.extend({
-    }
 
     });
 });

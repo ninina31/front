@@ -41,7 +41,6 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
         success: this.onFetchRolSuccess,
         error: this.onSaveFetchRolError
       });
-      Backbone.history.navigate('', {trigger: true});
     },
 
     onFetchRolSuccess: function (data) {
@@ -68,7 +67,9 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
         return element.get('id_rol') == rol_id;
       });
       permits = new Backbone.Collection(permits);
-      this.model.set({permits: permits});
+      var timestamp = Date.now();
+      this.model.set({permits: permits, timestamp: timestamp});
+      this.model.saveUser();
     }
   });
 

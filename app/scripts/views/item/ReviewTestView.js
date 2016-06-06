@@ -33,26 +33,24 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
 
     itemView: AnswerView,
 
+    fetchContent: function () {
+      this.model.fetch({
+        success: this.showContent
+      });
+    },
+
+    showContent: function () {
+      this.trigger('fetched', this);
+    },
+
     calculateScore: function () {
       var sum = _.reduce(Backbone.$('input'), function (memo, obj) {
         obj = $(obj);
         return parseInt(obj.val()) + memo;
       }, 0);
       Backbone.$('#score').html(sum + ' ptos');
-    },
-
-    /* on render callback */
-    onRender: function() {
-       var byQuestion = _.groupBy(_.flatten(this.model.get('proposedAnswer')), function (obj) {
-        return obj.question.id;
-      });
-      var questions = _.map(this.model.get('questions'), function (obj) {
-        obj.proposed_answer = byQuestion[obj.id];
-        obj.anwser = 'prueba';
-        return obj;
-      });
-      // TODO: agregar la parte de la respuesta del candidato
     }
+
   });
 
 });

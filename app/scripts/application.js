@@ -2,10 +2,10 @@ define([
   'backbone',
   'communicator',
   'routers/AppRouter',
-  'models/UserModel'
+  'models/SessionModel'
 ],
 
-function( Backbone, Communicator, AppRouter, UserModel ) {
+function( Backbone, Communicator, AppRouter, SessionModel ) {
     'use strict';
 
   $.fn.serializeObject = function()
@@ -25,8 +25,6 @@ function( Backbone, Communicator, AppRouter, UserModel ) {
      return o;
   };
 
-  Backbone.emulateHTTP = true;
-
   var App = new Backbone.Marionette.Application();
 
   /* Add application regions here */
@@ -36,9 +34,18 @@ function( Backbone, Communicator, AppRouter, UserModel ) {
   /* Add initializers here */
   App.addInitializer( function () {
 
+    var model = SessionModel;
+
+    var logged = model.checkAuth();
+
     var router = new AppRouter();
     Communicator.mediator.trigger("APP:START");
     Backbone.history.start();
+
+    if (!logged) {
+      Backbone.history.navigate('#login', {trigger: true});
+    }
+
 
   });
 

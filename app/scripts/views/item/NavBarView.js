@@ -13,7 +13,17 @@ function( Backbone, SessionModel, NavbarviewTmpl  ) {
       this.model = SessionModel;
     },
     
-      template: NavbarviewTmpl
+    template: NavbarviewTmpl,
+
+    events: {
+      'click #closeSession': 'logoutUser'
+    },
+
+    logoutUser: function (event) {
+      event.preventDefault();
+      this.model.logout();
+      Backbone.history.navigate('login', {trigger: true});
+    }
 
   });
 

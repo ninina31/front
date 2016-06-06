@@ -20,14 +20,14 @@ function( Backbone, _, sessionModel, ApikeyModel, GenerateApikeyviewTmpl ) {
       this.model = new ApikeyModel({id_user: id_user});
     },
     
-      template: GenerateApikeyviewTmpl,
+    template: GenerateApikeyviewTmpl,
 
-      /* ui selector cache */
-      ui: {
-        '#generateApikey': 'generateApikey',
-        '.alert.alert-success': 'successMessage',
-        '.alert.alert-danger': 'errorMessage'
-      },
+    /* ui selector cache */
+    ui: {
+      '#generateApikey': 'generateApikey',
+      '.alert.alert-success': 'successMessage',
+      '.alert.alert-danger': 'errorMessage'
+    },
 
     /* Ui events hash */
     events: {

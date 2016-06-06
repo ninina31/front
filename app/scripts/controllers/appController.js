@@ -31,7 +31,8 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
   return Backbone.Marionette.Controller.extend({
 
     initialize: function( options ) {
-      _.bindAll(this, 'renderView', 'hasPermission');
+      this.model = SessionModel;
+      _.bindAll(this, 'renderView');
     },
 
     addNavBars: function () {
@@ -41,25 +42,38 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
     home: function () {
       this.addNavBars();
       var content = new HomeView();
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       App.content.show(content);
     },
 
     listUsers: function () {
       this.addNavBars();
       var content = new ListUsersView();
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       content.listenTo(content, 'fetched', this.renderView);
     },
 
     listCompanies: function () {
       this.addNavBars();
       var content = new ListCompaniesView();
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
     addTest: function () {
       this.addNavBars();
       var test = new AddTestView();
-      if (!this.hasPermission(test)){
+      if (!this.model.canAccessPage(test)){
         this.showNotFound();
         return false;
       }
@@ -82,6 +96,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
     addCompany: function () {
       this.addNavBars();
       var content = new CompanyView();
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       App.content.show(content);
     },
 
@@ -89,6 +107,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new TestModel({id_test: id});
       var content = new DoTestView({model: model});
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       App.content.show(content);
     },
 
@@ -96,6 +118,11 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new TestModel({id_test: id});
       var content = new GetTestView({model: model});
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -103,6 +130,11 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new CompanyModel({id: id});
       var content = new GetCompanyView({model: model});
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -110,23 +142,29 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new UserModel({ id: id });
       var content = new GetUserView({ model: model });
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       content.listenTo(content, 'fetched', this.renderView);
     },
 
     reviewTest: function (id) {
       this.addNavBars();
       var model = new TestModel({id_test: id});
-      model.fetch({
-        success: function(){
-          var content = new ReviewTestView({ model: model });
-          App.content.show(content);
-        }
-      });
+      var content = new ReviewTestView({ model: model });
+      content.fetchContent();
+      content.listenTo(content, 'fetched', this.renderView);
     },
 
     addUser: function () {
       this.addNavBars();
       var content = new AddUserView();
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -134,6 +172,11 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new UserModel({ id: id });
       var content = new EditUserView({ model: model });
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
 
@@ -141,6 +184,11 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new TestModel({ id_test: id });
       var content = new EditTestView({ model: model });
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
+      content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
       _.bindAll(this, 'updateQuestions');
       content.listenTo(content, 'testEdited', this.updateQuestions);
@@ -163,7 +211,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
 
     showNotFound: function () {
       var notFound = new NotFoundView();
-      App.content.show(view);
+      App.content.show(notFound);
     }
 
   });

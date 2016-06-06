@@ -24,7 +24,6 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
       _.bindAll(this, 'renderCollection', 'onSaveSuccess', 'onSaveFail');
       this.companies = new CompanyCollection();
       this.rol = new RolCollection();
-      Backbone.$.when(this.companies.fetch(), this.rol.fetch()).done(this.renderCollection);
     },
     
     template: AddUserView_tmpl,
@@ -38,6 +37,10 @@ function( Backbone, UserModel, RolCollection, CompanyCollection, AddUserView_tmp
     /* Ui events hash */
     events: {
       'click #saveUser': 'addUser'
+    },
+
+    fetchContent: function () {
+      Backbone.$.when(this.companies.fetch(), this.rol.fetch()).done(this.renderCollection);
     },
     
     renderCollection: function (collection) {

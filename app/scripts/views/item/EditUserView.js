@@ -22,9 +22,6 @@ function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
     initialize: function() {
       _.bindAll(this, 'renderCollection', 'onSaveSuccess', 'onSaveFail');
       this.collection = new CompanyCollection();
-      this.collection.fetch({
-        success: this.renderCollection
-      });
     },
     
     template: UserviewTmpl,
@@ -38,6 +35,12 @@ function( Backbone, _, UserModel, CompanyCollection, UserviewTmpl  ) {
     /* Ui events hash */
     events: {
       'click #saveUser': 'editUser'
+    },
+
+    fetchContent: function () {
+      this.collection.fetch({
+        success: this.renderCollection
+      });
     },
 
     renderCollection: function (collection) {
