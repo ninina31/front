@@ -18,11 +18,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       return permit;
     },
 
-    initialize: function() {
-      this.collection = new AnswerCollection(this.model.get('anwsers'));
-    },
-    
-      template: ReviewtestviewTmpl,
+    template: ReviewtestviewTmpl,
 
     /* Ui events hash */
     events: {
@@ -41,6 +37,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
 
     showContent: function () {
       this.trigger('fetched', this);
+      this.collection = new AnswerCollection(this.model.get('anwsers'));
     },
 
     calculateScore: function () {
