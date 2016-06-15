@@ -13,8 +13,21 @@ function( Backbone, AnswerModel, Paths ) {
 
     url: function() {return Paths.url + '/candidate_question_answer';},
 
+    initialize: function (options) {
+      this.id_test = options.id_test;
+      this.id_candidate = options.id_candidate;
+    },
+
     save: function (options) {
       Backbone.sync('create', this, options);
+    },
+
+    parse: function (response) {
+      var self = this;
+      var result = _.filter(response, function (answer) {
+         return answer.id_proposed_answer.question.id_test == self.id_test && answer.id_candidate.id == self.id_candidate;
+      });
+      return result;
     }
 
   });

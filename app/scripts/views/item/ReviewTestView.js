@@ -14,6 +14,10 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
 
     className: 'container',
 
+    initialize: function() {
+      _.bindAll(this, "showContent");
+    },
+
     getPermit: function () {
       return permit;
     },
@@ -30,14 +34,16 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
     itemView: AnswerView,
 
     fetchContent: function () {
-      this.model.fetch({
-        success: this.showContent
-      });
+      Backbone.$.when(this.model.fetch(), this.collection.fetch()).done(this.showContent);
+    },
+
+    inyectGivenAnswer: function () {
+      
     },
 
     showContent: function () {
+      debugger;
       this.trigger('fetched', this);
-      this.collection = new AnswerCollection(this.model.get('anwsers'));
     },
 
     calculateScore: function () {

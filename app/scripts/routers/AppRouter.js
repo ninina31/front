@@ -17,7 +17,7 @@ function(Backbone, appController){
       'agregarCompania': 'addCompany',
       'presentarExamen/:id': 'doTest',
       'verExamen/:id': 'getTest',
-      'corregirExamen/:id': 'reviewTest',
+      'corregirExamen/:id_test/:id_candidate': 'reviewTest',
       'agregarUsuario': 'addUser',
       'verCompania/:id': 'getCompany',
       'verCorrector/:id': 'getUser',

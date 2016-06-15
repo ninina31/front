@@ -23,9 +23,10 @@ define([
   'views/composite/QuestionUpdateView',
   'models/CompanyModel',
   'models/UserModel',
-  'models/SessionModel'
+  'models/SessionModel',
+  'collections/AnswerCollection'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, NotFoundView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, NotFoundView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel, AnswerCollection ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
@@ -149,10 +150,11 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       content.listenTo(content, 'fetched', this.renderView);
     },
 
-    reviewTest: function (id) {
+    reviewTest: function (id_test, id_candidate) {
       this.addNavBars();
-      var model = new TestModel({id_test: id});
-      var content = new ReviewTestView({ model: model });
+      var model = new TestModel({id_test: id_test});
+      var collection = new AnswerCollection({id_test: id_test, id_candidate: id_candidate});
+      var content = new ReviewTestView({ model: model, collection: collection });
       content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },
