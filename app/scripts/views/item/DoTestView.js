@@ -9,17 +9,23 @@ define([
 function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, AnswerCollection) {
     'use strict';
 
+  var permit = 1;
+
   var interval;
 
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
+
+    getPermit: function () {
+      return permit;
+    },
 
     initialize: function() {
       this.clock = {
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', 'onCandidateSuccess', 'onCandidateFail');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchCandidateTest', 'failFetchCandidateTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', 'onCandidateSuccess', 'onCandidateFail');
       this.candidateTest = new CandidateTestModel({
         id_test: this.model.get('id_test'),
         id_candidate: 1
@@ -42,10 +48,26 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
 
     beginTest: function (e) {
       e.preventDefault();
-      this.candidateTest.save(null, {
-        success: this.successSaveCandidateTest,
-        error: this.failSaveCandidateTest,
+      this.candidateTest.fetch({
+        success: this.successFetchCandidateTest,
+        error: this.failFetchCandidateTest,
       });
+    },
+
+    successFetchCandidateTest: function (response) {
+      var length = response.get('list').length;
+      if (length > 0) {
+        $('.bs-example-modal-sm').modal('show');
+        return false;
+      }
+      response.save(null, {
+        success: this.successSaveCandidateTest,
+        error: this.failSaveCandidateTest
+      });
+    },
+
+    failFetchCandidateTest: function () {
+      $('.bs-example-modal-sm').modal('show');
     },
 
     successSaveCandidateTest: function () {
@@ -56,7 +78,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
     },
 
     failSaveCandidateTest: function () {
-      $('.bs-example-modal-sm').modal('show');
+      
     },
 
     successFetchTest: function () {
@@ -108,23 +130,12 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
     },
 
     onSaveSuccess: function (model) {
-      this.candidateTest.save(null, {
-        success: this.onCandidateSuccess,
-        error: this.onCandidateFail
-      });
-    },
-
-    onSaveFail: function (model) {
-      $('.js-error').removeClass('hidden');
-    },
-
-    onCandidateSuccess: function () {
       $('#exam').remove();
       $('#examSent').removeClass('hidden');
     },
 
-    onCandidateFail: function () {
-      console.log('fail');
+    onSaveFail: function (model) {
+      $('.js-error').removeClass('hidden');
     },
 
     getFormData: function () {

@@ -62,6 +62,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
     },
 
     savePermitsOnUser: function (data) {
+      debugger
       var rol_id = this.model.get('rol_id').id;
       var permits = data.filter(function (element) {
         return element.get('id_rol') == rol_id;

@@ -20,12 +20,15 @@ function( Backbone, ListCompaniesviewTmpl, CompanyCollection ) {
     initialize: function() {
       _.bindAll(this, 'getCompaniesSuccess');
       this.collection = new CompanyCollection();
+    },
+    
+    template: ListCompaniesviewTmpl,
+
+    fetchContent: function () {
       this.collection.fetch({
         success: this.getCompaniesSuccess
       });
     },
-    
-    template: ListCompaniesviewTmpl,
 
     getCompaniesSuccess: function (models) {
       this.trigger('fetched', this);
