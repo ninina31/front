@@ -1,9 +1,10 @@
 define([
   'backbone',
+  'underscore',
   'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, BaseModel, Paths ) {
+function( Backbone, _, BaseModel, Paths ) {
     'use strict';
 
   /* Return a model class definition */
@@ -12,7 +13,9 @@ function( Backbone, BaseModel, Paths ) {
     urlRoot: function() {return Paths.url + '/candidatetests';},
 
     parse: function (response) {
-      return { id: response.message };
+      response = _.findWhere(response, {id: this.get('id_test')});
+      var result = new Backbone.Collection(response);
+      return { list: result };
     }
 
     });

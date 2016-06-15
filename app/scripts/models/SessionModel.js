@@ -17,9 +17,10 @@ function( Backbone, Store, BaseModel, Paths ) {
     },
 
     parse: function (response) {
-      response.logged = true;
-      response.timestamp = Date.now;
-      return Backbone.Collection.prototype.parse.call(this, response);
+      Store.set('apikey', response.message.key);
+      response.message.user.logged = true;
+      response.message.user.timestamp = Date.now;
+      return Backbone.Collection.prototype.parse.call(this, response.message.user);
     },
 
     checkAuth: function () {

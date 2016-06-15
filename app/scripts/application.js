@@ -46,7 +46,6 @@ function( Backbone, Communicator, AppRouter, SessionModel ) {
       Backbone.history.navigate('#login', {trigger: true});
     }
 
-
   });
 
   window.App = App;
