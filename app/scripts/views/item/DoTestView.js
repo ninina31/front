@@ -25,7 +25,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchCandidateTest', 'failFetchCandidateTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', 'onCandidateSuccess', 'onCandidateFail');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchCandidateTest', 'failFetchCandidateTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail');
       this.candidateTest = new CandidateTestModel({
         id_test: this.model.get('id_test'),
         id_candidate: 1
@@ -60,10 +60,11 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         $('.bs-example-modal-sm').modal('show');
         return false;
       }
-      response.save(null, {
-        success: this.successSaveCandidateTest,
-        error: this.failSaveCandidateTest
-      });
+      this.successSaveCandidateTest();
+      // response.save(null, {
+      //   success: this.successSaveCandidateTest,
+      //   error: this.failSaveCandidateTest
+      // });
     },
 
     failFetchCandidateTest: function () {

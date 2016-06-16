@@ -29,12 +29,12 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       'keyup input': 'calculateScore'
     },
 
-    itemViewContainer: 'questions',
+    itemViewContainer: '.questions',
 
     itemView: AnswerView,
 
     fetchContent: function () {
-      Backbone.$.when(this.model.fetch(), this.collection.fetch()).done(this.showContent);
+      Backbone.$.when(this.model.fetch(), this.collection.fetch({reset: true})).done(this.showContent);
     },
 
     inyectGivenAnswer: function () {
@@ -42,7 +42,6 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
     },
 
     showContent: function () {
-      debugger;
       this.trigger('fetched', this);
     },
 

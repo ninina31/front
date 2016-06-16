@@ -1,10 +1,11 @@
 define([
   'backbone',
   'underscore',
+  'classes/store',
   'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, _, BaseModel, Paths ) {
+function( Backbone, _, Store, BaseModel, Paths ) {
     'use strict';
 
   /* Return a model class definition */
@@ -21,7 +22,16 @@ function( Backbone, _, BaseModel, Paths ) {
         options = _.escape(options);
       }
       return Backbone.Model.prototype.set.call(this, attributes, options);
-    }
+    },
+
+    // fetch: function (options) {
+    //   options.data = this._getApiKey();
+    //   return Backbone.prototype.fetch(this, options);
+    // },
+
+    // _getApiKey: function () {
+    //   return Store.get('apikey');
+    // }
 
     });
 });

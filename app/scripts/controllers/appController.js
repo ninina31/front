@@ -155,6 +155,10 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       var model = new TestModel({id_test: id_test});
       var collection = new AnswerCollection({id_test: id_test, id_candidate: id_candidate});
       var content = new ReviewTestView({ model: model, collection: collection });
+      if (!this.model.canAccessPage(content)){
+        this.showNotFound();
+        return false;
+      }
       content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
     },

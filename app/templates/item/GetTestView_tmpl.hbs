@@ -1,5 +1,11 @@
 {{!empty GettestviewTmpl template}}
 
+<a href="#editarExamen/{{id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
+
+<button type="button" class="btn btn-default btn-primary" data-toggle="popover" title="Introduzca el correo electrónico del candidato a agregar" data-content="<input type='email' id='email' class='form-control' placeholder='Usuario'><button class='btn btn-default btn-primary' id='asignCandidate'>Agregar</button>">Generar candidato para examen</button>
+
+<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>
+
 <h3>{{name}}</h3>
 <p>Tiempo: {{duration}} min</p>
 <p>Tiempo extra: {{extra_time}} min</p>
@@ -39,7 +45,3 @@
     </div>
   {{/each}}
 </div>
-
-<a href="#editarExamen/{{id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
-
-<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>

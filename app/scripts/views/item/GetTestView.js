@@ -1,9 +1,11 @@
 define([
   'backbone',
   'underscore',
+  'models/CandidateModel',
+  'models/SessionModel',
   'hbs!tmpl/item/GetTestView_tmpl'
 ],
-function( Backbone, _, GettestviewTmpl ) {
+function( Backbone, _, CandidateModel, SessionModel, GettestviewTmpl ) {
     'use strict';
 
   var permit = 5;
@@ -18,14 +20,15 @@ function( Backbone, _, GettestviewTmpl ) {
     },
 
     initialize: function() {
-      _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail");
+      _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail", 'onSaveSuccess', 'onSaveError');
     },
     
     template: GettestviewTmpl,
 
     /* Ui events hash */
     events: {
-      'click #deleteExam': 'deleteExam'
+      'click #deleteExam': 'deleteExam',
+      'click #asignCandidate': 'asignCandidateToTest'
     },
 
     fetchContent: function () {
@@ -53,6 +56,34 @@ function( Backbone, _, GettestviewTmpl ) {
 
     onDeleteFail: function () {
       $('.alert.alert-danger').removeClass('hidden');
+    },
+
+    asignCandidateToTest: function (event) {
+      event.preventDefault();
+      var id_test = this.model.id;
+      debugger
+      var id_user = SessionModel.id;
+      var emails = { email: $('#email').val() };
+      emails = [emails];
+      var candidate = new CandidateModel();
+      candidate.save({
+        id_test: id_test,
+        id_user: id_user,
+        emails: emails
+      },
+      {
+        success: this.onSaveSuccess,
+        error: this.onSaveError
+      }
+      );
+    },
+
+    onSaveSuccess: function () {
+      debugger
+    },
+
+    onSaveError: function () {
+      debugger
     }
     
   });
