@@ -1,14 +1,13 @@
 define([
   'backbone',
   'classes/store',
-  'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, Store, BaseModel, Paths ) {
+function( Backbone, Store, Paths ) {
     'use strict';
 
   /* Return a model class definition */
-  var session = BaseModel.extend({
+  var session = Backbone.Model.extend({
 
     urlRoot: function(){ return Paths.url + '/user/login';},
 
@@ -25,7 +24,6 @@ function( Backbone, Store, BaseModel, Paths ) {
 
     checkAuth: function () {
       var user = Store.get('user');
-      user = JSON.parse(user);
       if (user != undefined) {
         user.permits = new Backbone.Collection(user.permits);
         this.set(user);

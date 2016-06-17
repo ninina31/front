@@ -25,7 +25,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
       _.each(this.model.get('questions'), function (question) {
         question.is_autocorrect = context.model.get('is_autocorrect');
         question.q_types = context.model.get('question_types').toJSON();
-        question.id_test = question.test;
+        question.id_test = question.id_test;
         context.collection.add(question);
       });
       this.proposed_answers = new ProposedAnswerCollection();

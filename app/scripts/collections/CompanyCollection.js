@@ -1,17 +1,18 @@
 define([
   'backbone',
+  'collections/BaseCollection',
   'models/CompanyModel',
   'config/paths'
 ],
-function( Backbone, CompanyModel , Paths) {
+function( Backbone, BaseCollection, CompanyModel , Paths) {
     'use strict';
 
   /* Return a collection class definition */
-  return Backbone.Collection.extend({
+  return BaseCollection.extend({
 
     model: CompanyModel,
 
-    url: function() {return Paths.url + '/company ';}
+    url: function() {return Paths.url + '/company';}
     
   });
 });

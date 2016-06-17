@@ -1,11 +1,10 @@
 define([
   'backbone',
-  'underscore',
   'models/CandidateModel',
   'models/SessionModel',
   'hbs!tmpl/item/GetTestView_tmpl'
 ],
-function( Backbone, _, CandidateModel, SessionModel, GettestviewTmpl ) {
+function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
     'use strict';
 
   var permit = 5;
@@ -61,7 +60,6 @@ function( Backbone, _, CandidateModel, SessionModel, GettestviewTmpl ) {
     asignCandidateToTest: function (event) {
       event.preventDefault();
       var id_test = this.model.id;
-      debugger
       var id_user = SessionModel.id;
       var emails = { email: $('#email').val() };
       emails = [emails];

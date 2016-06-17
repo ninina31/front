@@ -5,7 +5,7 @@ function( ) {
 
   var store = {
     get: function(key) {
-      return localStorage.getItem(key);
+      return JSON.parse(localStorage.getItem(key));
     },
 
     set: function(key, data) {

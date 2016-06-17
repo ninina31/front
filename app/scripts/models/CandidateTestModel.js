@@ -1,10 +1,9 @@
 define([
   'backbone',
-  'underscore',
   'models/BaseModel',
   'config/paths'
 ],
-function( Backbone, _, BaseModel, Paths ) {
+function( Backbone, BaseModel, Paths ) {
     'use strict';
 
   /* Return a model class definition */
