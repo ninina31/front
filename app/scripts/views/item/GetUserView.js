@@ -6,6 +6,8 @@ define([
 function( Backbone, _, GetUserviewTmpl ) {
     'use strict';
 
+  var permit = 12;
+
   /* Return a ItemView class definition */
   return Backbone.Marionette.ItemView.extend({
 
@@ -13,9 +15,10 @@ function( Backbone, _, GetUserviewTmpl ) {
 
     initialize: function() {
       _.bindAll(this, 'showUser', 'onDeleteSuccess', 'onDeleteFail');
-      this.model.fetch({
-        success: this.showUser
-      });
+    },
+
+    getPermit: function () {
+      return permit;
     },
     
     template: GetUserviewTmpl,
@@ -23,6 +26,12 @@ function( Backbone, _, GetUserviewTmpl ) {
     /* Ui events hash */
     events: {
       'click #deleteUser': 'deleteUser'
+    },
+
+    fetchContent: function () {
+      this.model.fetch({
+        success: this.showUser
+      });
     },
 
     showUser: function (model) {

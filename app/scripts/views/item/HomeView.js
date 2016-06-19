@@ -19,19 +19,28 @@ function( Backbone, SessionModel, HomeviewTmpl, TestCollection ) {
     },
 
     initialize: function() {
+      _.bindAll(this, 'onFetchSuccess', 'onFetchError');
       this.collection = new TestCollection();
       this.model = SessionModel;
+    },
+
+    fetchContent: function () {
+      this.collection.fetch({
+        success: this.onFetchSuccess,
+        error: this.onFetchError
+      });
     },
     
     template: HomeviewTmpl,
 
-    render: function () {
-      var that = this;
-      this.collection.fetch({
-        success: function (collection) {
-          that.$el.html(that.template({tests: collection.toJSON()}));
-        }
-      });
+    onFetchSuccess: function () {
+      this.model.set({tests: this.collection.toJSON()});
+      this.trigger('fetched', this);
+    },
+
+    onFetchError: function () {
+      // body...
     }
+
   });
 });

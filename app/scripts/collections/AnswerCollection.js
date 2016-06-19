@@ -1,13 +1,14 @@
 define([
   'backbone',
+  'collections/BaseCollection',
   'models/AnswerModel',
   'config/paths'
 ],
-function( Backbone, AnswerModel, Paths ) {
+function( Backbone, BaseCollection, AnswerModel, Paths ) {
     'use strict';
 
   /* Return a collection class definition */
-  return Backbone.Collection.extend({
+  return BaseCollection.extend({
 
     model: AnswerModel,
 

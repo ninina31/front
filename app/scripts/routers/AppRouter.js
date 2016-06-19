@@ -25,7 +25,9 @@ function(Backbone, appController){
       'listarUsuarios': 'listUsers',
       'editarUsuario/:id': 'editUser',
       'editarExamen/:id': 'editTest',
-      'verPerfil': 'userProfile'
+      'verUsuario/:id': 'getUser',
+      'verPerfil': 'userProfile',
+      '*path': 'showNotFound'
     }
   });
 });

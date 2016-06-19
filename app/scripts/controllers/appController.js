@@ -33,7 +33,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
 
     initialize: function( options ) {
       this.model = SessionModel;
-      _.bindAll(this, 'renderView');
+      _.bindAll(this, 'renderView', 'login');
     },
 
     addNavBars: function () {
@@ -47,7 +47,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      App.content.show(content);
+      this.prepareView(content);
     },
 
     listUsers: function () {
@@ -57,7 +57,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     listCompanies: function () {
@@ -67,8 +67,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     addTest: function () {
@@ -123,8 +122,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     getCompany: function (id) {
@@ -135,8 +133,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     getUser: function (id) {
@@ -147,7 +144,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     reviewTest: function (id_test, id_candidate) {
@@ -159,8 +156,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     addUser: function () {
@@ -170,8 +166,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     editUser: function (id) {
@@ -182,8 +177,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
     },
 
     editTest: function (id) {
@@ -194,8 +188,7 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
         this.showNotFound();
         return false;
       }
-      content.fetchContent();
-      content.listenTo(content, 'fetched', this.renderView);
+      this.prepareView(content);
       _.bindAll(this, 'updateQuestions');
       content.listenTo(content, 'testEdited', this.updateQuestions);
     },
@@ -218,6 +211,12 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
     showNotFound: function () {
       var notFound = new NotFoundView();
       App.content.show(notFound);
+    },
+
+    prepareView: function (content) {
+      content.fetchContent();
+      content.listenTo(content, 'fetched', this.renderView);
+      content.listenTo(content, 'invalidKey', this.login);
     }
 
   });

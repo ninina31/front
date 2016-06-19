@@ -9,6 +9,10 @@ function( Backbone, SessionModel, Store ) {
   /* Return a model class definition */
   return Backbone.Model.extend({
 
+    initialize: function () {
+      _.bindAll(this, 'triggerError');
+    },
+
     set: function (attributes, options) {
       if (_.isObject(attributes)) {
         _.each(attributes, function (value, key) {
@@ -25,20 +29,31 @@ function( Backbone, SessionModel, Store ) {
     fetch: function (options) {
       options = options || {};
       options.data = {
-        apikey: this._getApiKey(),
+        key: this._getApiKey(),
         id_user: this._getUserId()
       };
-      return Backbone.Model.prototype.fetch.call(this, options);
+      var promise = Backbone.Model.prototype.fetch.call(this, options);
+      promise.then(null, this.triggerError);
+      return promise;
+    },
+
+    triggerError: function (jqhxr, textStatus) {
+      if (textStatus.message.indexOf('apikey') > 0) {
+        SessionModel.logout();
+        this.trigger('invalidkey');
+      }
     },
 
     save: function (attrs, options) {
       var data = {
-        apikey: this._getApiKey(),
+        key: this._getApiKey(),
         id_user: this._getUserId()
       };
       data = $.param(data);
       this.url = this.url()+ '?' + data;
-      return Backbone.Model.prototype.save.call(this, attrs, options);
+      var promise = Backbone.Model.prototype.save.call(this, attrs, options);
+      promise.then(null, this.triggerError);
+      return promise;
     },
 
     _getApiKey: function () {

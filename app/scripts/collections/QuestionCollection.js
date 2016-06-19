@@ -1,13 +1,14 @@
 define([
   'backbone',
+  'collections/BaseCollection',
   'models/QuestionModel',
   'config/paths'
 ],
-function( Backbone, QuestionModel, Paths ) {
+function( Backbone, BaseCollection, QuestionModel, Paths ) {
     'use strict';
 
   /* Return a collection class definition */
-  return Backbone.Collection.extend({
+  return BaseCollection.extend({
     initialize: function() {
       this.listenTo(this, 'add', function (question) {
         question.set({ question_number: this.length });

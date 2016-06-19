@@ -27,7 +27,8 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
     /* Ui events hash */
     events: {
       'click #deleteExam': 'deleteExam',
-      'click #asignCandidate': 'asignCandidateToTest'
+      'click #asignCandidate': 'asignCandidateToTest',
+      'click #addEmailField': 'addEmailField'
     },
 
     fetchContent: function () {
@@ -61,13 +62,16 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
       event.preventDefault();
       var id_test = this.model.id;
       var id_user = SessionModel.id;
-      var emails = { email: $('#email').val() };
-      emails = [emails];
+      var emails = $('.email');
+      var emailsParam = [];
+      _.each(emails, function (email) {
+        emailsParam.push({email: email.value});
+      });
       var candidate = new CandidateModel();
       candidate.save({
         id_test: id_test,
         id_user: id_user,
-        emails: emails
+        emails: emailsParam
       },
       {
         success: this.onSaveSuccess,
@@ -82,6 +86,10 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
 
     onSaveError: function () {
       debugger
+    },
+
+    addEmailField: function () {
+      $('.emails').append("<input type='email' class='email form-control' placeholder='Usuario'>");
     }
     
   });
