@@ -14,10 +14,6 @@ function( Backbone, BaseCollection, ProposedAnswerModel, Paths ) {
 
     url: function() {return Paths.url + '/proposedanswers';},
 
-    save: function (options) {
-      Backbone.sync('create', this, options);
-    },
-
     parse: function (collection) {
       return collection.message;
     }

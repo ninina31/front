@@ -9,6 +9,10 @@ function( Backbone, SessionModel, Store ) {
   /* Return a collection class definition */
   return Backbone.Collection.extend({
 
+    initialize: function () {
+      _.bindAll(this, 'triggerError');
+    },
+
     fetch: function (options) {
       options = options || {};
       options.data = {
@@ -40,8 +44,9 @@ function( Backbone, SessionModel, Store ) {
       return SessionModel.id;
     },
 
-    triggerError: function (jqhxr, textStatus) {
-      if (textStatus.message.indexOf('apikey') > 0) {
+    triggerError: function (jqhxr) {
+      debugger
+      if (jqhxr.responseText.indexOf('ApiKey') > 0) {
         SessionModel.logout();
         this.trigger('invalidkey');
       }

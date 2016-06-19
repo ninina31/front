@@ -37,17 +37,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       Backbone.$.when(this.model.fetch(), this.collection.fetch({reset: true})).done(this.showContent);
     },
 
-    injectGivenAnswer: function () {
-      debugger
-      var questions = this.model.get('questions');
-      // var answers = 
-      _.each(questions, function (question) {
-        var proposed_answer = 
-      });
-    },
-
     showContent: function () {
-      this.injectGivenAnswer();
       this.trigger('fetched', this);
     },
 

@@ -216,7 +216,12 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
     prepareView: function (content) {
       content.fetchContent();
       content.listenTo(content, 'fetched', this.renderView);
-      content.listenTo(content, 'invalidKey', this.login);
+      if (content.model != undefined) {
+        content.listenTo(content.model, 'invalidkey', this.login);
+      }
+      if (content.collection != undefined) {
+        content.listenTo(content.collection, 'invalidkey', this.login);
+      }
     }
 
   });

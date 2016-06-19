@@ -21,7 +21,7 @@ function( Backbone, BaseCollection, QuestionModel, Paths ) {
 
     save: function (options) {
       this.saveData();
-      Backbone.sync('create', this, options);
+      return BaseCollection.prototype.save.call(this, options);
     },
 
     saveData: function () {

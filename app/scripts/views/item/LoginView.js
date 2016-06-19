@@ -36,6 +36,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
     },
 
     onSaveSuccess: function () {
+      $('.alert-danger').addClass('hidden');
       var rol_permit = new RolPermitCollection();
       rol_permit.fetch({
         success: this.onFetchRolSuccess,
@@ -51,8 +52,9 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
     onFetchRolError: function () {
     },
 
-    onSaveError: function () {
-      // body...
+    onSaveError: function (jqhxr, response) {
+      $('.alert-danger').html(JSON.parse(response.responseText).message);
+      $('.alert-danger').removeClass('hidden');
     },
 
     getData: function () {

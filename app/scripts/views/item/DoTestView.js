@@ -28,7 +28,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
       _.bindAll(this, 'finishTime', 'disableTest', 'successFetchCandidateTest', 'failFetchCandidateTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail');
       this.candidateTest = new CandidateTestModel({
         id_test: this.model.get('id_test'),
-        id_candidate: 1
+        id_candidate: 9
       });
       $('.bs-example-modal-sm').modal({});
     },
@@ -55,16 +55,13 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
     },
 
     successFetchCandidateTest: function (response) {
+      debugger
       var length = response.get('list').length;
       if (length > 0) {
         $('.bs-example-modal-sm').modal('show');
         return false;
       }
       this.successSaveCandidateTest();
-      // response.save(null, {
-      //   success: this.successSaveCandidateTest,
-      //   error: this.failSaveCandidateTest
-      // });
     },
 
     failFetchCandidateTest: function () {
@@ -146,7 +143,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         var answer = form_group.find('[name*=result-]');
         var id_question = parseInt(form_group.data('question'));
         var response = {
-          candidate_id : 1,
+          candidate_id : 9,
           proposedAnswer_id: answer.data('proposed'),
           answer: answer.val(),
           file: '',

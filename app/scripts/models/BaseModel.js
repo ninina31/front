@@ -37,8 +37,8 @@ function( Backbone, SessionModel, Store ) {
       return promise;
     },
 
-    triggerError: function (jqhxr, textStatus) {
-      if (textStatus.message.indexOf('apikey') > 0) {
+    triggerError: function (jqhxr) {
+      if (jqhxr.responseText.indexOf('ApiKey') > 0) {
         SessionModel.logout();
         this.trigger('invalidkey');
       }

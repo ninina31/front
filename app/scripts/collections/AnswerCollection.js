@@ -17,10 +17,7 @@ function( Backbone, BaseCollection, AnswerModel, Paths ) {
     initialize: function (options) {
       this.id_test = options.id_test;
       this.id_candidate = options.id_candidate;
-    },
-
-    save: function (options) {
-      Backbone.sync('create', this, options);
+      BaseCollection.prototype.initialize.call(this, options);
     },
 
     parse: function (response) {
