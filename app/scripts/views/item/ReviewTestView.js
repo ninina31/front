@@ -10,7 +10,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
   var permit = 8;
 
   /* Return a CompositeView class definition */
-  return Backbone.Marionette.CompositeView.extend({
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
@@ -29,9 +29,11 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       'keyup input': 'calculateScore'
     },
 
-    itemViewContainer: '.questions',
-
-    itemView: AnswerView,
+    onRender: function () {
+      this.collection.each(function (element, index) {
+        $('[data-id='+element.get('id_proposed_answer').id+']').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>');
+      })
+    },
 
     fetchContent: function () {
       Backbone.$.when(this.model.fetch(), this.collection.fetch({reset: true})).done(this.showContent);

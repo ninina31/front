@@ -1,0 +1,16 @@
+{{!empty seleccionSimpleTmpl template}}
+
+<div class="selection">
+
+  <div class="form-group row">
+    <label for="options" class="col-sm-6 control-label">{{answer}}</label>
+    <div class="col-sm-2 text-center">
+      {{#if is_correct}}<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>{{/if}}
+    </div>
+    <div class="col-sm-2 text-center" data-id="{{id}}"></div>
+    <div class="col-sm-2 text-center">
+      <input type="number" class="form-control" name="score" value="{{score}}"/>
+    </div>
+  </div>
+
+</div>

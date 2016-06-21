@@ -3,7 +3,42 @@
 <h3>{{name}}</h3>
 <p>Tiempo: {{duration}} min</p>
 <p>Tiempo extra: {{extra_time}} min</p>
-<p>Instrucciones: {{instructions}}</p><br>
 
 <div id="score">0 ptos</div>
-<div class="questions"></div>
+<div class="questions">
+
+{{#each questions as |question number|}}
+
+<div class="form-group row">
+  <div class="col-sm-12">
+    <label for="description" class="control-label">{{description}}</label>
+    <div class="form-group row">
+      <div class="col-sm-6 control-label">Opciones Respuesta</div>
+      <div class="col-sm-2 control-label text-center">Opción correcta</div>
+      <div class="col-sm-2 control-label text-center">Opción Usuario</div>
+      <div class="col-sm-2 control-label text-center">Puntaje Respuesta</div>
+    </div>
+	{{#each proposed_answer as |answer number|}}
+		{{#compare question.type.id '==' 1}}
+			{{> templates/answers/seleccion_tmpl}}
+		{{/compare}}
+		{{#compare question.type.id '==' 2}}
+  			{{> templates/answers/seleccion_tmpl}}
+		{{/compare}}
+		{{#compare question.type.id '==' 3}}
+  			{{> templates/questions/abierta_tmpl}}
+		{{/compare}}
+		{{#compare question.type.id '==' 4}}
+  			{{> templates/questions/abierta_tmpl}}
+		{{/compare}}
+		{{#compare question.type.id '==' 5}}
+  			{{> templates/questions/seleccion_tmpl}}
+		{{/compare}}
+  	{{/each}}
+  </div>
+</div>
+
+{{/each}}
+
+
+</div>
