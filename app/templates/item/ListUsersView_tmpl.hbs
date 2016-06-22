@@ -1,18 +1,22 @@
 {{!empty ListusersviewTmpl template}}
 
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+
 <h4>Usuarios</h4>
 
 <table class="table">
   <thead>
     <tr>
       <th>Nombre y Apellido</th>
-      <th>¿Está activo?</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   {{#each items}}
     <tr>
       <td><a href="#verUsuario/{{id}}">{{name}} {{lastname}}</a></td>
-      <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
+      <td><a class="btn btn-default btn-primary" href="#editarUsuario/{{id}}">Editar</a></td>
+      <td><a class="btn btn-default btn-danger" data-user-id="{{id}}">Eliminar</a></td>
     </tr>
   {{/each}}
 </table>

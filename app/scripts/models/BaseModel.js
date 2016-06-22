@@ -68,6 +68,23 @@ function( Backbone, SessionModel, Store ) {
       return promise;
     },
 
+    destroy: function (options) {
+      var data = {
+        key: this._getApiKey()
+      };
+      data = $.param(data);
+      var url = _.result(this, 'urlRoot') || _.result(this, 'url');
+      if (!this.isNew()) {
+        url = url + '/' + this.id;
+      }
+      if (options.url == undefined) {
+        options.url = url + '?' + data;
+      }
+      var promise = Backbone.Model.prototype.destroy.call(this, options);
+      promise.then(null, this.triggerError);
+      return promise;
+    },
+
     _getApiKey: function () {
       return Store.get('apikey');
     }

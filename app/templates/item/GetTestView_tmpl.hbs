@@ -43,6 +43,10 @@
 <a href="#editarExamen/{{id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
 
 <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal">Generar candidatos para examen</button>
+
+<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>
+
+<button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#candidateModal">Ver candidatos asignados al examen</button>
   
 <!-- Modal -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -65,23 +69,36 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th class="text-center">Email del candidato</th>
-      <th class="text-center">Fecha de asignación</th>
-      <th class="text-center">Fecha de presentación</th>
-      <th class="text-center">Fecha de entrega</th>
-    </tr>
-  </thead>
-  {{#each items}}
-    <tr class="text-center">
-      <td>{{id_candidate.email}}</td>
-      <td class="text-center">{{created_at}}</td>
-      <td class="text-center">{{started}}</td>
-      <td class="text-center">{{submitted}}</td>
-    </tr>
-  {{/each}}
-</table>
+<!-- Modal -->
+<div class="modal fade" id="candidateModal" tabindex="-1" role="dialog" aria-labelledby="myCandidateModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myCandidateModalLabel">Candidatos asociados al examen</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-center">Email del candidato</th>
+              <th class="text-center">Fecha de asignación</th>
+              <th class="text-center">Fecha de presentación</th>
+              <th class="text-center">Fecha de entrega</th>
+              <th></th>
+            </tr>
+          </thead>
+          {{#each items}}
+            <tr class="text-center">
+              <td>{{id_candidate.email}}</td>
+              <td class="text-center">{{created_at}}</td>
+              <td class="text-center">{{started}}</td>
+              <td class="text-center">{{submitted}}</td>
+              <td class="text-center"><a href="#corregirExamen/{{../id_test}}/{{id_candidate.id}}" type="button" class="btn btn-default btn-primary">Corregir Examen</a></td>
+            </tr>
+          {{/each}}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

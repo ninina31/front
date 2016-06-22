@@ -20,7 +20,7 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
     },
 
     initialize: function() {
-      _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail", 'onSaveSuccess', 'onSaveError');
+      _.bindAll(this, 'renderView', 'onDeleteSuccess', 'onDeleteFail', 'onSaveSuccess', 'onSaveError');
       this.collection = new CandidateTestCollection();
     },
     
@@ -34,7 +34,7 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
     },
 
     fetchContent: function () {
-      Backbone.$.when(this.model.fetch()).done(this.renderView);
+      Backbone.$.when(this.model.fetch(), this.collection.fetch()).done(this.renderView);
     },
 
     renderView: function(){
@@ -100,8 +100,16 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
       if (this.collection) {
         var candidate_tests = this.collection.toJSON();
         data.items = _.filter(candidate_tests, function (ct) {
-          return ct.id_test == this.model.id;
+          return ct.id_test.id_test == this.model.id;
         }, this);
+        _.each(data.items, function (ct) {
+          var dateStarted = new Date(ct.started);
+          var dateSubmitted = new Date(ct.submitted);
+          var dateCreated = new Date(ct.created_at);
+          ct.started = dateStarted.toUTCString();
+          ct.submitted = dateSubmitted.toUTCString();
+          ct.created_at = dateCreated.toDateString();
+        })
       }
 
       return data;

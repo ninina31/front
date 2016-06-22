@@ -2,18 +2,21 @@
 
 <h4>Bienvenido al portal de exámenes MPWAR!</h4>
 
-<div class="alert alert-success hidden" role="alert">El examen se ha creado exitosamente!</div>
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+
 <table class="table">
   <thead>
     <tr>
       <th>Nombre del examen</th>
-      <th>¿Está activo?</th>
+      <th class="text-center">¿Está activo?</th>
+      <th></th>
     </tr>
   </thead>
   {{#each items}}
     <tr>
       <td><a href="#verExamen/{{id_test}}">{{name}}</a></td>
-      <td>{{#if is_active}}Sí{{else}}No{{/if}}</td>
+      <td class="text-center">{{#if is_active}}Sí{{else}}No{{/if}}</td>
+      <td class="text-center"><a class="btn btn-default {{#if is_active}}btn-danger{{else}}btn-success{{/if}} btn-activate" data-test-id="{{id_test}}" data-active="{{is_active}}">{{#if is_active}}Desactivar{{else}}Activar{{/if}}</a></td>
     </tr>
   {{/each}}
 </table>

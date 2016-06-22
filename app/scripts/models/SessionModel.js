@@ -45,7 +45,7 @@ function( Backbone, Store, Paths ) {
       }
       var permit = page.getPermit();
       if (this.isCandidate()) {
-        return [4, 22, 23, 24].indexOf(permit) > -1;
+        return [4, 24].indexOf(permit) > -1;
       }
 
       var permits = this.get('permits');

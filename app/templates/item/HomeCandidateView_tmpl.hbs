@@ -12,9 +12,9 @@
   </thead>
   {{#each items}}
     <tr class="text-center">
-      <td>{{id_test.name}}</td>
+      <td>{{name}}</td>
       <td class="text-center">{{created_at}}</td>
-      <td><a href="#presentarExamen/{{id_test.id}}">Presentar el examen</a></td>
+      <td><a class="btn btn-default btn-primary" href="#presentarExamen/{{id_test}}">Presentar el examen</a></td>
     </tr>
   {{/each}}
 </table>

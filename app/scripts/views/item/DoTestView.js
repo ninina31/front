@@ -27,7 +27,7 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', '_getScore', 'sendResults', 'successFetchCandidateTest');
+      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', 'getScore', 'sendResults', 'successFetchCandidateTest');
       this.collection = new CandidateTestCollection();
       $('#alreadyDone').modal({});
     },
@@ -54,21 +54,29 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
     },
 
     successFetchCandidateTest: function () {
-      var data = { id_test: this.model.get('id_test'), id_candidate: SessionModel.id };
-      var collection = this.collection.filter(function (ct) {
-        return ct.get('id_test') == data.id_test && ct.get('id_candidate') == data.id_candidate && ct.get('is_taken') == false;
-      }, this);
-      if (collection.length == 0) {
+      var candidate_test = this._getWithTestAndCandidate();
+      if (candidate_test == undefined) {
         $('#alreadyDone').modal('show');
         return false;
       }
-      var candidate_test = _.first(collection);
+      if (candidate_test.get('id_test').is_active == false) {
+        $('#active').modal('show');
+        return false;
+      }
       this.candidateTest = new CandidateTestModel({ id: candidate_test.id });
       this.candidateTest.save({ started: true }, {
         type: 'PUT',
         success: this.successSaveCandidateTest,
         error: this.failSaveCandidateTest,
       });
+    },
+
+    _getWithTestAndCandidate: function () {
+      var data = { id_test: this.model.get('id_test'), id_candidate: SessionModel.id };
+      var collection = this.collection.filter(function (ct) {
+        return ct.get('id_test').id_test == data.id_test && ct.get('id_candidate').id == data.id_candidate && ct.get('is_taken') == false;
+      }, this);
+      return _.first(collection);
     },
 
     successSaveCandidateTest: function () {
@@ -87,10 +95,6 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
     },
 
     successFetchTest: function () {
-      if (!this.model.get('is_active')) {
-        $('#active').modal('show');
-        return false;
-      }
       Backbone.$('#exam').html(DoTestTmpl(this.model.toJSON()));
       Backbone.$('.layout').fadeOut();
       this.ui.clock = Backbone.$('#clock');
@@ -164,10 +168,10 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
         var answer = form_group.find('[name*=result-]');
         var id_question = parseInt(form_group.data('question'));
         var proposed_id = answer.data('proposed');
-        var score = this._getScore(proposed_id);
+        var score = this.getScore(proposed_id, answer.val());
         var response = {
-          candidate_id : SessionModel.id,
-          proposedAnswer_id: proposed_id,
+          id_candidate: SessionModel.id,
+          id_proposed_answer: proposed_id,
           answer: answer.val(),
           file: '',
           id_question: id_question,
@@ -179,9 +183,12 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
       return answers;
     },
 
-    _getScore: function (proposed_id) {
+    getScore: function (proposed_id, answer) {
       var proposed = _.flatten(_.pluck(this.model.get('questions'), 'proposed_answer'));
-      proposed = _.findWhere(proposed, {id: proposed_id});
+      proposed = _.findWhere(proposed, { id: proposed_id });
+      if (proposed.answer != answer) {
+        return 0;
+      }
       return proposed.score;
     },
 

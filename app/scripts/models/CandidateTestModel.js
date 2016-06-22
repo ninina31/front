@@ -9,7 +9,8 @@ function( Backbone, BaseModel, Paths ) {
   /* Return a model class definition */
   return BaseModel.extend({
 
-    urlRoot: function() {return Paths.url + '/candidatetests';},
+    urlRoot: function() {return Paths.url + '/candidatetests';}
 
     });
+
 });

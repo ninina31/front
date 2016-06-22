@@ -48,7 +48,7 @@ function( Backbone, _, GetUserviewTmpl ) {
     },
 
     onDeleteSuccess: function () {
-      Backbone.history.navigate('listarCorrectores', {trigger: true});
+      Backbone.history.navigate('listarUsuarios', {trigger: true});
     },
 
     onDeleteFail: function () {

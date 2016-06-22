@@ -65,7 +65,7 @@ function( Backbone, _, QuestionView , selectionTmpl, selectionSimpleTmpl, trueFa
     },
 
     hasEmptyInputs: function () {
-      var empty = this.ui.form.find("textarea, input:not([type=checkbox])").filter(function(index, ui) {
+      var empty = this.ui.form.find("textarea, input:not([type=checkbox])").filter('[required]').filter(function(index, ui) {
         return ui.value === "" && ui.disabled == false;
       });
       var not_empty = this.ui.form.find("textarea, input:not([type=checkbox])").filter(function(index, ui) {

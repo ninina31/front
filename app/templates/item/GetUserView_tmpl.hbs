@@ -1,9 +1,9 @@
 {{!empty GetreviewerviewTmpl template}}
 
 <div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
-<h3>{{name}} {{last_name}}</h3>
+<h3>{{name}} {{lastname}}</h3>
 <p>Correo Electrónico: {{email}}</p>
-<p>Cuenta: <a href="/#verCuenta/{{id_account.id}}"> {{id_account.name}} </a></p>
-<a href="#editarCorrector/{{id}}" class="btn btn-default btn-primary">Editar Usuario</a>
-<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteReviewer'>Eliminar</button>">Eliminar Usuario</button>
+<p>Cuenta: {{company_id.name}}</p>
+<a href="#editarUsuario/{{id}}" class="btn btn-default btn-primary">Editar Usuario</a>
+<button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteUser'>Eliminar</button>">Eliminar Usuario</button>
 

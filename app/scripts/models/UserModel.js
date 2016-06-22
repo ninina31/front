@@ -9,11 +9,7 @@ function( Backbone, BaseModel, Paths ) {
   /* Return a model class definition */
   return BaseModel.extend({
 
-    urlRoot: function() {return Paths.url + '/user';},
-
-    defaults: {
-      isActive: false
-    }
+    urlRoot: function() {return Paths.url + '/user';}
 
     });
 });

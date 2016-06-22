@@ -15,7 +15,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
     className: 'container',
 
     initialize: function() {
-      _.bindAll(this, "showContent");
+      _.bindAll(this, 'showContent', 'inyectSolutions', 'onSaveSuccess', 'onSaveFail');
     },
 
     getPermit: function () {
@@ -26,12 +26,27 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
 
     /* Ui events hash */
     events: {
-      'keyup input': 'calculateScore'
+      'keyup input': 'calculateScore',
+      'click #reviewTest': 'reviewTest'
     },
 
-    // itemViewContainer: '.questions',
+    inyectSolutions: function () {
+      this.collection.each(function (element, index) {
+        var content = null;
+        if ([3, 4].indexOf(element.get('id_proposed_answer').question.type.id) > -1) {
+          content = element.get('answer');
+        } else {
+          content = '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+        }
+        $('[data-idProposed='+element.get('id_proposed_answer').id+']').html(content);
+        $($('[data-idScore='+element.get('id_proposed_answer').id+']')).val(element.get('score'));
+      }, this);
+    },
 
-    // itemView: AnswerView,
+    onShow: function (argument) {
+      this.inyectSolutions();
+      this.calculateScore();
+    },
 
     fetchContent: function () {
       Backbone.$.when(this.model.fetch(), this.collection.fetch({reset: true})).done(this.showContent);
@@ -41,16 +56,35 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       this.trigger('fetched', this);
     },
 
-    onShow: function (){
-      debugger
-    },
-
     calculateScore: function () {
       var sum = _.reduce(Backbone.$('input'), function (memo, obj) {
         obj = $(obj);
+        if (obj.val() == '') {
+          return memo;
+        }
         return parseInt(obj.val()) + memo;
       }, 0);
       Backbone.$('#score').html(sum + ' ptos');
+    },
+
+    reviewTest: function () {
+      this.collection.each(function (element, index) {
+        var score = $('[data-idScore='+element.get('id_proposed_answer').id+']').val();
+        element.set({ score: parseInt(score) });
+      });
+      this.collection.save({
+        type: 'PUT',
+        success: this.onSaveSuccess,
+        error: this.onSaveFail
+      });
+    },
+
+    onSaveSuccess: function () {
+      debugger
+    },
+
+    onSaveFail: function () {
+      debugger
     }
 
   });
