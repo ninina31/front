@@ -16,8 +16,7 @@ function( Backbone, SessionModel, Store ) {
     fetch: function (options) {
       options = options || {};
       options.data = {
-        key: this._getApiKey(),
-        id_user: SessionModel.id
+        key: this._getApiKey()
       };
       var promise = Backbone.Collection.prototype.fetch.call(this, options);
       promise.then(null, this.triggerError);
@@ -25,12 +24,14 @@ function( Backbone, SessionModel, Store ) {
     },
 
     save: function (options) {
-    var data = {
-        key: this._getApiKey(),
-        id_user: this._getUserId()
+      var data = {
+        key: this._getApiKey()
       };
       data = $.param(data);
-      this.url = this.url()+ '?' + data;
+      var url = _.result(this, 'url');
+      if (options.url == undefined) {
+        options.url = url + '?' + data;
+      }
       var promise = Backbone.sync('create', this, options);
       promise.then(null, this.triggerError);
       return promise;
@@ -39,19 +40,13 @@ function( Backbone, SessionModel, Store ) {
     _getApiKey: function () {
       return Store.get('apikey');
     },
-    
-    _getUserId: function () {
-      return SessionModel.id;
-    },
 
     triggerError: function (jqhxr) {
-      debugger
       if (jqhxr.responseText.indexOf('ApiKey') > 0) {
         SessionModel.logout();
         this.trigger('invalidkey');
       }
-    },
-
+    }
 
   });
 });

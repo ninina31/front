@@ -4,12 +4,14 @@ define([
   'hbs!tmpl/item/doTest_tmpl',
   'models/TestModel',
   'models/CandidateTestModel',
+  'collections/CandidateTestCollection',
+  'models/SessionModel',
   'collections/AnswerCollection'
 ],
-function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, AnswerCollection) {
+function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, CandidateTestCollection, SessionModel, AnswerCollection) {
     'use strict';
 
-  var permit = 1;
+  var permit = 24;
 
   var interval;
 
@@ -25,12 +27,9 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         minutes: 0,
         seconds: 0
       };
-      _.bindAll(this, 'finishTime', 'disableTest', 'successFetchCandidateTest', 'failFetchCandidateTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail');
-      this.candidateTest = new CandidateTestModel({
-        id_test: this.model.get('id_test'),
-        id_candidate: 9
-      });
-      $('.bs-example-modal-sm').modal({});
+      _.bindAll(this, 'finishTime', 'disableTest', 'successSaveCandidateTest', 'failSaveCandidateTest', 'handleTest', 'sendTest', 'countdown', 'getFormData', 'successFetchTest' ,'failFetchTest', 'onSaveSuccess', 'onSaveFail', '_getScore', 'sendResults', 'successFetchCandidateTest');
+      this.collection = new CandidateTestCollection();
+      $('#alreadyDone').modal({});
     },
     
     template: DotestviewTmpl,
@@ -48,24 +47,28 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
 
     beginTest: function (e) {
       e.preventDefault();
-      this.candidateTest.fetch({
-        success: this.successFetchCandidateTest,
-        error: this.failFetchCandidateTest,
+      this.collection.fetch({
+        success: this.successFetchCandidateTest
+        // error: this.failFetchCandidateTest,
       });
     },
 
-    successFetchCandidateTest: function (response) {
-      debugger
-      var length = response.get('list').length;
-      if (length > 0) {
-        $('.bs-example-modal-sm').modal('show');
+    successFetchCandidateTest: function () {
+      var data = { id_test: this.model.get('id_test'), id_candidate: SessionModel.id };
+      var collection = this.collection.filter(function (ct) {
+        return ct.get('id_test') == data.id_test && ct.get('id_candidate') == data.id_candidate && ct.get('is_taken') == false;
+      }, this);
+      if (collection.length == 0) {
+        $('#alreadyDone').modal('show');
         return false;
       }
-      this.successSaveCandidateTest();
-    },
-
-    failFetchCandidateTest: function () {
-      $('.bs-example-modal-sm').modal('show');
+      var candidate_test = _.first(collection);
+      this.candidateTest = new CandidateTestModel({ id: candidate_test.id });
+      this.candidateTest.save({ started: true }, {
+        type: 'PUT',
+        success: this.successSaveCandidateTest,
+        error: this.failSaveCandidateTest,
+      });
     },
 
     successSaveCandidateTest: function () {
@@ -75,11 +78,19 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
       });
     },
 
-    failSaveCandidateTest: function () {
-      
+    failSaveCandidateTest: function (model, jqhxr) {
+      if (jqhxr.responseText.indexOf(this.model.id) > 0) {
+        $('#alreadyDone').modal('show');
+      } else {
+        $('.js-error').removeClass('hidden');
+      }
     },
 
     successFetchTest: function () {
+      if (!this.model.get('is_active')) {
+        $('#active').modal('show');
+        return false;
+      }
       Backbone.$('#exam').html(DoTestTmpl(this.model.toJSON()));
       Backbone.$('.layout').fadeOut();
       this.ui.clock = Backbone.$('#clock');
@@ -117,6 +128,16 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
     },
 
     sendTest: function () {
+      this.candidateTest.save({ started: false },
+      {
+        type: 'PUT',
+        success: this.sendResults,
+        error: this.onSaveFail
+      }
+      );
+    },
+
+    sendResults: function () {
       var data = this.getFormData();
       var collection = new AnswerCollection(data);
       collection.save(
@@ -142,18 +163,26 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, A
         form_group = $(form_group);
         var answer = form_group.find('[name*=result-]');
         var id_question = parseInt(form_group.data('question'));
+        var proposed_id = answer.data('proposed');
+        var score = this._getScore(proposed_id);
         var response = {
-          candidate_id : 9,
-          proposedAnswer_id: answer.data('proposed'),
+          candidate_id : SessionModel.id,
+          proposedAnswer_id: proposed_id,
           answer: answer.val(),
           file: '',
           id_question: id_question,
-          score: 0
+          score: score
         };
         return response;
-      });
+      }, this);
       Backbone.$('input, textarea').attr('disabled', true);
       return answers;
+    },
+
+    _getScore: function (proposed_id) {
+      var proposed = _.flatten(_.pluck(this.model.get('questions'), 'proposed_answer'));
+      proposed = _.findWhere(proposed, {id: proposed_id});
+      return proposed.score;
     },
 
     countdown: function (time, callback) {

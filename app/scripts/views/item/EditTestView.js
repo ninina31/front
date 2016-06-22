@@ -2,9 +2,10 @@ define([
   'backbone',
   'underscore',
   'models/CandidateTestModel',
+  'models/SessionModel',
   'hbs!tmpl/item/TestFormView_tmpl'
 ],
-function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
+function( Backbone, _, CandidateTestModel, SessionModel, TestFormViewTmpl) {
     'use strict';
 
   var permit = 2;
@@ -91,7 +92,7 @@ function( Backbone, _, CandidateTestModel, TestFormViewTmpl) {
       data.is_active = this.getBooleanValues(data.is_active);
       data.duration = parseInt(data.duration);
       data.extra_time = parseInt(data.extra_time);
-      data.id_user = 2;
+      data.id_user = SessionModel.id;
       return data;
     },
 

@@ -10,7 +10,7 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
   var permit = 8;
 
   /* Return a CompositeView class definition */
-  return Backbone.Marionette.CompositeView.extend({
+  return Backbone.Marionette.ItemView.extend({
 
     className: 'container',
 
@@ -29,9 +29,9 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
       'keyup input': 'calculateScore'
     },
 
-    itemViewContainer: '.questions',
+    // itemViewContainer: '.questions',
 
-    itemView: AnswerView,
+    // itemView: AnswerView,
 
     fetchContent: function () {
       Backbone.$.when(this.model.fetch(), this.collection.fetch({reset: true})).done(this.showContent);
@@ -39,6 +39,10 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
 
     showContent: function () {
       this.trigger('fetched', this);
+    },
+
+    onShow: function (){
+      debugger
     },
 
     calculateScore: function () {

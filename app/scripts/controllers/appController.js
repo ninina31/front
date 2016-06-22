@@ -4,13 +4,10 @@ define([
   'views/item/NavBarView',
   'views/item/HomeView',
   'views/item/LoginView',
-  'views/item/ListCompaniesView',
   'views/item/ListUsersView',
-  'views/item/CompanyView',
   'views/item/DoTestView',
   'views/item/GetTestView',
   'views/item/GetUserView',
-  'views/item/GetCompanyView',
   'views/item/ReviewTestView',
   'views/item/AddTestView',
   'views/item/EditUserView',
@@ -26,7 +23,7 @@ define([
   'models/SessionModel',
   'collections/AnswerCollection'
 ],
-function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesView, ListUsersView, CompanyView, DoTestView, GetTestView, GetUserView, GetCompanyView, ReviewTestView, AddTestView, EditUserView, ProfileView, NotFoundView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel, AnswerCollection ) {
+function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListUsersView, DoTestView, GetTestView, GetUserView, ReviewTestView, AddTestView, EditUserView, ProfileView, NotFoundView, QuestionCreationView, TestModel, AddUserView, EditTestView, QuestionUpdateView, CompanyModel, UserModel, SessionModel, AnswerCollection ) {
     'use strict';
 
   return Backbone.Marionette.Controller.extend({
@@ -60,16 +57,6 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.prepareView(content);
     },
 
-    listCompanies: function () {
-      this.addNavBars();
-      var content = new ListCompaniesView();
-      if (!this.model.canAccessPage(content)){
-        this.showNotFound();
-        return false;
-      }
-      this.prepareView(content);
-    },
-
     addTest: function () {
       this.addNavBars();
       var test = new AddTestView();
@@ -87,19 +74,9 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       App.content.show(questions);
     },
 
-    login: function () {
+    login: function (rol) {
       this.addNavBars();
-      var content = new LoginView();
-      App.content.show(content);
-    },
-
-    addCompany: function () {
-      this.addNavBars();
-      var content = new CompanyView();
-      if (!this.model.canAccessPage(content)){
-        this.showNotFound();
-        return false;
-      }
+      var content = new LoginView({rol:rol});
       App.content.show(content);
     },
 
@@ -118,17 +95,6 @@ function( Backbone , BannerView, NavBarView, HomeView, LoginView, ListCompaniesV
       this.addNavBars();
       var model = new TestModel({id_test: id});
       var content = new GetTestView({model: model});
-      if (!this.model.canAccessPage(content)){
-        this.showNotFound();
-        return false;
-      }
-      this.prepareView(content);
-    },
-
-    getCompany: function (id) {
-      this.addNavBars();
-      var model = new CompanyModel({id: id});
-      var content = new GetCompanyView({model: model});
       if (!this.model.canAccessPage(content)){
         this.showNotFound();
         return false;

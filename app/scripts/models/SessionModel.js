@@ -9,7 +9,14 @@ function( Backbone, Store, Paths ) {
   /* Return a model class definition */
   var session = Backbone.Model.extend({
 
-    urlRoot: function(){ return Paths.url + '/user/login';},
+    urlRoot: function(){
+      if (this.isCandidate()) {
+        return Paths.url + '/candidate/login';
+      }
+      else {
+        return Paths.url + '/user/login';
+      }
+    },
 
     defaults: {
       logged: false
@@ -36,8 +43,13 @@ function( Backbone, Store, Paths ) {
       if (!this.get('logged')) {
         return false;
       }
+      var permit = page.getPermit();
+      if (this.isCandidate()) {
+        return [4, 22, 23, 24].indexOf(permit) > -1;
+      }
+
       var permits = this.get('permits');
-      return permits.findWhere({id_permit: page.getPermit()}) != undefined;
+      return permits.findWhere({id_permit: permit}) != undefined;
     },
 
     saveUser: function () {
@@ -60,6 +72,10 @@ function( Backbone, Store, Paths ) {
         this.logout();
         return false;
       }
+    },
+
+    isCandidate: function () {
+      return this.get('loginType') == 'candidate';
     }
 
   });

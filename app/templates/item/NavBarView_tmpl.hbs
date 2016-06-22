@@ -11,22 +11,24 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exámenes <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            {{#isIn 1 permits}}
             <li><a href="#agregarExamen">Agregar</a></li>
+            {{/isIn}}
+            {{#isIn 4 permits}}
             <li><a href="#">Listar todos</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Compañías <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#agregarCompania">Agregar</a></li>
-            <li><a href="#listarCompanias">Listar todas</a></li>
+            {{/isIn}}
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            {{#isIn 11 permits}}
             <li><a href="#agregarUsuario">Agregar</a></li>
+            {{/isIn}}
+            {{#isIn 13 permits}}
             <li><a href="#listarUsuarios">Listar todos</a></li>
+            {{/isIn}}
+            <li><a href="#verPerfil">Ver perfil</a></li>
           </ul>
         </li>
       </ul>

@@ -42,14 +42,46 @@
 
 <a href="#editarExamen/{{id_test}}" type="button" class="btn btn-default btn-primary">Editar Examen</a>
 
-<button type="button" class="btn btn-default btn-primary" data-toggle="popover" title="Introduzca el correo electrónico del candidato a agregar" data-content="
+<button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal">Generar candidatos para examen</button>
   
-  <div class='emails'>
-    <input type='email' class='email form-control' placeholder='Usuario'>
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Introduzca el correo electrónico del candidato a agregar</h4>
+      </div>
+      <div class="modal-body">
+        <div class='emails'>
+          <input type='email' class='email form-control' placeholder='Usuario'>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class='btn btn-default btn-primary' id='addEmailField'>Nuevo candidato</button>
+        <button class='btn btn-default btn-primary' id='asignCandidate'>Agregar</button>
+      </div>
+    </div>
   </div>
-  <button class='btn btn-default btn-primary' id='addEmailField'>Nuevo candidato</button>
-  <button class='btn btn-default btn-primary' id='asignCandidate'>Agregar</button>
-
-">Generar candidato para examen</button>
+</div>
 
 <button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th class="text-center">Email del candidato</th>
+      <th class="text-center">Fecha de asignación</th>
+      <th class="text-center">Fecha de presentación</th>
+      <th class="text-center">Fecha de entrega</th>
+    </tr>
+  </thead>
+  {{#each items}}
+    <tr class="text-center">
+      <td>{{id_candidate.email}}</td>
+      <td class="text-center">{{created_at}}</td>
+      <td class="text-center">{{started}}</td>
+      <td class="text-center">{{submitted}}</td>
+    </tr>
+  {{/each}}
+</table>

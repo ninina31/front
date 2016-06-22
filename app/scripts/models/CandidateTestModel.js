@@ -11,11 +11,5 @@ function( Backbone, BaseModel, Paths ) {
 
     urlRoot: function() {return Paths.url + '/candidatetests';},
 
-    parse: function (response) {
-      response = _.findWhere(response, {id: this.get('id_test')});
-      var result = new Backbone.Collection(response);
-      return { list: result };
-    }
-
     });
 });

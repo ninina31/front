@@ -2,9 +2,10 @@ define([
   'backbone',
   'models/CandidateModel',
   'models/SessionModel',
+  'collections/CandidateTestCollection',
   'hbs!tmpl/item/GetTestView_tmpl'
 ],
-function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
+function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, GettestviewTmpl ) {
     'use strict';
 
   var permit = 5;
@@ -20,6 +21,7 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
 
     initialize: function() {
       _.bindAll(this, "renderView", "onDeleteSuccess", "onDeleteFail", 'onSaveSuccess', 'onSaveError');
+      this.collection = new CandidateTestCollection();
     },
     
     template: GettestviewTmpl,
@@ -32,14 +34,11 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
     },
 
     fetchContent: function () {
-      this.model.fetch({
-        success: this.renderView
-      });
+      Backbone.$.when(this.model.fetch()).done(this.renderView);
     },
 
     renderView: function(){
       this.trigger('fetched', this);
-      $('[data-toggle="popover"]').popover({ html: true });
     },
 
     deleteExam: function () {
@@ -90,7 +89,23 @@ function( Backbone, CandidateModel, SessionModel, GettestviewTmpl ) {
 
     addEmailField: function () {
       $('.emails').append("<input type='email' class='email form-control' placeholder='Usuario'>");
-    }
+    },
+
+    serializeData: function(){
+      var data = {};
+
+      if (this.model) {
+        data = this.model.toJSON();
+      }
+      if (this.collection) {
+        var candidate_tests = this.collection.toJSON();
+        data.items = _.filter(candidate_tests, function (ct) {
+          return ct.id_test == this.model.id;
+        }, this);
+      }
+
+      return data;
+    },
     
   });
 

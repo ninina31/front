@@ -2,9 +2,10 @@ define([
   'backbone',
   'models/SessionModel',
   'collections/RolPermitCollection',
-  'hbs!tmpl/item/LoginView_tmpl'
+  'hbs!tmpl/item/LoginView_tmpl',
+  'config/paths'
 ],
-function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
+function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -12,9 +13,10 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
 
     className: 'container',
 
-    initialize: function() {
+    initialize: function(options) {
       _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError');
       this.model = SessionModel;
+      this.model.set({loginType: options.rol});
     },
     
     template: LoginviewTmpl,
@@ -29,7 +31,12 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
 
     iniciarSesion: function (event) {
       event.preventDefault();
+      var url = this.model.urlRoot();
+      if (this.rol == 'candidate') {
+        url = Paths.url + '/candidate/login';
+      }
       this.model.save(this.getData(), {
+        url: url,
         success: this.onSaveSuccess,
         error: this.onSaveError
       });
@@ -58,16 +65,20 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl  ) {
     },
 
     getData: function () {
-      var email = this.$el.find('#email').val();
+      var username = this.$el.find('#email').val();
       var password = this.$el.find('#password').val();
-      return { email: email, password: password };
+      return { username: username, password: password };
     },
 
     savePermitsOnUser: function (data) {
-      var rol_id = this.model.get('rol_id').id;
-      var permits = data.filter(function (element) {
-        return element.get('id_rol') == rol_id;
-      });
+      if (this.model.isCandidate()) {
+        // var permits = 
+      } else {
+        var rol_id = this.model.get('rol_id').id;
+        var permits = data.filter(function (element) {
+          return element.get('id_rol') == rol_id;
+        });
+      }
       permits = new Backbone.Collection(permits);
       var timestamp = Date.now();
       this.model.set({permits: permits, timestamp: timestamp});

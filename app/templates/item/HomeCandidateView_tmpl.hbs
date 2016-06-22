@@ -1,0 +1,20 @@
+{{!empty HomeviewTmpl template}}
+
+<h4>Bienvenido al portal de exámenes MPWAR!</h4>
+
+<div class="alert alert-success hidden" role="alert">El examen se ha creado exitosamente!</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th class="text-center">Nombre del examen</th>
+      <th class="text-center">Fecha de asignación</th>
+    </tr>
+  </thead>
+  {{#each items}}
+    <tr class="text-center">
+      <td>{{id_test.name}}</td>
+      <td class="text-center">{{created_at}}</td>
+      <td><a href="#presentarExamen/{{id_test.id}}">Presentar el examen</a></td>
+    </tr>
+  {{/each}}
+</table>

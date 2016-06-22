@@ -21,10 +21,9 @@ function( Backbone, BaseCollection, AnswerModel, Paths ) {
     },
 
     parse: function (response) {
-      var self = this;
       var result = _.filter(response, function (answer) {
-         return answer.id_proposed_answer.question.id_test == self.id_test && answer.id_candidate.id == self.id_candidate;
-      });
+         return answer.id_proposed_answer.question.id_test == this.id_test && answer.id_candidate.id == this.id_candidate;
+      }, this);
       return result;
     }
 
