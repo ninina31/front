@@ -80,11 +80,13 @@ function( Backbone, ReviewtestviewTmpl, AnswerView, AnswerCollection ) {
     },
 
     onSaveSuccess: function () {
-      debugger
+      $('.alert.alert-success').removeClass('hidden');
+      $('.alert.alert-danger').addClass('hidden');
     },
 
     onSaveFail: function () {
-      debugger
+      $('.alert.alert-success').addClass('hidden');
+      $('.alert.alert-danger').removeClass('hidden');
     }
 
   });

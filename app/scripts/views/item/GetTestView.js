@@ -30,7 +30,8 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
     events: {
       'click #deleteExam': 'deleteExam',
       'click #asignCandidate': 'asignCandidateToTest',
-      'click #addEmailField': 'addEmailField'
+      'click #addEmailField': 'addEmailField',
+      'click .review': 'hideModal'
     },
 
     fetchContent: function () {
@@ -39,6 +40,10 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
 
     renderView: function(){
       this.trigger('fetched', this);
+    },
+
+    hideModal: function () {
+      $('#candidateModal').modal('hide');
     },
 
     deleteExam: function () {
@@ -80,11 +85,14 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
     },
 
     onSaveSuccess: function () {
-      debugger
+      $('#modal').modal('hide');
+      $('.alert.alert-danger').addClass('hidden');
+      $('.alert.alert-success').removeClass('hidden');
     },
 
     onSaveError: function () {
-      debugger
+      $('#modal').modal('hide');
+      $('.alert.alert-danger').removeClass('hidden');
     },
 
     addEmailField: function () {

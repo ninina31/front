@@ -1,5 +1,9 @@
 {{!empty GettestviewTmpl template}}
 
+<div class="alert alert-success hidden" role="alert">Los candidatos se han asignado exitosamente!</div>
+
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+
 <h3>{{name}}</h3>
 <p>Tiempo: {{duration}} min</p>
 <p>Tiempo extra: {{extra_time}} min</p>
@@ -94,7 +98,7 @@
               <td class="text-center">{{created_at}}</td>
               <td class="text-center">{{started}}</td>
               <td class="text-center">{{submitted}}</td>
-              <td class="text-center"><a href="#corregirExamen/{{../id_test}}/{{id_candidate.id}}" type="button" class="btn btn-default btn-primary">Corregir Examen</a></td>
+              <td class="text-center"><a href="#corregirExamen/{{../id_test}}/{{id_candidate.id}}" type="button" class="btn btn-default btn-primary review">Corregir Examen</a></td>
             </tr>
           {{/each}}
         </table>
