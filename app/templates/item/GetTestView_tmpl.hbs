@@ -2,6 +2,8 @@
 
 <div class="alert alert-success hidden" role="alert">Los candidatos se han asignado exitosamente!</div>
 
+<div class="alert alert-success hidden reviewerAlert" role="alert">El corrector se ha asignado exitosamente!</div>
+
 <div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
 
 <h3>{{name}}</h3>
@@ -48,6 +50,8 @@
 
 <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal">Generar candidatos para examen</button>
 
+<button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#reviewerModal">Asignar corrector a examen</button>
+
 <button type="button" class="btn btn-default btn-danger" data-toggle="popover" data-trigger="focus" title="¿Estás seguro?" data-content="<button class='btn btn-default btn-primary' id='deleteExam'>Sí, estoy seguro</button>">Eliminar Examen</button>
 
 <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#candidateModal">Ver candidatos asignados al examen</button>
@@ -81,27 +85,26 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myCandidateModalLabel">Candidatos asociados al examen</h4>
       </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewerModal" tabindex="-1" role="dialog" aria-labelledby="myReviewerModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myReviewerModalLabel">Escoge un corrector para asignar al examen</h4>
+      </div>
       <div class="modal-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="text-center">Email del candidato</th>
-              <th class="text-center">Fecha de asignación</th>
-              <th class="text-center">Fecha de presentación</th>
-              <th class="text-center">Fecha de entrega</th>
-              <th></th>
-            </tr>
-          </thead>
-          {{#each items}}
-            <tr class="text-center">
-              <td>{{id_candidate.email}}</td>
-              <td class="text-center">{{created_at}}</td>
-              <td class="text-center">{{started}}</td>
-              <td class="text-center">{{submitted}}</td>
-              <td class="text-center"><a href="#corregirExamen/{{../id_test}}/{{id_candidate.id}}" type="button" class="btn btn-default btn-primary review">Corregir Examen</a></td>
-            </tr>
-          {{/each}}
-        </table>
+        <select class="form-control">
+        {{#each reviewers}}
+            <option value="{{id}}">{{name}} {{lastname}}</option>
+        {{/each}}
+        </select>
+        <a href="#" type="button" class="btn btn-default btn-primary reviewerAsign">Asignar Examen</a>
       </div>
     </div>
   </div>

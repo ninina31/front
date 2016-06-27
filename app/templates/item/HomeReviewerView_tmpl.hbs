@@ -1,0 +1,36 @@
+{{!empty HomeviewTmpl template}}
+
+<h4>Bienvenido al portal de exámenes MPWAR!</h4>
+
+<div class="alert alert-danger hidden" role="alert">Hubo un error, intente de nuevo</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre del examen</th>
+      <th class="text-center">¿Está activo?</th>
+      <th></th>
+    </tr>
+  </thead>
+  {{#each items}}
+    <tr>
+      <td><a href="#verExamen/{{id_test.id_test}}">{{id_test.name}}</a></td>
+      <td class="text-center">{{#if id_test.is_active}}Sí{{else}}No{{/if}}</td>
+      <td class="text-center"><a class="btn btn-default {{#if id_test.is_active}}btn-danger{{else}}btn-success{{/if}} btn-activate" data-test-id="{{id_test.id_test}}" data-active="{{id_test.is_active}}">{{#if id_test.is_active}}Desactivar{{else}}Activar{{/if}}</a></td>
+      <td class="text-center"><a class="btn btn-default btn-primary activate" data-test-id="{{id_test.id_test}}">Corregir</a></td>
+    </tr>
+  {{/each}}
+</table>
+
+
+<div class="modal fade" id="candidateModal" tabindex="-1" role="dialog" aria-labelledby="myCandidateModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myCandidateModalLabel">Candidatos asociados al examen</h4>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>

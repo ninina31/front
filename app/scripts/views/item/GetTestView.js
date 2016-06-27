@@ -1,11 +1,13 @@
 define([
   'backbone',
   'models/CandidateModel',
+  'models/ReviewerTestModel',
   'models/SessionModel',
   'collections/CandidateTestCollection',
+  'collections/UserCollection',
   'hbs!tmpl/item/GetTestView_tmpl'
 ],
-function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, GettestviewTmpl ) {
+function( Backbone, CandidateModel, ReviewerTestModel, SessionModel, CandidateTestCollection, UserCollection, GettestviewTmpl ) {
     'use strict';
 
   var permit = 5;
@@ -22,6 +24,8 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
     initialize: function() {
       _.bindAll(this, 'renderView', 'onDeleteSuccess', 'onDeleteFail', 'onSaveSuccess', 'onSaveError');
       this.collection = new CandidateTestCollection();
+      $('[data-toggle="popover"]').popover({ html: true });
+      this.reviewers = new UserCollection();
     },
     
     template: GettestviewTmpl,
@@ -31,11 +35,12 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
       'click #deleteExam': 'deleteExam',
       'click #asignCandidate': 'asignCandidateToTest',
       'click #addEmailField': 'addEmailField',
-      'click .review': 'hideModal'
+      'click .review': 'hideModal',
+      'click .reviewerAsign': 'reviewerAsign'
     },
 
     fetchContent: function () {
-      Backbone.$.when(this.model.fetch(), this.collection.fetch()).done(this.renderView);
+      Backbone.$.when(this.model.fetch(), this.collection.fetch(), this.reviewers.fetch()).done(this.renderView);
     },
 
     renderView: function(){
@@ -99,6 +104,30 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
       $('.emails').append("<input type='email' class='email form-control' placeholder='Usuario'>");
     },
 
+    reviewerAsign: function (event) {
+      event.preventDefault();
+      var id_reviewer = $('select').val();
+      var reviewerTest = new ReviewerTestModel({
+        id_test: this.model.id,
+        id_reviewer: id_reviewer
+      });
+      reviewerTest.save(null, {
+        success: this.onReviewerTestSuccess,
+        error: this.onReviewerTestFail
+      });
+    },
+
+    onReviewerTestSuccess: function () {
+      $('#reviewerModal').modal('hide');
+      $('.alert.alert-danger').addClass('hidden');
+      $('.reviewerAlert').removeClass('hidden');
+    },
+
+    onReviewerTestFail: function () {
+      $('#reviewerModal').modal('hide');
+      $('.alert.alert-danger').removeClass('hidden');
+    },
+
     serializeData: function(){
       var data = {};
 
@@ -110,14 +139,11 @@ function( Backbone, CandidateModel, SessionModel, CandidateTestCollection, Gette
         data.items = _.filter(candidate_tests, function (ct) {
           return ct.id_test.id_test == this.model.id;
         }, this);
-        _.each(data.items, function (ct) {
-          var dateStarted = new Date(ct.started);
-          var dateSubmitted = new Date(ct.submitted);
-          var dateCreated = new Date(ct.created_at);
-          ct.started = dateStarted.toUTCString();
-          ct.submitted = dateSubmitted.toUTCString();
-          ct.created_at = dateCreated.toDateString();
-        })
+      var reviewers = this.reviewers.filter(function (user) {
+        return user.get('rol_id').id == 2;
+      });
+      reviewers = new Backbone.Collection(reviewers);
+      data.reviewers = reviewers.toJSON();
       }
 
       return data;

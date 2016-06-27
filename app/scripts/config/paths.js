@@ -1,7 +1,4 @@
-define([
-  'backbone'
-],
-function( Backbone ) {
+define([], function( ) {
   'use strict';
 
   var paths = {

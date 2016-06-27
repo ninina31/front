@@ -1,0 +1,22 @@
+{{!empty GettestviewTmpl template}}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th class="text-center">Email del candidato</th>
+      <th class="text-center">Fecha de asignación</th>
+      <th class="text-center">Fecha de presentación</th>
+      <th class="text-center">Fecha de entrega</th>
+      <th></th>
+    </tr>
+  </thead>
+  {{#each data}}
+    <tr class="text-center">
+      <td>{{id_candidate.email}}</td>
+      <td class="text-center">{{created_at}}</td>
+      <td class="text-center">{{started}}</td>
+      <td class="text-center">{{submitted}}</td>
+      <td class="text-center"><a href="#corregirExamen/{{id_test.id_test}}/{{id_candidate.id}}" type="button" class="btn btn-default btn-primary review {{#unless submitted}}disabled{{/unless}}">Corregir Examen</a></td>
+    </tr>
+  {{/each}}
+</table>

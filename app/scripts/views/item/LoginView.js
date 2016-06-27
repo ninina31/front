@@ -1,11 +1,12 @@
 define([
   'backbone',
+  'classes/googleAPI',
   'models/SessionModel',
   'collections/RolPermitCollection',
   'hbs!tmpl/item/LoginView_tmpl',
   'config/paths'
 ],
-function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
+function( Backbone, GoogleAPI, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -14,7 +15,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     className: 'container',
 
     initialize: function(options) {
-      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError');
+      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'loginOauth2');
       this.model = SessionModel;
       this.model.set({loginType: options.rol});
     },
@@ -26,7 +27,8 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
 
     /* Ui events hash */
     events: {
-      'click #iniciarSesion': 'iniciarSesion'
+      'click #iniciarSesion': 'iniciarSesion',
+      'click #authorize-button': 'loginOauth2'
     },
 
     iniciarSesion: function (event) {
@@ -70,12 +72,17 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
       return { username: username, password: password };
     },
 
+    loginOauth2: function () {
+      GoogleAPI.checkAuth();
+    },
+
     savePermitsOnUser: function (data) {
+      var permits = [];
       if (this.model.isCandidate()) {
         // var permits = 
       } else {
         var rol_id = this.model.get('rol_id').id;
-        var permits = data.filter(function (element) {
+        permits = data.filter(function (element) {
           return element.get('id_rol') == rol_id;
         });
       }
