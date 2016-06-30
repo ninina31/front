@@ -31,7 +31,7 @@ function( Backbone, Store, Paths ) {
 
     checkAuth: function () {
       var user = Store.get('user');
-      if (user != undefined) {
+      if (user != null) {
         user.permits = new Backbone.Collection(user.permits);
         this.set(user);
         return this.isValid();

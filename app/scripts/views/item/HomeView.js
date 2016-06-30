@@ -32,6 +32,10 @@ function( Backbone, SessionModel, TestModel, HomeUserView_tmpl, HomeCandidateVie
     initialize: function() {
       _.bindAll(this, 'onFetchSuccess', 'onFetchError', 'changeActiveTest', 'onSaveFail', 'onSaveSuccess', 'onCTFetchSuccess', 'onCTFetchFail');
       this.model = SessionModel;
+      var logged = this.model.checkAuth();
+      if (!logged) {
+        Backbone.history.navigate('login', {trigger: true});
+      }
       if (this.model.isCandidate()) {
         this.collection = new CandidateTestCollection();
       } else if (this.model.get('rol_id').id == 2){

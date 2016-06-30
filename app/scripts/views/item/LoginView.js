@@ -14,10 +14,9 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     className: 'container',
 
     initialize: function(options) {
-      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'handleAuthResult');
+      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError');
       this.model = SessionModel;
       this.model.set({loginType: options.rol});
-      debugger
     },
     
     template: LoginviewTmpl,

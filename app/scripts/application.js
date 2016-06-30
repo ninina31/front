@@ -1,11 +1,10 @@
 define([
   'backbone',
   'communicator',
-  'routers/AppRouter',
-  'models/SessionModel'
+  'routers/AppRouter'
 ],
 
-function( Backbone, Communicator, AppRouter, SessionModel ) {
+function( Backbone, Communicator, AppRouter ) {
     'use strict';
 
   $.fn.serializeObject = function()
@@ -34,17 +33,9 @@ function( Backbone, Communicator, AppRouter, SessionModel ) {
   /* Add initializers here */
   App.addInitializer( function () {
 
-    var model = SessionModel;
-
-    var logged = model.checkAuth();
-
     var router = new AppRouter();
     Communicator.mediator.trigger("APP:START");
     Backbone.history.start();
-
-    if (!logged) {
-      Backbone.history.navigate('#login', {trigger: true});
-    }
 
   });
 

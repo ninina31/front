@@ -11,6 +11,7 @@ function( Backbone, SessionModel, NavbarviewTmpl  ) {
 
     initialize: function() {
       this.model = SessionModel;
+      this.model.checkAuth();
     },
     
     template: NavbarviewTmpl,
