@@ -1,12 +1,11 @@
 define([
   'backbone',
-  'config/oauth2',
   'models/SessionModel',
   'collections/RolPermitCollection',
   'hbs!tmpl/item/LoginView_tmpl',
   'config/paths'
 ],
-function( Backbone, Config, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
+function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     'use strict';
 
   /* Return a ItemView class definition */
