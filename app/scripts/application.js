@@ -2,11 +2,10 @@ define([
   'backbone',
   'communicator',
   'routers/AppRouter',
-  'models/SessionModel',
-  'classes/googleAPI',
+  'models/SessionModel'
 ],
 
-function( Backbone, Communicator, AppRouter, SessionModel, GoogleAPI ) {
+function( Backbone, Communicator, AppRouter, SessionModel ) {
     'use strict';
 
   $.fn.serializeObject = function()
