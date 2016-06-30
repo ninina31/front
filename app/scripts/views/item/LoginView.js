@@ -3,9 +3,10 @@ define([
   'models/SessionModel',
   'collections/RolPermitCollection',
   'hbs!tmpl/item/LoginView_tmpl',
-  'config/paths'
+  'config/paths',
+  'config/oauth2'
 ],
-function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
+function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Config ) {
     'use strict';
 
   /* Return a ItemView class definition */
@@ -14,7 +15,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     className: 'container',
 
     initialize: function(options) {
-      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError');
+      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'initAuth', 'updateSigninStatus');
       this.model = SessionModel;
       this.model.set({loginType: options.rol});
     },
@@ -27,7 +28,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
     /* Ui events hash */
     events: {
       'click #iniciarSesion': 'iniciarSesion',
-      'click #authorize-button': 'checkAuth'
+      'click #authorize-button': 'handleClientLoad'
     },
 
     iniciarSesion: function (event) {
@@ -85,6 +86,80 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths ) {
       var timestamp = Date.now();
       this.model.set({permits: permits, timestamp: timestamp});
       this.model.saveUser();
+    },
+
+    handleClientLoad: function () {
+        // Load the API client and auth library
+        gapi.load('client:auth2', this.initAuth);
+    },
+
+    initAuth: function () {
+      var self = this;
+      gapi.client.setApiKey(Config.apikey);
+      gapi.auth2.init({
+          client_id: Config.client_id,
+          scope: Config.scope
+      }).then(function () {
+        var auth2 = gapi.auth2.getAuthInstance();
+        // Listen for sign-in state changes.
+        auth2.isSignedIn.listen(self.updateSigninStatus);
+        // Handle the initial sign-in state.
+        self.updateSigninStatus(auth2.isSignedIn.get());
+      });
+    },
+
+    updateSigninStatus: function (isSignedIn) {
+      this.makeApiCall();
+      // if (isSignedIn) {
+      //   this.model.checkAuth();
+      //   Backbone.history.navigate('', {trigger: true});
+      // } else {
+      //   this.makeApiCall();
+      // }
+    },
+
+    handleAuthClick: function (event) {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signIn();
+    },
+      // function handleSignoutClick(event) {
+      //   auth2.signOut();
+      // }
+      // Load the API and make an API call.  Display the results on the screen.
+    // makeApiCall: function () {
+    //   gapi.client.load('people', 'v1', function() {
+    //     var request = gapi.client.people.people.get({
+    //       resourceName: 'people/me'
+    //     });
+    //     request.execute(function(resp) {
+    //       debugger
+    //     });
+    //   });
+    // }
+    makeApiCall: function () {
+      var self = this;
+      gapi.client.load('people', 'v1').then(function() {
+        var request = gapi.client.people.people.get({
+            'resourceName': 'people/me'
+              });
+        request.then(function(resp) {
+          debugger
+          var email = _.first(resp.result.emailAddresses).value;
+          var type = 'gmail';
+          var url = self.model.urlRoot();
+          if (self.rol == 'candidate') {
+            url = Paths.url + '/candidate/login';
+          }
+          self.model.save({username: email, type: type}, {
+            url: url,
+            success: self.onSaveSuccess,
+            error: self.onSaveError
+          });
+          // mandar a servidor de login esto
+        }, function(reason) {
+          console.log('Error: ' + reason.result.error.message);
+        }, this);
+      }, this);
     }
   });
 

@@ -60,6 +60,10 @@ function( Backbone, Store, Paths ) {
       Store.delete('user');
       this.clear();
       this.set({logged: false});
+      if (this.get('type') == 'gmail') {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut();
+      }
     },
 
     isValid: function () {
