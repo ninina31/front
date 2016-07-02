@@ -5,7 +5,7 @@ define([], function() {
     "auth_uri":"https://accounts.google.com/o/oauth2/auth",
     "token_uri":"https://accounts.google.com/o/oauth2/token",
     "client_secret":"UXjZ_1ftY7qOSQ7iPTI5sQXm",
-    "scope": "https://www.googleapis.com/auth/userinfo.email",
+    "scope": "profile",
     "apikey": "AIzaSyAvZcjYs2PlsJk1J8OedjYPMxM5Q8aHtxE"
   };
   return config;

@@ -15,7 +15,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
     className: 'container',
 
     initialize: function(options) {
-      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'initAuth', 'updateSigninStatus');
+      _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'initAuth', 'makeApiCall', 'updateSigninStatus');
       this.model = SessionModel;
       this.model.set({loginType: options.rol});
     },
@@ -101,41 +101,27 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
           scope: Config.scope
       }).then(function () {
         var auth2 = gapi.auth2.getAuthInstance();
-        // Listen for sign-in state changes.
-        auth2.isSignedIn.listen(self.updateSigninStatus);
-        // Handle the initial sign-in state.
+        debugger
         self.updateSigninStatus(auth2.isSignedIn.get());
       });
     },
-
-    updateSigninStatus: function (isSignedIn) {
-      this.makeApiCall();
-      // if (isSignedIn) {
-      //   this.model.checkAuth();
-      //   Backbone.history.navigate('', {trigger: true});
-      // } else {
-      //   this.makeApiCall();
-      // }
-    },
-
-    handleAuthClick: function (event) {
+  
+    updateSigninStatus: function(isSignedIn) {
+      var self = this;
       var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signIn();
+      if (isSignedIn) {
+        auth2.signOut().then(function () {
+          auth2.signIn().then(function () {
+            self.makeApiCall();
+          });
+        });
+      } else {
+        auth2.signIn().then(function () {
+          self.makeApiCall();
+        });
+      }
     },
-      // function handleSignoutClick(event) {
-      //   auth2.signOut();
-      // }
-      // Load the API and make an API call.  Display the results on the screen.
-    // makeApiCall: function () {
-    //   gapi.client.load('people', 'v1', function() {
-    //     var request = gapi.client.people.people.get({
-    //       resourceName: 'people/me'
-    //     });
-    //     request.execute(function(resp) {
-    //       debugger
-    //     });
-    //   });
-    // }
+
     makeApiCall: function () {
       var self = this;
       gapi.client.load('people', 'v1').then(function() {
@@ -143,7 +129,6 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
             'resourceName': 'people/me'
               });
         request.then(function(resp) {
-          debugger
           var email = _.first(resp.result.emailAddresses).value;
           var type = 'gmail';
           var url = self.model.urlRoot();
