@@ -18,6 +18,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
       _.bindAll(this, 'iniciarSesion', 'onSaveSuccess', 'onSaveError', 'getData', 'onFetchRolSuccess', 'onFetchRolError', 'initAuth', 'makeApiCall', 'updateSigninStatus');
       this.model = SessionModel;
       this.model.set({loginType: options.rol});
+      this.handleClientLoad();
     },
     
     template: LoginviewTmpl,
@@ -28,7 +29,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
     /* Ui events hash */
     events: {
       'click #iniciarSesion': 'iniciarSesion',
-      'click #authorize-button': 'handleClientLoad'
+      'click #authorize-button': 'updateSigninStatus'
     },
 
     iniciarSesion: function (event) {
@@ -99,16 +100,14 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
       gapi.auth2.init({
           client_id: Config.client_id,
           scope: Config.scope
-      }).then(function () {
-        var auth2 = gapi.auth2.getAuthInstance();
-        debugger
-        self.updateSigninStatus(auth2.isSignedIn.get());
       });
     },
   
-    updateSigninStatus: function(isSignedIn) {
+    updateSigninStatus: function(event) {
+      event.preventDefault();
       var self = this;
       var auth2 = gapi.auth2.getAuthInstance();
+      var isSignedIn = auth2.isSignedIn.get();
       if (isSignedIn) {
         auth2.signOut().then(function () {
           auth2.signIn().then(function () {
