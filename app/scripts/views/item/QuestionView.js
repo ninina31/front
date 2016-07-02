@@ -70,7 +70,7 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
 
     getScore: function (answerDom) {
       var parent = answerDom.closest('.form-group');
-      var id_type = this.$el.find('option:selected').val();
+      var id_type = parseInt(this.$el.find('option:selected').val());
       if (id_type == 4) {
         return this.$el.find('[name="score"]').val();
       } else {
@@ -97,12 +97,12 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
 
     retrieveProposedAnswers: function () {
       var proposed = [];
-      var context = this;
       _.each(this.$el.find('[name="options"]'), function (answerDom) {
-        var score = context.getScore(answerDom);
-        var is_correct = context.getIsCorrect(answerDom);
+        debugger
+        var score = this.getScore(answerDom);
+        var is_correct = this.getIsCorrect(answerDom);
         var answer = {
-          id_question: context.model.get('id'),
+          id_question: this.model.get('id'),
           answer: $(answerDom).val(),
           file: 'none',
           is_correct: is_correct,
@@ -113,7 +113,7 @@ function( Backbone, QuestionviewTmpl, selectionTmpl, selectionSimpleTmpl, abiert
           answer.id = id;
         }
         proposed.push(answer);
-      })
+      }, this)
       this.model.set({ proposed: proposed });
     },
   });

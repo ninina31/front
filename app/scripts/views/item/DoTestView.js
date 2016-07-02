@@ -162,34 +162,55 @@ function( Backbone, DotestviewTmpl, DoTestTmpl, TestModel, CandidateTestModel, C
     },
 
     getFormData: function () {
-      var data = this.$el.find('.form-group');
-      var answers = _.map(data, function (form_group, key) {
-        form_group = $(form_group);
-        var answer = form_group.find('[name*=result-]');
-        var id_question = parseInt(form_group.data('question'));
-        var proposed_id = answer.data('proposed');
-        var score = this.getScore(proposed_id, answer.val());
+      var answers = [];
+      var proposed = _.flatten(_.pluck(this.model.get('questions'), 'proposed_answer'));
+      // Recoger los checkboxes y radios
+      var selected = this.$el.find('[name*=result-]:checked');
+      _.each(selected, function (option) {
+        option = $(option);
+        var proposed_id = option.data('proposed');
+        var proposed_object = _.findWhere(proposed, { id: proposed_id });
+        var id_question = proposed_object.question.id;
         var response = {
           id_candidate: SessionModel.id,
           id_proposed_answer: proposed_id,
-          answer: answer.val(),
+          answer: option.val(),
           file: '',
           id_question: id_question,
-          score: score
+          score: proposed_object.score
         };
-        return response;
+        answers.push(response);
+      });
+      // Recoger los campos abiertos y limitados
+      var selected = this.$el.find('[type=text][name*=result-], textarea');
+      _.each(selected, function (option) {
+        option = $(option);
+        var proposed_id = option.data('proposed');
+        var proposed_object = _.findWhere(proposed, { id: proposed_id });
+        var id_question = proposed_object.question.id;
+        var response = {
+          id_candidate: SessionModel.id,
+          id_proposed_answer: proposed_id,
+          answer: option.val(),
+          file: '',
+          id_question: id_question,
+          score: this.getScore(proposed, proposed_id, option.val())
+        };
+        answers.push(response);
       }, this);
       Backbone.$('input, textarea').attr('disabled', true);
       return answers;
     },
 
-    getScore: function (proposed_id, answer) {
-      var proposed = _.flatten(_.pluck(this.model.get('questions'), 'proposed_answer'));
-      proposed = _.findWhere(proposed, { id: proposed_id });
-      if (proposed.answer != answer) {
+    getScore: function (proposed, proposed_id, answer) {
+      var proposed_object = _.findWhere(proposed, { id: proposed_id });
+      if (proposed_object.question.type.id == 4) {
         return 0;
       }
-      return proposed.score;
+      if (proposed_object.answer != answer) {
+        return 0;
+      }
+      return proposed_object.score;
     },
 
     countdown: function (time, callback) {
