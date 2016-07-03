@@ -35,7 +35,7 @@ function( Backbone, SessionModel, RolPermitCollection, LoginviewTmpl , Paths, Co
     iniciarSesion: function (event) {
       event.preventDefault();
       var url = this.model.urlRoot();
-      if (this.rol == 'candidate') {
+      if (this.model.isCandidate() == 'candidate') {
         url = Paths.url + '/candidate/login';
       }
       var data = this.getData();
